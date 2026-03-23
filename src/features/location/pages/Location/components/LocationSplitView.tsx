@@ -173,6 +173,7 @@ export const LocationSplitView = ({
                     allSubCategories={allSubCategories}
                     onAssociate={associateLocation}
                     onDisassociate={disassociateLocation}
+                    onSuccess={() => getLocationSubCategories(loc.id)}
                 />
             );
         }
@@ -183,6 +184,7 @@ export const LocationSplitView = ({
                     allCategories={allCategories}
                     onAssociate={associateCategory}
                     onDisassociate={disassociateCategory}
+                    onSuccess={() => getLocationCategories(loc.id)}
                 />
             );
         }

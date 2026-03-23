@@ -5,9 +5,10 @@ import { AssociationList } from '@/components/common/AssociationList';
 interface SubCategoryLocationTabProps {
     subCategory: any;
     allLocations: any[];
-    onAssociate: (locationId: number, subCategoryId: number, data: any) => void;
-    onDisassociate: (locationId: number, subCategoryId: number) => void;
+    onAssociate: (locationId: number, subCategoryId: number, data: any) => Promise<any>;
+    onDisassociate: (locationId: number, subCategoryId: number) => Promise<any>;
     fetchLocations: () => void;
+    onSuccess?: () => void;
 }
 
 export const SubCategoryLocationTab: React.FC<SubCategoryLocationTabProps> = ({
@@ -15,7 +16,8 @@ export const SubCategoryLocationTab: React.FC<SubCategoryLocationTabProps> = ({
     allLocations,
     onAssociate,
     onDisassociate,
-    fetchLocations
+    fetchLocations,
+    onSuccess
 }) => {
     useEffect(() => {
         fetchLocations();
@@ -23,11 +25,16 @@ export const SubCategoryLocationTab: React.FC<SubCategoryLocationTabProps> = ({
 
     const assignedIds = subCategory?.locations?.map((l: any) => l.id) || [];
 
-    const handleToggle = (locationId: number, isAssigned: boolean) => {
-        if (isAssigned) {
-            onDisassociate(locationId, subCategory.id);
-        } else {
-            onAssociate(locationId, subCategory.id, { displayOrder: 0, active: true });
+    const handleToggle = async (locationId: number, isAssigned: boolean) => {
+        try {
+            if (isAssigned) {
+                await onDisassociate(locationId, subCategory.id);
+            } else {
+                await onAssociate(locationId, subCategory.id, { displayOrder: 0, active: true });
+            }
+            onSuccess?.();
+        } catch (e) {
+            // error handling done in action
         }
     };
 
