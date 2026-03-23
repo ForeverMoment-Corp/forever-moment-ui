@@ -12,6 +12,7 @@ export const ImageUploadModal: React.FC<ImageUploadModalProps> = ({ onUpload, on
     const [files, setFiles] = useState<File[]>([]);
     const [previews, setPreviews] = useState<string[]>([]);
     const [metadata, setMetadata] = useState({
+        label: '',
         altText: '',
         category: ''
     });
@@ -80,6 +81,16 @@ export const ImageUploadModal: React.FC<ImageUploadModalProps> = ({ onUpload, on
             </div>
 
             <div className="space-y-4">
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Label (Optional)</label>
+                    <input
+                        type="text"
+                        className="w-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500/20 text-gray-900 dark:text-white"
+                        placeholder="Image Label (e.g. Hero Image)"
+                        value={metadata.label}
+                        onChange={(e) => setMetadata(prev => ({ ...prev, label: e.target.value }))}
+                    />
+                </div>
                 <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Category (Optional)</label>
                     <input

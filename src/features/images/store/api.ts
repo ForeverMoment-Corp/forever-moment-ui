@@ -62,3 +62,16 @@ export const downloadImageApi = async (id: string) => {
 export const fetchImageMetadataApi = async (id: string) => {
     return await axios.get(`/admin/images/${id}/metadata`);
 };
+
+export const fetchImageByStorageNameApi = async (storageFileName: string) => {
+    return await axios.get(`/admin/images/fetch/${storageFileName}`, { responseType: 'blob' });
+};
+
+export const getImageByStorageNameUrl = (storageFileName: string) => {
+    if (!storageFileName) return '';
+    const rawBase = axios.defaults.baseURL || '';
+    const cleanBase = rawBase.replace(/\/+$/, '');
+    const url = `${cleanBase}/admin/images/fetch/${encodeURIComponent(storageFileName)}`;
+    const token = getLoginSession('access_token');
+    return token ? `${url}?accessToken=${token}` : url;
+};

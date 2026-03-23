@@ -4,7 +4,7 @@ import { format } from 'date-fns';
 import { cn } from '@/utils/cn';
 import { RowActions } from '@/components/common/RowActions';
 import { ImageDetails } from './ImageDetails';
-import { getImageUrl, getMediaAssetUrl } from '@/features/images/store/api';
+import { getImageUrl, getImageByStorageNameUrl, getMediaAssetUrl } from '@/features/images/store/api';
 import { CrudSplitViewLayout } from '@/components/common/CrudSplitViewLayout';
 import { TABS } from '@/config/constants';
 
@@ -42,11 +42,11 @@ export const ImageSplitView = ({
     const getImageSize = (img: any) => img.fileSizeBytes || img.size || 0;
     const getThumbnailSrc = (img: any) => {
         if (!img) return '';
-        // If we have an ID, we can fetch via the dedicated image endpoint which is often more reliable
-        if (img.id) return getImageUrl(String(img.id));
-        // Fallbacks
         if (img.thumbnailUrl) return getMediaAssetUrl(img.thumbnailUrl);
-        if (img.mediaUrl) return getMediaAssetUrl(img.mediaUrl);
+        if (img.url) return getMediaAssetUrl(img.url);
+        // Use the fetch-by-storageFileName endpoint which is the reliable path
+        if (img.storageFileName) return getImageByStorageNameUrl(img.storageFileName);
+        if (img.id) return getImageUrl(String(img.id));
         return '';
     };
 
@@ -165,7 +165,7 @@ export const ImageSplitView = ({
     }, [onDownloadClick]);
 
     const renderDetailsPanel = useCallback((image: any, activeTab: string, _dirtyState: any) => {
-        if (activeTab === "general") {
+        if (activeTab === TABS.DETAILS.id) {
             return (
                 <ImageDetails
                     image={image}

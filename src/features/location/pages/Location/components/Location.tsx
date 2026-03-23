@@ -21,6 +21,20 @@ interface LocationProps {
     updateLocation: (id: number, data: any) => Promise<any>;
     reorderLocation: (data: { id: number; newPosition: number }) => Promise<any>;
     resetStatus: () => void;
+    allSubCategories: any[];
+    locationSubCategories: any[];
+    subCategoryStatus: string;
+    getSubCategoryData: () => void;
+    getLocationSubCategories: (locationId: number) => void;
+    associateLocation: (locationId: number, subCategoryId: number, data: any) => void;
+    disassociateLocation: (locationId: number, subCategoryId: number) => void;
+    allCategories: any[];
+    locationCategories: any[];
+    categoryStatus: string;
+    getCategoryData: () => void;
+    getLocationCategories: (locationId: number) => void;
+    associateCategory: (locationId: number, categoryId: number, data: any) => void;
+    disassociateCategory: (locationId: number, categoryId: number) => void;
 }
 
 export interface LocationType {
@@ -30,9 +44,11 @@ export interface LocationType {
     state: string;
     country: string;
     isActive: boolean;
+    subCategories?: any[];
+    categories?: any[];
 }
 
-type LocationFormData = {
+export type LocationFormData = {
     name: string;
     city: string;
     state: string;
@@ -53,6 +69,20 @@ const Location = ({
     updateLocation,
     reorderLocation,
     resetStatus,
+    allSubCategories,
+    locationSubCategories,
+    subCategoryStatus,
+    getSubCategoryData,
+    getLocationSubCategories,
+    associateLocation,
+    disassociateLocation,
+    allCategories,
+    locationCategories,
+    categoryStatus,
+    getCategoryData,
+    getLocationCategories,
+    associateCategory,
+    disassociateCategory
 }: LocationProps) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingId, setEditingId] = useState<number | null>(null);
@@ -65,7 +95,9 @@ const Location = ({
 
     useEffect(() => {
         getLocationData();
-    }, [getLocationData]);
+        getSubCategoryData();
+        getCategoryData();
+    }, [getLocationData, getSubCategoryData, getCategoryData]);
 
     useEffect(() => {
         if (data && Array.isArray(data)) {
@@ -98,6 +130,30 @@ const Location = ({
             setDeleteId(null);
         }
     }, [status, resetStatus]);
+
+    useEffect(() => {
+        if (subCategoryStatus === 'ASSOCIATE_LOCATION_SUCCESS') {
+            toast.success('Sub Category associated successfully');
+            resetStatus();
+            if (selectedLocation) getLocationSubCategories(selectedLocation.id);
+        } else if (subCategoryStatus === 'DISASSOCIATE_LOCATION_SUCCESS') {
+            toast.success('Sub Category disassociated successfully');
+            resetStatus();
+            if (selectedLocation) getLocationSubCategories(selectedLocation.id);
+        }
+    }, [subCategoryStatus, resetStatus, selectedLocation, getLocationSubCategories]);
+
+    useEffect(() => {
+        if (categoryStatus === 'ASSOCIATE_LOCATION_SUCCESS') {
+            toast.success('Category associated successfully');
+            resetStatus();
+            if (selectedLocation) getLocationCategories(selectedLocation.id);
+        } else if (categoryStatus === 'DISASSOCIATE_LOCATION_SUCCESS') {
+            toast.success('Category disassociated successfully');
+            resetStatus();
+            if (selectedLocation) getLocationCategories(selectedLocation.id);
+        }
+    }, [categoryStatus, resetStatus, selectedLocation, getLocationCategories]);
 
     useEffect(() => {
         if (error) {
@@ -226,6 +282,16 @@ const Location = ({
                 Pincode={Pincode} // Added Pincode
                 updateLocation={updateLocation}
                 handleDragReorder={handleDragReorder}
+                allSubCategories={allSubCategories}
+                locationSubCategories={locationSubCategories}
+                getLocationSubCategories={getLocationSubCategories}
+                associateLocation={associateLocation}
+                disassociateLocation={disassociateLocation}
+                allCategories={allCategories}
+                locationCategories={locationCategories}
+                getLocationCategories={getLocationCategories}
+                associateCategory={associateCategory}
+                disassociateCategory={disassociateCategory}
             />
 
             <Modal

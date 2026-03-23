@@ -12,6 +12,8 @@ export const TABS = {
     ADDONS: { id: 'addons', label: 'Add-ons' },
     IMAGES: { id: 'images', label: 'Images' },
     DETAILS: { id: 'details', label: 'Details' },
+    SUB_CATEGORIES: { id: 'subcategories', label: 'Sub Categories' },
+    CATEGORIES: { id: 'categories', label: 'Categories' },
 };
 
 export const TAB_DATA = Object.values(TABS);

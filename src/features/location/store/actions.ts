@@ -1,7 +1,8 @@
 import * as types from './action-types';
 import {
     fetchLocationData, createLocationApi, deleteLocationApi, updateLocationApi, reorderLocationApi,
-    fetchPincodeData, createPincodeApi, deletePincodeApi, updatePincodeApi
+    fetchPincodeData, createPincodeApi, deletePincodeApi, updatePincodeApi,
+    fetchLocationSubCategoriesApi, fetchLocationCategoriesApi
 } from './api';
 
 export const getLocationData = (isBackground: boolean = false) => async (dispatch: any) => {
@@ -176,5 +177,39 @@ export const updatePincode = (id: number, data: any) => async (dispatch: any) =>
             payload: error.response?.data?.message || 'Failed to update pincode',
         });
         throw error;
+    }
+};
+
+export const getLocationSubCategories = (locationId: number) => async (dispatch: any) => {
+    dispatch({ type: types.GET_LOCATION_SUB_CATEGORIES });
+    try {
+        const response = await fetchLocationSubCategoriesApi(locationId);
+        dispatch({
+            type: types.GET_LOCATION_SUB_CATEGORIES_SUCCESS,
+            payload: response.data.response || response.data,
+        });
+        return response.data;
+    } catch (error: any) {
+        dispatch({
+            type: types.GET_LOCATION_SUB_CATEGORIES_FAILURE,
+            payload: error.response?.data?.message || 'Failed to fetch location sub categories',
+        });
+    }
+};
+
+export const getLocationCategories = (locationId: number) => async (dispatch: any) => {
+    dispatch({ type: types.GET_LOCATION_CATEGORIES });
+    try {
+        const response = await fetchLocationCategoriesApi(locationId);
+        dispatch({
+            type: types.GET_LOCATION_CATEGORIES_SUCCESS,
+            payload: response.data.response || response.data,
+        });
+        return response.data;
+    } catch (error: any) {
+        dispatch({
+            type: types.GET_LOCATION_CATEGORIES_FAILURE,
+            payload: error.response?.data?.message || 'Failed to fetch location categories',
+        });
     }
 };

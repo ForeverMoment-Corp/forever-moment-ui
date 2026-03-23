@@ -1,5 +1,5 @@
 import * as types from './action-types';
-import { createCategoryApi, fetchCategoryData, deleteCategoryApi, updateCategoryApi } from './api';
+import { createCategoryApi, fetchCategoryData, deleteCategoryApi, updateCategoryApi, associateCategoryWithLocationApi, disassociateCategoryFromLocationApi } from './api';
 
 export const getCategoryData = (isBackground: boolean = false) => async (dispatch: any) => {
     if (!isBackground) {
@@ -111,3 +111,43 @@ export const reorderCategory = (data: { id: number; newPosition: number }) => as
 export const resetStatus = () => ({
     type: types.RESET_STATUS
 });
+
+export const associateLocation = (locationId: number, categoryId: number, data: any) => async (dispatch: any) => {
+    dispatch({ type: types.ASSOCIATE_LOCATION });
+    try {
+        const response = await associateCategoryWithLocationApi(locationId, categoryId, data);
+        dispatch({
+            type: types.ASSOCIATE_LOCATION_SUCCESS,
+            payload: response.data,
+        });
+        // Optionally refresh list
+        dispatch(getCategoryData(true));
+        return response.data;
+    } catch (error: any) {
+        dispatch({
+            type: types.ASSOCIATE_LOCATION_FAILURE,
+            payload: error.response?.data?.message || 'Failed to associate location',
+        });
+        throw error;
+    }
+};
+
+export const disassociateLocation = (locationId: number, categoryId: number) => async (dispatch: any) => {
+    dispatch({ type: types.DISASSOCIATE_LOCATION });
+    try {
+        const response = await disassociateCategoryFromLocationApi(locationId, categoryId);
+        dispatch({
+            type: types.DISASSOCIATE_LOCATION_SUCCESS,
+            payload: response.data,
+        });
+        // Optionally refresh list
+        dispatch(getCategoryData(true));
+        return response.data;
+    } catch (error: any) {
+        dispatch({
+            type: types.DISASSOCIATE_LOCATION_FAILURE,
+            payload: error.response?.data?.message || 'Failed to disassociate location',
+        });
+        throw error;
+    }
+};

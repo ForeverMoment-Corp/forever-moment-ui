@@ -40,15 +40,38 @@ export const disassociateInclusionApi = async (experienceId: number, inclusionId
     return await axios.delete(`/admin/experiences/${experienceId}/inclusions/${inclusionId}`);
 };
 
-export const associateLocationApi = async (experienceId: number, locationId: number, timeSlotId: number, data: any) => {
+export const associateLocationApi = async (experienceId: number, locationId: number, data: any) => {
+    return await axios.post(`/admin/locations/${locationId}/experiences/${experienceId}`, data);
+};
+
+export const updateExperienceLocationApi = async (experienceId: number, locationId: number, data: any) => {
+    return await axios.put(`/admin/locations/${locationId}/experiences/${experienceId}`, data);
+};
+
+export const disassociateLocationApi = async (experienceId: number, locationId: number) => {
+    return await axios.delete(`/admin/locations/${locationId}/experiences/${experienceId}`);
+};
+
+export const toggleExperienceLocationApi = async (locationId: number, mapperId: number) =>
+    await axios.patch(`/admin/locations/${locationId}/experiences/${mapperId}/toggle`);
+
+export const associateLocationTimeSlotApi = async (experienceId: number, locationId: number, timeSlotId: number, data: any) => {
     return await axios.post(`/admin/experiences/${experienceId}/locations/${locationId}/timeslots/${timeSlotId}`, data);
 };
 
-export const updateExperienceLocationApi = async (experienceId: number, locationId: number, timeSlotId: number, data: any) => {
+export const updateLocationTimeSlotApi = async (experienceId: number, locationId: number, timeSlotId: number, data: any) => {
     return await axios.put(`/admin/experiences/${experienceId}/locations/${locationId}/timeslots/${timeSlotId}`, data);
 };
 
-export const disassociateLocationApi = async (experienceId: number, locationId: number, timeSlotId: number) => {
+export const bulkAttachLocationTimeSlotsApi = async (experienceId: number, locationId: number, data: any) => {
+    return await axios.post(`/admin/experiences/${experienceId}/locations/${locationId}/timeslots/bulk-attach`, data);
+};
+
+export const toggleLocationTimeSlotApi = async (experienceId: number, locationId: number, mapperId: number) => {
+    return await axios.patch(`/admin/experiences/${experienceId}/locations/${locationId}/timeslots/${mapperId}/toggle`);
+};
+
+export const disassociateLocationTimeSlotApi = async (experienceId: number, locationId: number, timeSlotId: number) => {
     return await axios.delete(`/admin/experiences/${experienceId}/locations/${locationId}/timeslots/${timeSlotId}`);
 };
 
@@ -78,4 +101,20 @@ export const disassociateExperienceMediaApi = async (experienceId: number, media
 
 export const fetchExperienceMediaApi = async (experienceId: number) => {
     return await axios.get(`/admin/experiences/${experienceId}/media`);
+};
+
+export const attachExperienceMediaApi = async (experienceId: number, mediaId: number, data: any) => {
+    return await axios.post(`/admin/experiences/${experienceId}/media/${mediaId}`, data);
+};
+
+export const updateExperienceMediaApi = async (experienceId: number, mediaId: number, data: any) => {
+    return await axios.put(`/admin/experiences/${experienceId}/media/${mediaId}`, data);
+};
+
+export const toggleExperienceMediaActiveApi = async (mapperId: number) => {
+    return await axios.patch(`/admin/experiences/media/${mapperId}/toggle`);
+};
+
+export const fetchExperiencePrimaryMediaApi = async (experienceId: number) => {
+    return await axios.get(`/admin/experiences/${experienceId}/media/primary`);
 };

@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import { CategoryDetails } from './CategoryDetails';
+import { CategoryLocationTab } from './CategoryLocationTab';
 import { EditableStatusBadge } from '@/components/common/EditableStatusBadge';
 import { RowActions } from '@/components/common/RowActions';
 import { cn } from '@/utils/cn';
@@ -16,7 +17,11 @@ export const CategorySplitView = ({
     setSelectedCategory,
     loading,
     handleDragReorder,
-    updateCategory
+    updateCategory,
+    locations,
+    getLocationData,
+    associateLocation,
+    disassociateLocation
 }: any) => {
 
     const columns = [
@@ -135,8 +140,21 @@ export const CategorySplitView = ({
                 />
             );
         }
+        if (activeTab === TABS.LOCATIONS.id) {
+            return (
+                <div className="h-full">
+                    <CategoryLocationTab
+                        category={cat}
+                        allLocations={locations}
+                        onAssociate={associateLocation}
+                        onDisassociate={disassociateLocation}
+                        fetchLocations={getLocationData}
+                    />
+                </div>
+            );
+        }
         return null;
-    }, [updateCategory]);
+    }, [updateCategory, locations, associateLocation, disassociateLocation, getLocationData]);
 
     const customFilter = useCallback((cat: any, activeFilters: Record<string, string[]>) => {
         if (activeFilters.status && activeFilters.status.length > 0) {
@@ -158,7 +176,10 @@ export const CategorySplitView = ({
             keyExtractor={(item: any) => item.id}
             onDragReorder={handleDragReorder}
             renderListItem={renderListItem}
-            tabs={[{ id: TABS.GENERAL.id, label: TABS.GENERAL.labelShort }]}
+            tabs={[
+                { id: TABS.GENERAL.id, label: TABS.GENERAL.labelShort },
+                { id: TABS.LOCATIONS.id, label: TABS.LOCATIONS.label }
+            ]}
             renderDetailsPanel={renderDetailsPanel}
             searchFields={['name']}
             filterConfig={[

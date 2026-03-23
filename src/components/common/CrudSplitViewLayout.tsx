@@ -23,7 +23,7 @@ export interface CrudSplitViewLayoutProps<T> {
     // Table Configuration
     columns: any[];
     keyExtractor: (item: T) => string | number;
-    onDragReorder?: (data: T[]) => void;
+    onDragReorder?: (newOrder: T[], activeId: any, overId: any) => void;
 
     // Split List Item Configuration
     renderListItem: (item: T, isSelected: boolean) => React.ReactNode;

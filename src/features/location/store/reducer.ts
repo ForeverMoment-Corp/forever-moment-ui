@@ -10,6 +10,14 @@ const initialState = {
     loadingPincodes: false,
     pincodeError: null,
     pincodeStatus: 'IDLE',
+
+    subCategories: [],
+    loadingSubCategories: false,
+    subCategoryError: null,
+
+    categories: [],
+    loadingCategories: false,
+    categoryError: null,
 };
 
 export const locationReducer = (state = initialState, action: any) => {
@@ -73,6 +81,20 @@ export const locationReducer = (state = initialState, action: any) => {
             return { ...state, loadingPincodes: false, pincodeStatus: types.UPDATE_PINCODE_SUCCESS };
         case types.UPDATE_PINCODE_FAILURE:
             return { ...state, loadingPincodes: false, pincodeStatus: 'FAILURE', pincodeError: action.payload };
+
+        case types.GET_LOCATION_SUB_CATEGORIES:
+            return { ...state, loadingSubCategories: true };
+        case types.GET_LOCATION_SUB_CATEGORIES_SUCCESS:
+            return { ...state, loadingSubCategories: false, subCategories: Array.isArray(action.payload) ? action.payload : [] };
+        case types.GET_LOCATION_SUB_CATEGORIES_FAILURE:
+            return { ...state, loadingSubCategories: false, subCategoryError: action.payload };
+
+        case types.GET_LOCATION_CATEGORIES:
+            return { ...state, loadingCategories: true };
+        case types.GET_LOCATION_CATEGORIES_SUCCESS:
+            return { ...state, loadingCategories: false, categories: Array.isArray(action.payload) ? action.payload : [] };
+        case types.GET_LOCATION_CATEGORIES_FAILURE:
+            return { ...state, loadingCategories: false, categoryError: action.payload };
 
         default:
             return state;

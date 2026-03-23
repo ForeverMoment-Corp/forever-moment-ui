@@ -9,16 +9,23 @@ export const ImageViewManager = ({
     loading,
     getImageMetadata,
     downloadImage,
+    fetchImageByStorageName,
     currentMetadata,
-    currentPreviewUrl
+    currentPreviewUrl,
+    fetchedImageUrl,
 }: any) => {
     const handleSelectImage = (img: any) => {
         setSelectedImage(img);
         if (img) {
-            getImageMetadata(img.id);
-            downloadImage(img.id);
+            if (img.storageFileName && fetchImageByStorageName) {
+                fetchImageByStorageName(img.storageFileName);
+            } else {
+                downloadImage(img.id);
+            }
         }
     };
+
+    const activePreviewUrl = fetchedImageUrl || currentPreviewUrl;
 
     return (
         <ImageSplitView
@@ -29,8 +36,9 @@ export const ImageViewManager = ({
             onSelectImage={handleSelectImage}
             onDownloadClick={downloadImage}
             currentMetadata={currentMetadata}
-            currentPreviewUrl={currentPreviewUrl}
+            currentPreviewUrl={activePreviewUrl}
             loading={loading}
         />
     );
 };
+

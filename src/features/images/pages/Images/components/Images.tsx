@@ -11,6 +11,7 @@ interface ImagesProps {
     data: any[];
     currentMetadata: any;
     currentPreviewUrl: any;
+    fetchedImageUrl: string | null;
     loading: boolean;
     error: string | null;
     status: string;
@@ -19,6 +20,7 @@ interface ImagesProps {
     deleteImage: (id: string) => Promise<any>;
     downloadImage: (id: string, fileName: string) => void;
     getImageMetadata: (id: string) => void;
+    fetchImageByStorageName: (storageFileName: string) => Promise<string | undefined>;
     resetStatus: () => void;
 }
 
@@ -26,6 +28,7 @@ const Images = ({
     data,
     currentMetadata,
     currentPreviewUrl,
+    fetchedImageUrl,
     loading,
     error,
     status,
@@ -34,6 +37,7 @@ const Images = ({
     deleteImage,
     downloadImage,
     getImageMetadata,
+    fetchImageByStorageName,
     resetStatus
 }: ImagesProps) => {
     const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
@@ -96,8 +100,10 @@ const Images = ({
                 loading={loading}
                 downloadImage={downloadImage}
                 getImageMetadata={getImageMetadata}
+                fetchImageByStorageName={fetchImageByStorageName}
                 currentMetadata={currentMetadata}
                 currentPreviewUrl={currentPreviewUrl}
+                fetchedImageUrl={fetchedImageUrl}
             />
 
             <Modal

@@ -7,6 +7,7 @@ const initialState = {
     error: null,
     status: 'IDLE',
     experienceMedia: [],
+    primaryMedia: null,
 };
 
 export const experienceReducer = (state = initialState, action: any) => {
@@ -66,6 +67,13 @@ export const experienceReducer = (state = initialState, action: any) => {
             return { ...state, loading: false };
         case types.TOGGLE_INCLUSION_FAILURE:
             return { ...state, loading: false, error: action.payload };
+        
+        case types.TOGGLE_EXPERIENCE_LOCATION:
+            return { ...state, loading: true, error: null };
+        case types.TOGGLE_EXPERIENCE_LOCATION_SUCCESS:
+            return { ...state, loading: false };
+        case types.TOGGLE_EXPERIENCE_LOCATION_FAILURE:
+            return { ...state, loading: false, error: action.payload };
 
         case types.TOGGLE_EXPERIENCE_ACTIVE:
             return { ...state, status: types.TOGGLE_EXPERIENCE_ACTIVE, error: null };
@@ -87,15 +95,28 @@ export const experienceReducer = (state = initialState, action: any) => {
         case types.BULK_ATTACH_MEDIA:
         case types.DISASSOCIATE_MEDIA:
         case types.GET_EXPERIENCE_MEDIA:
+        case types.ATTACH_MEDIA:
+        case types.UPDATE_MEDIA_ATTACHMENT:
+        case types.TOGGLE_MEDIA_ACTIVE:
+        case types.GET_PRIMARY_MEDIA:
             return { ...state, loading: true, error: null };
         case types.BULK_ATTACH_MEDIA_SUCCESS:
         case types.DISASSOCIATE_MEDIA_SUCCESS:
+        case types.ATTACH_MEDIA_SUCCESS:
+        case types.UPDATE_MEDIA_ATTACHMENT_SUCCESS:
+        case types.TOGGLE_MEDIA_ACTIVE_SUCCESS:
             return { ...state, loading: false };
         case types.GET_EXPERIENCE_MEDIA_SUCCESS:
             return { ...state, loading: false, experienceMedia: action.payload };
+        case types.GET_PRIMARY_MEDIA_SUCCESS:
+            return { ...state, loading: false, primaryMedia: action.payload };
         case types.BULK_ATTACH_MEDIA_FAILURE:
         case types.DISASSOCIATE_MEDIA_FAILURE:
         case types.GET_EXPERIENCE_MEDIA_FAILURE:
+        case types.ATTACH_MEDIA_FAILURE:
+        case types.UPDATE_MEDIA_ATTACHMENT_FAILURE:
+        case types.TOGGLE_MEDIA_ACTIVE_FAILURE:
+        case types.GET_PRIMARY_MEDIA_FAILURE:
             return { ...state, loading: false, error: action.payload };
 
         default:

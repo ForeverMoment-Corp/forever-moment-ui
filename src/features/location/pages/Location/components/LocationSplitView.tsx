@@ -1,11 +1,13 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { LocationDetails } from './LocationDetails';
 import { Pincode } from './Pincode';
+import { LocationSubCategoryTab } from './LocationSubCategoryTab';
+import { LocationCategoryTab } from './LocationCategoryTab';
 import { EditableStatusBadge } from '@/components/common/EditableStatusBadge';
 import { RowActions } from '@/components/common/RowActions';
 import { cn } from '@/utils/cn';
 import { CrudSplitViewLayout } from '@/components/common/CrudSplitViewLayout';
-import { ITEM_ID_PREFIX } from '@/config/constants';
+import { ITEM_ID_PREFIX, TABS } from '@/config/constants';
 
 export const LocationSplitView = ({
     locations,
@@ -15,8 +17,25 @@ export const LocationSplitView = ({
     setSelectedLocation,
     loading,
     updateLocation,
-    handleDragReorder
+    handleDragReorder,
+    allSubCategories,
+    locationSubCategories,
+    getLocationSubCategories,
+    associateLocation,
+    disassociateLocation,
+    allCategories,
+    locationCategories,
+    getLocationCategories,
+    associateCategory,
+    disassociateCategory
 }: any) => {
+
+    useEffect(() => {
+        if (selectedLocation?.id) {
+            getLocationSubCategories(selectedLocation.id);
+            getLocationCategories(selectedLocation.id);
+        }
+    }, [selectedLocation?.id, getLocationSubCategories, getLocationCategories]);
 
     const columns = [
         {
@@ -131,7 +150,7 @@ export const LocationSplitView = ({
     ), []);
 
     const renderDetailsPanel = useCallback((loc: any, activeTab: string, dirtyState: any) => {
-        if (activeTab === "general") {
+        if (activeTab === TABS.GENERAL.id) {
             return (
                 <LocationDetails
                     location={loc}
@@ -147,8 +166,28 @@ export const LocationSplitView = ({
                 </div>
             );
         }
+        if (activeTab === TABS.SUB_CATEGORIES.id) {
+            return (
+                <LocationSubCategoryTab
+                    location={{ ...loc, subCategories: locationSubCategories }}
+                    allSubCategories={allSubCategories}
+                    onAssociate={associateLocation}
+                    onDisassociate={disassociateLocation}
+                />
+            );
+        }
+        if (activeTab === TABS.CATEGORIES.id) {
+            return (
+                <LocationCategoryTab
+                    location={{ ...loc, categories: locationCategories }}
+                    allCategories={allCategories}
+                    onAssociate={associateCategory}
+                    onDisassociate={disassociateCategory}
+                />
+            );
+        }
         return null;
-    }, [updateLocation]);
+    }, [updateLocation, allSubCategories, locationSubCategories, associateLocation, disassociateLocation, allCategories, locationCategories, associateCategory, disassociateCategory]);
 
     const customFilter = useCallback((loc: any, activeFilters: Record<string, string[]>) => {
         if (activeFilters.status && activeFilters.status.length > 0) {
@@ -176,8 +215,10 @@ export const LocationSplitView = ({
             onDragReorder={handleDragReorder}
             renderListItem={renderListItem}
             tabs={[
-                { id: "general", label: "General Info" },
-                { id: "pincodes", label: "Pincodes & Service Areas" }
+                { id: TABS.GENERAL.id, label: TABS.GENERAL.label },
+                { id: "pincodes", label: "Pincodes & Service Areas" },
+                { id: TABS.CATEGORIES.id, label: TABS.CATEGORIES.label },
+                { id: TABS.SUB_CATEGORIES.id, label: TABS.SUB_CATEGORIES.label }
             ]}
             renderDetailsPanel={renderDetailsPanel}
             filterConfig={[

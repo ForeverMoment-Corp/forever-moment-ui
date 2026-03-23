@@ -1,4 +1,4 @@
-import { getImageUrl, getMediaAssetUrl } from '@/features/images/store/api';
+import { getImageUrl, getImageByStorageNameUrl } from '@/features/images/store/api';
 import { SectionLabel } from '@/components/common/DetailsLayout';
 import { ImagePreview } from './ImagePreview';
 import { ImageMetadata } from './ImageMetadata';
@@ -14,7 +14,9 @@ export const ImageDetails = ({ image, metadata, previewUrl, onDownload }: ImageD
     if (!image) return null;
 
     const displayMetadata = metadata || image.metadata || {};
-    const fallbackUrl = image.mediaUrl ? getMediaAssetUrl(image.mediaUrl) : getImageUrl(String(image.id));
+    const fallbackUrl = image.storageFileName
+        ? getImageByStorageNameUrl(image.storageFileName)
+        : getImageUrl(String(image.id));
     const displayUrl = previewUrl || fallbackUrl;
 
     return (

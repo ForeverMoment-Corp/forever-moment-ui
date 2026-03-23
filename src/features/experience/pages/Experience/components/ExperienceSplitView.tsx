@@ -8,8 +8,46 @@ import { cn } from '@/utils/cn';
 import { CrudSplitViewLayout } from '@/components/common/CrudSplitViewLayout';
 import { StatsRow } from '@/components/common/StatsRow';
 import { TABS, ITEM_ID_PREFIX } from '@/config/constants';
+import type { ExperienceType } from './Experience';
 
-
+interface ExperienceSplitViewProps {
+    experiences: ExperienceType[];
+    handleOpenModal: (exp?: ExperienceType | null) => void;
+    handleDeleteClick: (id: number) => void;
+    selectedExperience: ExperienceType | null;
+    setSelectedExperience: (exp: ExperienceType | null) => void;
+    loading: boolean;
+    experienceDetail: any;
+    inclusions: any[];
+    cancellationPolicies: any[];
+    subCategories: any[];
+    toggleCancellationPolicy: (experienceId: number, policyId: number, isAssociate: boolean) => Promise<any>;
+    toggleInclusion: (experienceId: number, inclusionId: number, isAssociate: boolean) => Promise<any>;
+    updateExperience: (id: number, data: any) => Promise<any>;
+    handleDragReorder: (newOrder: ExperienceType[], activeId: string | number, overId: string | number) => void;
+    locations: any[];
+    onAssociateLocation: (experienceId: number, locationId: number, data: any) => void;
+    onUpdateLocation: (experienceId: number, locationId: number, data: any) => void;
+    onDisassociateLocation: (experienceId: number, locationId: number) => void;
+    onToggleExperienceLocation: (experienceId: number, locationId: number, mapperId: number) => void;
+    onAssociateLocationTimeSlot: (experienceId: number, locationId: number, timeSlotId: number, data: any) => void;
+    onUpdateLocationTimeSlot: (experienceId: number, locationId: number, timeSlotId: number, data: any) => void;
+    onDisassociateLocationTimeSlot: (experienceId: number, locationId: number, timeSlotId: number) => void;
+    onBulkAttachLocationTimeSlots: (experienceId: number, locationId: number, data: any) => void;
+    onToggleLocationTimeSlot: (experienceId: number, locationId: number, mapperId: number) => void;
+    addons: any[];
+    toggleAddon: (experienceId: number, addonId: number, isAssociate: boolean, data?: any) => Promise<any>;
+    slots: any[];
+    toggleExperienceActive: (id: number) => Promise<any>;
+    toggleExperienceFeatured: (id: number) => Promise<any>;
+    images: any[];
+    getImages: () => void;
+    experienceMedia: any[];
+    getExperienceMedia: (experienceId: number) => Promise<any>;
+    bulkAttachMedia: (experienceId: number, data: any) => Promise<any>;
+    disassociateMedia: (experienceId: number, mediaId: number) => Promise<any>;
+    showStats?: boolean;
+}
 
 export const ExperienceSplitView = ({
     experiences,
@@ -27,9 +65,15 @@ export const ExperienceSplitView = ({
     updateExperience,
     handleDragReorder,
     locations,
-    associateLocation,
-    updateExperienceLocation,
-    disassociateLocation,
+    onAssociateLocation,
+    onUpdateLocation,
+    onDisassociateLocation,
+    onToggleExperienceLocation,
+    onAssociateLocationTimeSlot,
+    onUpdateLocationTimeSlot,
+    onDisassociateLocationTimeSlot,
+    onBulkAttachLocationTimeSlots,
+    onToggleLocationTimeSlot,
     addons,
     toggleAddon,
     slots,
@@ -42,16 +86,10 @@ export const ExperienceSplitView = ({
     bulkAttachMedia,
     disassociateMedia,
     showStats = true
-}: any) => {
+}: ExperienceSplitViewProps) => {
 
     const columns = [
         {
-            header: '',
-            className: 'w-[28px] py-1.5 px-2',
-            render: () => null
-        },
-        {
-            header: 'Title',
             accessorKey: 'name',
             className: 'py-1.5 px-4 text-left font-semibold text-slate-900 dark:text-white',
             render: (exp: any) => (
@@ -177,10 +215,8 @@ export const ExperienceSplitView = ({
     ], []);
 
     const renderDetailsPanel = useCallback((_exp: any, activeTab: string, dirtyState: any) => {
-        if (!selectedExperience) return null;
+        if (!_exp) return null;
 
-        // Transformation logic moved inside to ensure it depends on the correct selectedExperience
-        // and we use a memoized version if possible, but actually we can just use _exp which is selectedItem
         const tabs = getExperienceTabs({
             experience: {
                 ..._exp,
@@ -193,37 +229,60 @@ export const ExperienceSplitView = ({
             cancellationPolicies,
             subCategories,
             onToggleCancellationPolicy: (policyId: number, isAssociate: boolean) => {
-                toggleCancellationPolicy(_exp.id, policyId, isAssociate);
+                return toggleCancellationPolicy(_exp.id, policyId, isAssociate);
             },
             onToggleInclusion: (inclusionId: number, isAssociate: boolean) => {
-                toggleInclusion(_exp.id, inclusionId, isAssociate);
+                return toggleInclusion(_exp.id, inclusionId, isAssociate);
             },
-            onAssociateLocation: (locationId: number, timeSlotId: number, data: any) => {
-                associateLocation(_exp.id, locationId, timeSlotId, data);
+            onAssociateLocation: (locationId: number, data: any) => {
+                onAssociateLocation(_exp.id, locationId, data);
             },
-            onUpdateLocation: (locationId: number, timeSlotId: number, data: any) => {
-                updateExperienceLocation(_exp.id, locationId, timeSlotId, data);
+            onUpdateLocation: (locationId: number, data: any) => {
+                onUpdateLocation(_exp.id, locationId, data);
             },
-            onDisassociateLocation: (locationId: number, timeSlotId: number) => {
-                disassociateLocation(_exp.id, locationId, timeSlotId);
+            onDisassociateLocation: (locationId: number) => {
+                onDisassociateLocation(_exp.id, locationId);
             },
-            onToggleAddon: (addonId: number, isAssociate: boolean, data?: any) => {
-                toggleAddon(_exp.id, addonId, isAssociate, data);
+            onToggleExperienceLocation: (locationId: number, mapperId: number) => {
+                onToggleExperienceLocation(_exp.id, locationId, mapperId);
+            },
+            onAssociateLocationTimeSlot: (locationId: number, timeSlotId: number, data: any) => {
+                onAssociateLocationTimeSlot(_exp.id, locationId, timeSlotId, data);
+            },
+            onUpdateLocationTimeSlot: (locationId: number, timeSlotId: number, data: any) => {
+                onUpdateLocationTimeSlot(_exp.id, locationId, timeSlotId, data);
+            },
+            onDisassociateLocationTimeSlot: (locationId: number, timeSlotId: number) => {
+                onDisassociateLocationTimeSlot(_exp.id, locationId, timeSlotId);
+            },
+            onBulkAttachLocationTimeSlots: (locationId: number, data: any) => {
+                onBulkAttachLocationTimeSlots(_exp.id, locationId, data);
+            },
+            onToggleLocationTimeSlot: (locationId: number, mapperId: number) => {
+                onToggleLocationTimeSlot(_exp.id, locationId, mapperId);
             },
             updateExperience,
+            onToggleAddon: (addonId: number, isAssociate: boolean, data?: any) => {
+                return toggleAddon(_exp.id, addonId, isAssociate, data);
+            },
+            getExperienceMedia,
+            bulkAttachMedia,
+            disassociateMedia,
             locations,
             addons,
             slots,
             images,
             getImages,
             experienceMedia,
-            getExperienceMedia,
-            bulkAttachMedia,
-            disassociateMedia,
             onDirtyChange: dirtyState.handleDirtyChange
         });
         return tabs.find(t => t.id === activeTab)?.content || null;
-    }, [experienceDetail, inclusions, cancellationPolicies, subCategories, locations, addons, slots, images, experienceMedia, toggleCancellationPolicy, toggleInclusion, updateExperience, associateLocation, updateExperienceLocation, disassociateLocation, toggleAddon, bulkAttachMedia, disassociateMedia, getImages, getExperienceMedia]);
+    }, [
+        experienceDetail, inclusions, cancellationPolicies, subCategories, locations, addons, slots, images, experienceMedia,
+        toggleCancellationPolicy, toggleInclusion, updateExperience, onAssociateLocation, onUpdateLocation, onDisassociateLocation,
+        onToggleExperienceLocation, onAssociateLocationTimeSlot, onUpdateLocationTimeSlot, onDisassociateLocationTimeSlot,
+        onBulkAttachLocationTimeSlots, onToggleLocationTimeSlot, toggleAddon, getExperienceMedia, bulkAttachMedia, disassociateMedia, getImages
+    ]);
 
     const customFilter = useCallback((exp: any, activeFilters: Record<string, string[]>) => {
         let matchStatus = true;

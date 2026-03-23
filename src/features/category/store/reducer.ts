@@ -47,6 +47,20 @@ export const categoryReducer = (state = initialState, action: any) => {
         case types.RESET_STATUS:
             return { ...state, status: 'IDLE', error: null };
 
+        case types.ASSOCIATE_LOCATION:
+        case types.DISASSOCIATE_LOCATION:
+            return { ...state, loading: true, error: null };
+            
+        case types.ASSOCIATE_LOCATION_SUCCESS:
+            return { ...state, loading: false, status: types.ASSOCIATE_LOCATION_SUCCESS };
+            
+        case types.DISASSOCIATE_LOCATION_SUCCESS:
+            return { ...state, loading: false, status: types.DISASSOCIATE_LOCATION_SUCCESS };
+
+        case types.ASSOCIATE_LOCATION_FAILURE:
+        case types.DISASSOCIATE_LOCATION_FAILURE:
+            return { ...state, loading: false, status: 'FAILURE', error: action.payload };
+
         default:
             return state;
     }

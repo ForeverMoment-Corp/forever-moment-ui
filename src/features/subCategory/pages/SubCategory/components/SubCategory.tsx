@@ -14,10 +14,16 @@ interface SubCategoryProps {
     getSubCategoryData: () => void;
     categories: any[];
     getCategoryData: () => void;
+    locations: any[];
+    getLocationData: () => void;
     createSubCategory: (data: any) => void;
     updateSubCategory: (id: number, data: any) => void;
     deleteSubCategory: (id: number) => void;
+    associateLocation: (locationId: number, subCategoryId: number, data: any) => void;
+    disassociateLocation: (locationId: number, subCategoryId: number) => void;
     resetStatus: () => void;
+    attachedLocations: any[];
+    getSubCategoryLocations: (subCategoryId: number) => void;
 }
 
 export interface SubCategoryType {
@@ -27,6 +33,7 @@ export interface SubCategoryType {
     count: number;
     isActive: boolean;
     categoryId?: number;
+    locations?: any[];
 }
 
 const SubCategory = ({
@@ -37,10 +44,16 @@ const SubCategory = ({
     getSubCategoryData,
     categories,
     getCategoryData,
+    locations,
+    getLocationData,
     createSubCategory,
     updateSubCategory,
     deleteSubCategory,
-    resetStatus
+    associateLocation,
+    disassociateLocation,
+    resetStatus,
+    attachedLocations,
+    getSubCategoryLocations
 }: SubCategoryProps) => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -55,7 +68,8 @@ const SubCategory = ({
     useEffect(() => {
         getSubCategoryData();
         getCategoryData();
-    }, [getSubCategoryData, getCategoryData]);
+        getLocationData();
+    }, [getSubCategoryData, getCategoryData, getLocationData]);
 
     // Keep selectedSubCategory up to date when data array changes
     useEffect(() => {
@@ -82,8 +96,16 @@ const SubCategory = ({
             resetStatus();
             setIsDeleteModalOpen(false);
             setDeleteId(null);
+        } else if (status === types.ASSOCIATE_LOCATION_SUCCESS) {
+            toast.success('Location associated successfully');
+            resetStatus();
+            if (selectedSubCategory) getSubCategoryLocations(selectedSubCategory.id);
+        } else if (status === types.DISASSOCIATE_LOCATION_SUCCESS) {
+            toast.success('Location disassociated successfully');
+            resetStatus();
+            if (selectedSubCategory) getSubCategoryLocations(selectedSubCategory.id);
         }
-    }, [status, resetStatus]);
+    }, [status, resetStatus, selectedSubCategory, getSubCategoryLocations]);
 
 
     useEffect(() => {
@@ -145,12 +167,17 @@ const SubCategory = ({
             <SubCategorySplitView
                 subCategories={data}
                 categories={categories}
+                locations={locations}
                 handleOpenModal={handleOpenModal}
                 handleDeleteClick={handleDeleteClick}
                 selectedSubCategory={selectedSubCategory}
                 setSelectedSubCategory={setSelectedSubCategory}
                 loading={loading}
                 updateSubCategory={updateSubCategory}
+                associateLocation={associateLocation}
+                disassociateLocation={disassociateLocation}
+                attachedLocations={attachedLocations}
+                getSubCategoryLocations={getSubCategoryLocations}
             />
 
             <Modal

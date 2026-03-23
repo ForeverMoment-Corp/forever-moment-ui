@@ -39,9 +39,15 @@ interface ExperienceProps {
     toggleInclusion: (experienceId: number, inclusionId: number, isAssociate: boolean) => Promise<any>;
     reorderExperience: (data: { id: number; newPosition: number }) => Promise<any>;
     getLocationData: () => void;
-    associateLocation: (experienceId: number, locationId: number, timeSlotId: number, data: any) => Promise<any>;
-    updateExperienceLocation: (experienceId: number, locationId: number, timeSlotId: number, data: any) => Promise<any>;
-    disassociateLocation: (experienceId: number, locationId: number, timeSlotId: number) => Promise<any>;
+    onAssociateLocation: (experienceId: number, locationId: number, data: any) => void;
+    onUpdateLocation: (experienceId: number, locationId: number, data: any) => void;
+    onDisassociateLocation: (experienceId: number, locationId: number) => void;
+    onToggleExperienceLocation: (experienceId: number, locationId: number, mapperId: number) => void;
+    onAssociateLocationTimeSlot: (experienceId: number, locationId: number, timeSlotId: number, data: any) => void;
+    onUpdateLocationTimeSlot: (experienceId: number, locationId: number, timeSlotId: number, data: any) => void;
+    onDisassociateLocationTimeSlot: (experienceId: number, locationId: number, timeSlotId: number) => void;
+    onBulkAttachLocationTimeSlots: (experienceId: number, locationId: number, data: any) => void;
+    onToggleLocationTimeSlot: (experienceId: number, locationId: number, mapperId: number) => void;
     addons: any[];
     toggleAddon: (experienceId: number, addonId: number, isAssociate: boolean, data?: any) => Promise<any>;
     slots: any[];
@@ -79,9 +85,15 @@ const Experience = ({
     reorderExperience,
     locations,
     getLocationData,
-    associateLocation,
-    updateExperienceLocation,
-    disassociateLocation,
+    onAssociateLocation,
+    onUpdateLocation,
+    onDisassociateLocation,
+    onToggleExperienceLocation,
+    onAssociateLocationTimeSlot,
+    onUpdateLocationTimeSlot,
+    onDisassociateLocationTimeSlot,
+    onBulkAttachLocationTimeSlots,
+    onToggleLocationTimeSlot,
     getAddonData,
     addons,
     toggleAddon,
@@ -250,9 +262,15 @@ const Experience = ({
                 updateExperience={updateExperience}
                 handleDragReorder={handleDragReorder}
                 locations={locations}
-                associateLocation={associateLocation}
-                updateExperienceLocation={updateExperienceLocation}
-                disassociateLocation={disassociateLocation}
+                onAssociateLocation={onAssociateLocation}
+                onUpdateLocation={onUpdateLocation}
+                onDisassociateLocation={onDisassociateLocation}
+                onToggleExperienceLocation={onToggleExperienceLocation}
+                onAssociateLocationTimeSlot={onAssociateLocationTimeSlot}
+                onUpdateLocationTimeSlot={onUpdateLocationTimeSlot}
+                onDisassociateLocationTimeSlot={onDisassociateLocationTimeSlot}
+                onBulkAttachLocationTimeSlots={onBulkAttachLocationTimeSlots}
+                onToggleLocationTimeSlot={onToggleLocationTimeSlot}
                 addons={addons}
                 toggleAddon={toggleAddon}
                 slots={slots}

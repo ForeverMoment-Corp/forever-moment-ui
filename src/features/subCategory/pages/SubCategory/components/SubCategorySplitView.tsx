@@ -1,5 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import { SubCategoryDetails } from './SubCategoryDetails';
+import { SubCategoryLocationTab } from './SubCategoryLocationTab';
 import { EditableStatusBadge } from '@/components/common/EditableStatusBadge';
 import { RowActions } from '@/components/common/RowActions';
 import { cn } from '@/utils/cn';
@@ -11,12 +12,17 @@ import { TABS, ITEM_ID_PREFIX } from '@/config/constants';
 export const SubCategorySplitView = ({
     subCategories,
     categories,
+    locations,
     handleOpenModal,
     handleDeleteClick,
     selectedSubCategory,
     setSelectedSubCategory,
     loading,
-    updateSubCategory
+    updateSubCategory,
+    associateLocation,
+    disassociateLocation,
+    attachedLocations,
+    getSubCategoryLocations
 }: any) => {
 
     const columns = [
@@ -142,8 +148,19 @@ export const SubCategorySplitView = ({
                 />
             );
         }
+        if (activeTab === TABS.LOCATIONS.id) {
+            return (
+                <SubCategoryLocationTab
+                    subCategory={{ ...sc, locations: attachedLocations }}
+                    allLocations={locations}
+                    onAssociate={associateLocation}
+                    onDisassociate={disassociateLocation}
+                    fetchLocations={() => getSubCategoryLocations(sc.id)}
+                />
+            );
+        }
         return null;
-    }, [categories, updateSubCategory]);
+    }, [updateSubCategory, locations, associateLocation, disassociateLocation, attachedLocations]);
 
     const customFilter = useCallback((sc: any, activeFilters: Record<string, string[]>) => {
         let matchStatus = true;
@@ -183,7 +200,10 @@ export const SubCategorySplitView = ({
             columns={columns}
             keyExtractor={(item: any) => item.id}
             renderListItem={renderListItem}
-            tabs={[{ id: TABS.GENERAL.id, label: TABS.GENERAL.labelShort }]}
+            tabs={[
+                { id: TABS.GENERAL.id, label: TABS.GENERAL.labelShort },
+                { id: TABS.LOCATIONS.id, label: TABS.LOCATIONS.label }
+            ]}
             renderDetailsPanel={renderDetailsPanel}
             filterConfig={[
                 {

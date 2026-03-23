@@ -26,9 +26,15 @@ interface ExperienceDetailsProps {
     addons: any[];
     onToggleCancellationPolicy: (id: number, checked: boolean) => void;
     onToggleInclusion: (id: number, checked: boolean) => void;
-    onAssociateLocation: (locationId: number, timeSlotId: number, data: any) => void;
-    onUpdateLocation: (locationId: number, timeSlotId: number, data: any) => void;
-    onDisassociateLocation: (locationId: number, timeSlotId: number) => void;
+    onAssociateLocation: (locationId: number, data: any) => void;
+    onUpdateLocation: (locationId: number, data: any) => void;
+    onDisassociateLocation: (locationId: number) => void;
+    onToggleExperienceLocation: (locationId: number, mapperId: number) => void;
+    onAssociateLocationTimeSlot: (locationId: number, timeSlotId: number, data: any) => void;
+    onUpdateLocationTimeSlot: (locationId: number, timeSlotId: number, data: any) => void;
+    onDisassociateLocationTimeSlot: (locationId: number, timeSlotId: number) => void;
+    onBulkAttachLocationTimeSlots: (locationId: number, data: any) => void;
+    onToggleLocationTimeSlot: (locationId: number, mapperId: number) => void;
     onToggleAddon: (addonId: number, isAssociate: boolean, data?: any) => void;
     updateExperience: (id: number, data: any) => Promise<any>;
     slots: any[];
@@ -444,6 +450,12 @@ export const getExperienceTabs = (params: ExperienceDetailsProps): SidePanelTab[
                     onAssociateLocation={params.onAssociateLocation}
                     onUpdateLocation={params.onUpdateLocation}
                     onDisassociateLocation={params.onDisassociateLocation}
+                    onToggleExperienceLocation={params.onToggleExperienceLocation}
+                    onAssociateLocationTimeSlot={params.onAssociateLocationTimeSlot}
+                    onUpdateLocationTimeSlot={params.onUpdateLocationTimeSlot}
+                    onDisassociateLocationTimeSlot={params.onDisassociateLocationTimeSlot}
+                    onBulkAttachLocationTimeSlots={params.onBulkAttachLocationTimeSlots}
+                    onToggleLocationTimeSlot={params.onToggleLocationTimeSlot}
                     slots={params.slots}
                 />
             )

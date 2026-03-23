@@ -35,3 +35,11 @@ export const deletePincodeApi = async (id: number) => {
 export const updatePincodeApi = async (id: number, data: any) => {
     return await axios.put(`/admin/locations/pincodes/${id}`, data);
 };
+
+export const fetchLocationSubCategoriesApi = async (locationId: number) => {
+    return await axios.get(`/admin/locations/${locationId}/subcategories`);
+};
+
+export const fetchLocationCategoriesApi = async (locationId: number) => {
+    return await axios.get(`/admin/locations/${locationId}/categories`);
+};

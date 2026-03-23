@@ -5,6 +5,10 @@ const initialState = {
     loading: false,
     error: null,
     status: 'IDLE',
+
+    attachedLocations: [],
+    loadingLocations: false,
+    locationError: null,
 };
 
 export const subCategoryReducer = (state = initialState, action: any) => {
@@ -17,6 +21,10 @@ export const subCategoryReducer = (state = initialState, action: any) => {
             return { ...state, loading: true, status: types.UPDATE_SUB_CATEGORY, error: null };
         case types.DELETE_SUB_CATEGORY:
             return { ...state, loading: true, status: types.DELETE_SUB_CATEGORY, error: null };
+        case types.ASSOCIATE_LOCATION:
+            return { ...state, loading: true, status: types.ASSOCIATE_LOCATION, error: null };
+        case types.DISASSOCIATE_LOCATION:
+            return { ...state, loading: true, status: types.DISASSOCIATE_LOCATION, error: null };
 
         case types.GET_SUB_CATEGORY_DATA_SUCCESS:
             // Ensure payload is always an array
@@ -37,15 +45,28 @@ export const subCategoryReducer = (state = initialState, action: any) => {
                 status: types.DELETE_SUB_CATEGORY_SUCCESS,
                 data: state.data.filter((item: any) => item.id !== action.payload)
             };
+        case types.ASSOCIATE_LOCATION_SUCCESS:
+            return { ...state, loading: false, status: types.ASSOCIATE_LOCATION_SUCCESS };
+        case types.DISASSOCIATE_LOCATION_SUCCESS:
+            return { ...state, loading: false, status: types.DISASSOCIATE_LOCATION_SUCCESS };
 
         case types.GET_SUB_CATEGORY_DATA_FAILURE:
         case types.CREATE_SUB_CATEGORY_FAILURE:
         case types.UPDATE_SUB_CATEGORY_FAILURE:
         case types.DELETE_SUB_CATEGORY_FAILURE:
+        case types.ASSOCIATE_LOCATION_FAILURE:
+        case types.DISASSOCIATE_LOCATION_FAILURE:
             return { ...state, loading: false, status: 'FAILURE', error: action.payload };
 
         case types.RESET_STATUS:
             return { ...state, status: 'IDLE', error: null };
+
+        case types.GET_SUB_CATEGORY_LOCATIONS:
+            return { ...state, loadingLocations: true };
+        case types.GET_SUB_CATEGORY_LOCATIONS_SUCCESS:
+            return { ...state, loadingLocations: false, attachedLocations: Array.isArray(action.payload) ? action.payload : [] };
+        case types.GET_SUB_CATEGORY_LOCATIONS_FAILURE:
+            return { ...state, loadingLocations: false, locationError: action.payload };
 
         default:
             return state;

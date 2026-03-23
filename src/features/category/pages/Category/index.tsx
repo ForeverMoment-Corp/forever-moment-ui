@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
-import { getCategoryData, createCategory, deleteCategory, updateCategory, reorderCategory, resetStatus } from '@/features/category/store/actions';
+import { getCategoryData, createCategory, deleteCategory, updateCategory, reorderCategory, associateLocation, disassociateLocation, resetStatus } from '@/features/category/store/actions';
+import { getLocationData } from '@/features/location/store/actions';
 import Category from './components/Category';
 import type { RootState } from '@/store/store';
 
@@ -8,6 +9,7 @@ const mapStateToProps = (state: RootState) => ({
     loading: state.category.loading,
     error: state.category.error,
     status: state.category.status,
+    locations: state.location?.data || [],
 });
 
 const mapDispatchToProps = {
@@ -16,6 +18,9 @@ const mapDispatchToProps = {
     deleteCategory,
     updateCategory,
     reorderCategory,
+    getLocationData,
+    associateLocation,
+    disassociateLocation,
     resetStatus,
 };
 

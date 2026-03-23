@@ -4,6 +4,7 @@ const initialState = {
     data: null,
     currentMetadata: null,
     currentPreviewUrl: null,
+    fetchedImageUrl: null,
     loading: false,
     error: null,
     status: 'IDLE',
@@ -48,6 +49,13 @@ export const imageReducer = (state = initialState, action: any) => {
 
         case types.RESET_STATUS:
             return { ...state, status: 'IDLE', error: null };
+
+        case types.FETCH_IMAGE_BY_STORAGE_NAME:
+            return { ...state, loading: true, fetchedImageUrl: null, error: null };
+        case types.FETCH_IMAGE_BY_STORAGE_NAME_SUCCESS:
+            return { ...state, loading: false, fetchedImageUrl: action.payload };
+        case types.FETCH_IMAGE_BY_STORAGE_NAME_FAILURE:
+            return { ...state, loading: false, error: action.payload };
 
         default:
             return state;

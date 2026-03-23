@@ -16,6 +16,10 @@ interface CategoryProps {
     deleteCategory: (id: number) => Promise<any>;
     updateCategory: (id: number, data: any) => Promise<any>;
     reorderCategory: (data: { id: number; newPosition: number }) => Promise<any>;
+    locations: any[];
+    getLocationData: () => void;
+    associateLocation: (locationId: number, categoryId: number, data: any) => Promise<any>;
+    disassociateLocation: (locationId: number, categoryId: number) => Promise<any>;
     resetStatus: () => void;
 }
 
@@ -40,6 +44,10 @@ const Category = ({
     deleteCategory,
     updateCategory,
     reorderCategory,
+    locations,
+    getLocationData,
+    associateLocation,
+    disassociateLocation,
     resetStatus
 }: CategoryProps) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -199,6 +207,10 @@ const Category = ({
                 loading={loading}
                 handleDragReorder={handleDragReorder}
                 updateCategory={updateCategory}
+                locations={locations}
+                getLocationData={getLocationData}
+                associateLocation={associateLocation}
+                disassociateLocation={disassociateLocation}
             />
 
             <Modal

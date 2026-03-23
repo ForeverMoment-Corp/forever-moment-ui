@@ -1,5 +1,6 @@
 import * as types from './action-types';
-import { fetchImagesApi, uploadImageApi, deleteImageApi, fetchImageMetadataApi, downloadImageApi } from './api';
+import { fetchImagesApi, uploadImageApi, deleteImageApi, fetchImageMetadataApi, downloadImageApi, fetchImageByStorageNameApi } from './api';
+
 import toast from 'react-hot-toast';
 
 export const getImages = () => async (dispatch: any) => {
@@ -91,6 +92,21 @@ export const getImageMetadata = (id: string) => async (dispatch: any) => {
         dispatch({ type: types.GET_IMAGE_METADATA_SUCCESS, payload: response.data?.response });
     } catch (error: any) {
         dispatch({ type: types.GET_IMAGE_METADATA_FAILURE, payload: error.message });
+    }
+};
+
+export const fetchImageByStorageName = (storageFileName: string) => async (dispatch: any) => {
+    dispatch({ type: types.FETCH_IMAGE_BY_STORAGE_NAME });
+    try {
+        const response = await fetchImageByStorageNameApi(storageFileName);
+        const blob = new Blob([response.data], { type: response.headers['content-type'] });
+        const url = URL.createObjectURL(blob);
+        dispatch({ type: types.FETCH_IMAGE_BY_STORAGE_NAME_SUCCESS, payload: url });
+        return url;
+    } catch (error: any) {
+        const message = error.response?.data?.message || 'Failed to fetch image';
+        dispatch({ type: types.FETCH_IMAGE_BY_STORAGE_NAME_FAILURE, payload: message });
+        toast.error(message);
     }
 };
 

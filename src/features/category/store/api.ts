@@ -19,3 +19,11 @@ export const updateCategoryApi = async (id: number, data: any) => {
 export const reorderCategoryApi = async (data: { id: number; newPosition: number }) => {
     return await axios.patch('/admin/categories/reorder', data);
 };
+
+export const associateCategoryWithLocationApi = async (locationId: number, categoryId: number, payload: any) => {
+    return await axios.post(`/admin/locations/${locationId}/categories/${categoryId}`, payload);
+};
+
+export const disassociateCategoryFromLocationApi = async (locationId: number, categoryId: number) => {
+    return await axios.delete(`/admin/locations/${locationId}/categories/${categoryId}`);
+};
