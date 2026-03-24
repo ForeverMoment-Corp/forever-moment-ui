@@ -15,6 +15,7 @@ import { inclusionReducer } from '@/features/inclusion/store/reducer';
 import { cancellationPolicyReducer } from '@/features/cancellationPolicy/store/reducer';
 import { addonReducer } from '@/features/addon/store/reducer';
 import { imageReducer } from '@/features/images/store/reducer';
+import { bookingsReducer } from '@/features/bookings/store/reducer';
 
 export const store = configureStore({
   reducer: {
@@ -34,6 +35,7 @@ export const store = configureStore({
     cancellationPolicy: cancellationPolicyReducer,
     addon: addonReducer,
     image: imageReducer,
+    bookings: bookingsReducer,
   },
 });
 

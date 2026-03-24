@@ -39,6 +39,7 @@ export const sidebarItems: SidebarItem[] = [
             { name: 'Inclusions', path: '/admin/inclusions', icon: Gift },
             { name: 'Cancellation Policies', path: '/admin/cancellation-policies', icon: ShieldAlert },
             { name: 'Addons', path: '/admin/addons', icon: Sparkles },
+            { name: 'Bookings', path: '/admin/bookings', icon: Calendar },
         ]
     },
     {
