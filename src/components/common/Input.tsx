@@ -23,17 +23,17 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         )}
         <div className="relative group">
           {Icon && (
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-muted-foreground transition-colors group-focus-within:text-blue-600 dark:group-focus-within:text-blue-400">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-muted-foreground transition-colors group-focus-within:text-[var(--accent)]">
               <Icon className="h-4 w-4" />
             </div>
           )}
           <input
             type={type === 'password' && showPassword ? 'text' : type}
             className={cn(
-              "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-blue-600 disabled:cursor-not-allowed disabled:opacity-50",
+              "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium text-gray-900 dark:text-gray-100 placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--accent-ring)] focus-visible:border-[var(--accent)] disabled:cursor-not-allowed disabled:opacity-50",
               Icon && "pl-9",
               type === 'password' && "pr-10",
-              error && "border-red-500 focus-visible:ring-red-500",
+              error && "border-red-500 focus-visible:ring-red-500 focus-visible:border-red-500",
               className
             )}
             ref={ref}

@@ -106,7 +106,7 @@ export const ImageSplitView = ({
                 <div className="flex justify-end gap-2" onClick={(e) => e.stopPropagation()}>
                     <button
                         onClick={() => onDownloadClick(img.id, img.fileName)}
-                        className="p-1.5 text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded transition-colors"
+                        className="p-1.5 text-[var(--accent)] hover:bg-[var(--accent-light)] rounded transition-colors"
                         title="Download Image"
                     >
                         <Download size={16} />
@@ -126,13 +126,13 @@ export const ImageSplitView = ({
                 className={cn(
                     "flex items-center gap-3 p-3 mb-1 cursor-pointer transition-all duration-200 rounded-lg group",
                     isSelected
-                        ? "bg-blue-50/80 dark:bg-blue-900/20"
+                        ? "bg-[var(--accent-light)]"
                         : "hover:bg-slate-50 dark:hover:bg-gray-800/50 transparent"
                 )}
             >
                 <div className={cn(
                     "absolute left-2 w-1 h-8 rounded-r-md transition-all duration-300",
-                    isSelected ? "bg-blue-600 opacity-100" : "opacity-0"
+                    isSelected ? "bg-[var(--accent)] opacity-100" : "opacity-0"
                 )} />
                 <div className="w-11 h-11 rounded-lg bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 overflow-hidden shadow-sm shrink-0 ml-1">
                     <img
@@ -145,7 +145,7 @@ export const ImageSplitView = ({
                 <div className="flex-1 min-w-0">
                     <div className={cn(
                         "font-semibold text-[13px] truncate mb-0.5 transition-colors",
-                        isSelected ? "text-blue-900 dark:text-blue-400" : "text-slate-900 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400"
+                        isSelected ? "text-[var(--accent)]" : "text-slate-900 dark:text-slate-100 group-hover:text-[var(--accent)]"
                     )}>{img.fileName}</div>
                     <div className="text-[11px] text-slate-400 dark:text-slate-500 flex items-center gap-2">
                         <span>{formatSize(getImageSize(img))}</span>
@@ -155,7 +155,7 @@ export const ImageSplitView = ({
                 </div>
                 <button
                     onClick={(e) => { e.stopPropagation(); onDownloadClick(img.id, img.fileName); }}
-                    className="p-1.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-md transition-all opacity-0 group-hover:opacity-100"
+                    className="p-1.5 text-slate-400 hover:text-[var(--accent)] hover:bg-[var(--accent-light)] rounded-md transition-all opacity-0 group-hover:opacity-100"
                     title="Quick Download"
                 >
                     <Download size={14} />

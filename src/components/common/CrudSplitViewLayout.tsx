@@ -167,7 +167,7 @@ export function CrudSplitViewLayout<T>({
                             </svg>
                             <SearchBar
                                 className="w-full"
-                                inputClassName="pl-9 py-2.5 rounded-[10px] bg-white dark:bg-gray-900 border border-[#e8e6e0] dark:border-gray-700 text-[13.5px] focus:border-[#6c63ff] focus:ring-[3px] focus:ring-[rgba(108,99,255,0.12)] placeholder-[#b0b4be] shadow-sm"
+                                inputClassName="pl-9 py-2.5 rounded-[10px] bg-white dark:bg-gray-900 border border-[#e8e6e0] dark:border-gray-700 text-[13.5px] focus:border-[var(--accent)] focus:ring-[3px] focus:ring-[var(--accent-ring)] placeholder-[#b0b4be] shadow-sm"
                                 placeholder={`Search ${pluralName.toLowerCase()} by name, category…`}
                                 value={search}
                                 onChange={setSearch}
@@ -176,10 +176,7 @@ export function CrudSplitViewLayout<T>({
                         {/* Filters button */}
                         {filterConfig.length > 0 && (
                             <button
-                                className="flex items-center gap-1.5 text-[13.5px] font-medium px-4 py-[9px] rounded-[10px] whitespace-nowrap transition-all"
-                                style={{ border: '1px solid #e8e6e0', background: '#fff', color: '#374151', cursor: 'pointer' }}
-                                onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#6c63ff'; e.currentTarget.style.color = '#6c63ff'; e.currentTarget.style.background = '#ede9ff'; }}
-                                onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#e8e6e0'; e.currentTarget.style.color = '#374151'; e.currentTarget.style.background = '#fff'; }}
+                                className="flex items-center gap-1.5 text-[13.5px] font-medium px-4 py-[9px] rounded-[10px] whitespace-nowrap transition-all border border-slate-200 bg-white text-slate-700 dark:border-gray-700 dark:bg-gray-900 dark:text-slate-300 hover:border-[var(--accent)] hover:text-[var(--accent)] hover:bg-[var(--accent-light)] dark:hover:border-[var(--accent)] dark:hover:text-[var(--accent)] cursor-pointer"
                             >
                                 <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 4h18M7 8h10M11 12h2" /></svg>
                                 Filters
@@ -187,10 +184,7 @@ export function CrudSplitViewLayout<T>({
                         )}
                         {/* Sort button */}
                         <button
-                            className="shrink-0 flex items-center gap-1.5 text-[13.5px] font-medium px-4 py-[9px] rounded-[10px] whitespace-nowrap transition-all"
-                            style={{ border: '1px solid #e8e6e0', background: '#fff', color: '#374151', cursor: 'pointer' }}
-                            onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#6c63ff'; e.currentTarget.style.color = '#6c63ff'; e.currentTarget.style.background = '#ede9ff'; }}
-                            onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#e8e6e0'; e.currentTarget.style.color = '#374151'; e.currentTarget.style.background = '#fff'; }}
+                            className="shrink-0 flex items-center gap-1.5 text-[13.5px] font-medium px-4 py-[9px] rounded-[10px] whitespace-nowrap transition-all border border-slate-200 bg-white text-slate-700 dark:border-gray-700 dark:bg-gray-900 dark:text-slate-300 hover:border-[var(--accent)] hover:text-[var(--accent)] hover:bg-[var(--accent-light)] dark:hover:border-[var(--accent)] dark:hover:text-[var(--accent)] cursor-pointer"
                         >
                             <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" /></svg>
                             Sort
@@ -202,11 +196,11 @@ export function CrudSplitViewLayout<T>({
                                 onClick={() => onAdd()}
                                 className="shrink-0 flex items-center gap-2 text-white text-[13.5px] font-semibold px-[18px] py-[9px] rounded-[10px] transition-all h-[40px]"
                                 style={{
-                                    background: '#6c63ff',
-                                    boxShadow: '0 2px 6px rgba(108,99,255,0.25)',
+                                    background: 'var(--accent)',
+                                    boxShadow: '0 2px 6px var(--accent-ring)',
                                 }}
-                                onMouseEnter={(e) => { e.currentTarget.style.background = '#5a52e8'; e.currentTarget.style.transform = 'translateY(-1px)'; }}
-                                onMouseLeave={(e) => { e.currentTarget.style.background = '#6c63ff'; e.currentTarget.style.transform = 'translateY(0)'; }}
+                                onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--accent-hover)'; e.currentTarget.style.transform = 'translateY(-1px)'; }}
+                                onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--accent)'; e.currentTarget.style.transform = 'translateY(0)'; }}
                             >
                                 <Plus size={15} strokeWidth={2.5} />
                                 Add {resourceName}
@@ -216,8 +210,7 @@ export function CrudSplitViewLayout<T>({
 
                     {/* Table Card */}
                     <div
-                        className="bg-white dark:bg-gray-900 rounded-2xl overflow-hidden flex flex-col"
-                        style={{ border: '1px solid #e8e6e0', boxShadow: '0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04)' }}
+                        className="bg-white dark:bg-gray-900 rounded-2xl overflow-hidden flex flex-col border border-slate-200 dark:border-gray-800 shadow-sm"
                     >
                         <DataTable
                             data={filtered}
@@ -232,19 +225,18 @@ export function CrudSplitViewLayout<T>({
                         {/* Table Footer with Pagination */}
                         {!loading && data && data.length > 0 && (
                             <div
-                                className="flex flex-col sm:flex-row items-center justify-between px-[18px] py-[12px] text-[12.5px] gap-3"
-                                style={{ borderTop: '1px solid #e8e6e0', background: '#fafaf8', color: '#6b7280' }}
+                                className="flex flex-col sm:flex-row items-center justify-between px-[18px] py-[12px] text-[12.5px] gap-3 border-t border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-gray-800/50 text-slate-500 dark:text-slate-400"
                             >
                                 <span>
-                                    Showing <strong style={{ color: '#0f1117', fontWeight: 600 }}>{filtered.length}</strong> of <strong style={{ color: '#0f1117', fontWeight: 600 }}>{data.length}</strong> {pluralName.toLowerCase()}
+                                    Showing <strong className="font-semibold text-slate-900 dark:text-slate-100">{filtered.length}</strong> of <strong className="font-semibold text-slate-900 dark:text-slate-100">{data.length}</strong> {pluralName.toLowerCase()}
                                 </span>
                                 <div className="flex items-center gap-1">
                                     {/* Prev */}
-                                    <button style={{ width: 28, height: 28, borderRadius: 6, border: '1px solid #e8e6e0', background: '#fff', fontSize: 12, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#6b7280' }}>‹</button>
+                                    <button className="w-7 h-7 rounded-md border border-slate-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-slate-500 dark:text-slate-400 text-xs flex items-center justify-center cursor-pointer hover:bg-slate-50 dark:hover:bg-gray-800">‹</button>
                                     {/* Page 1 */}
-                                    <button style={{ width: 28, height: 28, borderRadius: 6, border: '1px solid #6c63ff', background: '#6c63ff', fontSize: 12, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 600 }}>1</button>
+                                    <button className="w-7 h-7 rounded-md border border-[var(--accent)] bg-[var(--accent)] text-white font-semibold text-xs flex items-center justify-center cursor-pointer">1</button>
                                     {/* Next */}
-                                    <button style={{ width: 28, height: 28, borderRadius: 6, border: '1px solid #e8e6e0', background: '#fff', fontSize: 12, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#6b7280' }}>›</button>
+                                    <button className="w-7 h-7 rounded-md border border-slate-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-slate-500 dark:text-slate-400 text-xs flex items-center justify-center cursor-pointer hover:bg-slate-50 dark:hover:bg-gray-800">›</button>
                                 </div>
                             </div>
                         )}
@@ -264,29 +256,24 @@ export function CrudSplitViewLayout<T>({
         const showDetails = !!selectedItem;
 
         return (
-            <div className="flex flex-1 h-full overflow-hidden" style={{ background: '#ffffff' }}>
+            <div className="flex flex-1 h-full overflow-hidden bg-transparent">
 
                 {/* ── Left Panel (List) ── */}
                 <div
                     className={cn(
                         "flex flex-col overflow-hidden transition-all duration-300",
                         showList ? "flex" : "hidden md:flex",
-                        "w-full md:w-[280px] md:min-w-[280px]"
+                        "w-full md:w-[280px] md:min-w-[280px] bg-white dark:bg-[#0f1117] border-r border-slate-200 dark:border-gray-800 shadow-[2px_0_8px_rgba(0,0,0,0.04)] dark:shadow-none"
                     )}
-                    style={{
-                        background: '#fff',
-                        borderRight: '1px solid #e8e6e0',
-                        boxShadow: '2px 0 8px rgba(0,0,0,0.04)',
-                    }}
                 >
                     {/* Header */}
-                    <div className="flex items-center justify-between px-4 py-4" style={{ borderBottom: '1px solid #f0ede8' }}>
+                    <div className="flex items-center justify-between px-4 py-4 border-b border-slate-200 dark:border-gray-800">
                         <div>
                             <div className="font-bold text-[15px] text-slate-900 tracking-tight">{pluralName}</div>
                             <div className="flex items-center gap-1.5 mt-0.5">
                                 <span
                                     className="text-[10px] font-semibold px-2 py-0.5 rounded-full"
-                                    style={{ background: '#ede9ff', color: '#6c63ff' }}
+                                    style={{ background: 'var(--accent-light)', color: 'var(--accent)' }}
                                 >
                                     {displayCount}
                                 </span>
@@ -299,9 +286,9 @@ export function CrudSplitViewLayout<T>({
                             <button
                                 onClick={() => onAdd()}
                                 className="flex items-center gap-1.5 text-white text-[11.5px] font-semibold px-3 py-1.5 rounded-[8px] transition-all"
-                                style={{ background: '#6c63ff', boxShadow: '0 2px 6px rgba(108,99,255,0.28)' }}
-                                onMouseEnter={(e) => { e.currentTarget.style.background = '#5a52e8'; }}
-                                onMouseLeave={(e) => { e.currentTarget.style.background = '#6c63ff'; }}
+                                style={{ background: 'var(--accent)', boxShadow: '0 2px 6px var(--accent-ring)' }}
+                                onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--accent-hover)'; }}
+                                onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--accent)'; }}
                             >
                                 <Plus size={12} strokeWidth={2.5} />
                                 <span>Add</span>
@@ -310,7 +297,7 @@ export function CrudSplitViewLayout<T>({
                     </div>
 
                     {/* Search */}
-                    <div className="px-3 py-3" style={{ borderBottom: '1px solid #ffffff' }}>
+                    <div className="px-3 py-3 border-b border-white dark:border-gray-900 border-b-transparent">
                         <div className="relative">
                             <svg className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                 <circle cx="11" cy="11" r="8" />
@@ -318,7 +305,7 @@ export function CrudSplitViewLayout<T>({
                             </svg>
                             <SearchBar
                                 className="w-full"
-                                inputClassName="pl-8 py-2 text-[13px] rounded-[8px] bg-[#ffffff] border-[#e8e6e0] focus:border-[#6c63ff] focus:ring-[2px] focus:ring-[rgba(108,99,255,0.12)] placeholder-[#b0b4be]"
+                                inputClassName="pl-8 py-2 text-[13px] rounded-[8px] bg-white dark:bg-gray-900 border-slate-200 dark:border-gray-700 focus:border-[var(--accent)] focus:ring-[2px] focus:ring-[var(--accent-ring)] placeholder-[#b0b4be] shadow-sm"
                                 placeholder={`Search ${pluralName.toLowerCase()}...`}
                                 value={search}
                                 onChange={setSearch}
@@ -357,19 +344,13 @@ export function CrudSplitViewLayout<T>({
                         !showList && "w-full" // Take full width on mobile when list is hidden
                     )}>
                         <div
-                            className={cn("flex-1 flex flex-col md:flex-row overflow-hidden relative", detailsPanelClassName)}
-                            style={{
-                                background: '#fff',
-                                border: typeof window !== 'undefined' && window.innerWidth >= 768 ? '1px solid #e8e6e0' : 'none',
-                                borderRadius: typeof window !== 'undefined' && window.innerWidth >= 768 ? 16 : 0,
-                                boxShadow: typeof window !== 'undefined' && window.innerWidth >= 768 ? '0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04)' : 'none',
-                            }}
+                            className={cn("flex-1 flex flex-col md:flex-row overflow-hidden relative bg-white dark:bg-[#0f1117] md:border md:border-slate-200 dark:md:border-gray-800 md:shadow-sm md:rounded-2xl", detailsPanelClassName)}
                         >
                             {/* Mobile Back Button & Header Area */}
-                            <div className="md:hidden flex items-center justify-between px-4 py-3 border-b border-gray-200 bg-white">
+                            <div className="md:hidden flex items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-[#0f1117]">
                                 <button
                                     onClick={handleCloseProcess}
-                                    className="flex items-center gap-1.5 text-gray-500 hover:text-gray-900"
+                                    className="flex items-center gap-1.5 text-slate-500 hover:text-slate-900 dark:hover:text-slate-200"
                                 >
                                     <ChevronLeft size={16} />
                                     <span className="text-sm font-medium">Back to {pluralName}</span>
@@ -390,10 +371,7 @@ export function CrudSplitViewLayout<T>({
                                 {/* Close button (Desktop Only) */}
                                 <button
                                     onClick={handleCloseProcess}
-                                    className="hidden md:flex absolute top-2 right-2 z-[60] p-1.5 rounded-lg transition-all items-center justify-center"
-                                    style={{ color: '#94a3b8' }}
-                                    onMouseEnter={(e) => { e.currentTarget.style.background = '#f5f4f0'; e.currentTarget.style.color = '#475569'; }}
-                                    onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#94a3b8'; }}
+                                    className="hidden md:flex absolute top-2 right-2 z-[60] p-1.5 rounded-lg transition-all items-center justify-center text-slate-400 hover:bg-slate-100 dark:hover:bg-gray-800 hover:text-slate-600 dark:hover:text-slate-300"
                                     title="Close"
                                 >
                                     <X size={14} />

@@ -78,11 +78,7 @@ export function EditableStatusBadge({
                     align="start"
                     sideOffset={6}
                     onClick={(e) => e.stopPropagation()}
-                    style={{
-                        background: "#fff", border: "1px solid #e2e8f0", borderRadius: 10,
-                        boxShadow: "0 8px 24px rgba(0,0,0,0.12)", overflow: "hidden",
-                        minWidth: 150, zIndex: 99999,
-                    }}
+                    className="bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-800 rounded-xl shadow-[0_8px_24px_rgba(0,0,0,0.12)] overflow-hidden min-w-[150px] z-[99999]"
                 >
                     {normalized.map((opt) => {
                         const style = STATUS_STYLES[opt.label] ?? STATUS_STYLES["Inactive"];
@@ -92,16 +88,10 @@ export function EditableStatusBadge({
                             <PopoverPrimitive.Close key={opt.value} asChild>
                                 <div
                                     onClick={(e) => { e.stopPropagation(); onChange(opt.value); }}
-                                    style={{
-                                        display: "flex", alignItems: "center", gap: 8,
-                                        padding: "9px 14px", cursor: "pointer", fontSize: 13,
-                                        fontWeight: isSelected ? 600 : 400,
-                                        color: isSelected ? style.text : "#374151",
-                                        background: isSelected ? style.bg : "transparent",
-                                        transition: "background 0.12s",
-                                    }}
-                                    onMouseEnter={(e) => { if (!isSelected) e.currentTarget.style.background = "#f8fafc"; }}
-                                    onMouseLeave={(e) => { if (!isSelected) e.currentTarget.style.background = "transparent"; }}
+                                    className={`flex items-center gap-2 px-3.5 py-2 cursor-pointer text-[13px] transition-colors ${
+                                        isSelected ? "font-semibold" : "font-normal text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-gray-800"
+                                    }`}
+                                    style={isSelected ? { color: style.text, background: style.bg } : {}}
                                 >
                                     <span style={{ width: 7, height: 7, borderRadius: "50%", background: style.dot, flexShrink: 0 }} />
                                     {opt.label}

@@ -72,7 +72,7 @@ export function Dropdown({
                         role="combobox"
                         aria-expanded={open}
                         className={cn(
-                            "flex h-9 w-full items-center justify-between rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
+                            "flex h-9 w-full items-center justify-between rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background text-gray-900 dark:text-gray-100 placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
                             className
                         )}
                         disabled={disabled}
@@ -85,13 +85,13 @@ export function Dropdown({
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </button>
                 </PopoverPrimitive.Trigger>
-                <PopoverPrimitive.Content className="w-[var(--radix-popover-trigger-width)] p-0 bg-popover text-popover-foreground shadow-md rounded-md border z-[60]" align="start">
+                <PopoverPrimitive.Content className="w-[var(--radix-popover-trigger-width)] p-0 bg-white dark:bg-gray-800 text-slate-900 dark:text-white shadow-lg rounded-md border border-slate-200 dark:border-gray-700 z-[60]" align="start">
                     {searchable && (
-                        <div className="flex items-center px-2 py-2 sticky top-0 bg-popover z-10">
+                        <div className="flex items-center px-2 py-2 sticky top-0 bg-white dark:bg-gray-800 z-10 border-b border-slate-100 dark:border-gray-700">
                             {/* <Search className="mr-2 h-3.5 w-3.5 shrink-0 opacity-50" /> */}
                             <input
                                 ref={inputRef}
-                                className="flex h-8 w-full rounded-md bg-secondary/50 px-3 text-xs outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
+                                className="flex h-8 w-full rounded-md bg-slate-100 dark:bg-gray-900 px-3 text-xs outline-none text-gray-900 dark:text-gray-100 placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 border border-transparent dark:border-gray-700 focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent-ring)]"
                                 placeholder={searchPlaceholder}
                                 value={query}
                                 onChange={(e) => setQuery(e.target.value)}
@@ -100,15 +100,17 @@ export function Dropdown({
                     )}
                     <div className="max-h-[200px] overflow-y-auto overflow-x-hidden p-1">
                         {filteredOptions.length === 0 ? (
-                            <div className="py-6 text-center text-sm">No option found.</div>
+                            <div className="py-6 text-center text-sm text-slate-500 dark:text-slate-400">No option found.</div>
                         ) : (
                             <ul className="space-y-1">
                                 {filteredOptions.map((option) => (
                                     <li
                                         key={option.value}
                                         className={cn(
-                                            "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-                                            value === option.value && "bg-accent/50"
+                                            "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+                                            value === option.value 
+                                                ? "bg-[var(--accent)] text-white" 
+                                                : "hover:bg-slate-100 dark:hover:bg-gray-700 text-slate-700 dark:text-slate-200"
                                         )}
                                         onClick={() => handleSelect(option.value)}
                                     >

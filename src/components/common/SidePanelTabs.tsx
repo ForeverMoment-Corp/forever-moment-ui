@@ -23,12 +23,12 @@ export const SidePanelTabs = ({ tabs, activeTabId, onTabChange }: SidePanelTabsP
                     className={cn(
                         "px-6 py-3 text-sm font-medium text-left transition-colors relative",
                         activeTabId === tab.id
-                            ? "text-blue-600 dark:text-blue-400 bg-white dark:bg-gray-800"
+                            ? "text-[var(--accent)] bg-white dark:bg-gray-800"
                             : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200"
                     )}
                 >
                     {activeTabId === tab.id && (
-                        <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-blue-600 dark:bg-blue-400" />
+                        <div className="absolute left-0 top-0 bottom-0 w-0.5" style={{ background: 'var(--accent)' }} />
                     )}
                     {tab.label}
                 </button>

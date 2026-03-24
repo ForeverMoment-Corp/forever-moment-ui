@@ -117,7 +117,7 @@ export const DataTable = <T,>({
         const rowClassName = cn(
             ROW_CLASS,
             rowClickHandler ? 'cursor-pointer relative' : '',
-            selected ? 'bg-blue-50/50 dark:bg-blue-900/10' : ''
+            selected ? 'bg-[var(--accent-light)]' : ''
         );
 
         const rowCells = columns.map((col, index) => (
@@ -131,7 +131,7 @@ export const DataTable = <T,>({
                 onClick={col.preventRowClick ? (e) => e.stopPropagation() : undefined}
             >
                 {index === 0 && selected ? (
-                    <div className="absolute left-0 top-0 bottom-0 w-[4px] bg-blue-600 rounded-r-sm" />
+                    <div className="absolute left-0 top-0 bottom-0 w-[4px] rounded-r-sm" style={{ background: 'var(--accent)' }} />
                 ) : null}
 
                 <div className={cn("flex items-center gap-2", index === 0 && isDragEnabled ? '' : 'contents')}>

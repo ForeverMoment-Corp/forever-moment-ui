@@ -11,28 +11,14 @@ export const RowActions = ({ onEdit, onDelete }: RowActionsProps) => {
             <button
                 onClick={(e) => { e.stopPropagation(); onEdit(); }}
                 title="Edit"
-                style={{
-                    width: 32, height: 32, borderRadius: 8,
-                    border: '1px solid #e8e6e0', background: 'transparent',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    cursor: 'pointer', color: '#6b7280', transition: 'all 0.15s',
-                }}
-                onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#6c63ff'; e.currentTarget.style.background = '#ede9ff'; e.currentTarget.style.color = '#6c63ff'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#e8e6e0'; e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#6b7280'; }}
+                className="w-8 h-8 rounded-lg flex items-center justify-center border border-slate-200 dark:border-gray-700 bg-transparent text-slate-500 dark:text-slate-400 cursor-pointer transition-all hover:border-[var(--accent)] hover:bg-[var(--accent-light)] hover:text-[var(--accent)] dark:hover:border-[var(--accent)] dark:hover:text-[var(--accent)]"
             >
                 <Edit2 size={14} />
             </button>
             <button
                 onClick={(e) => { e.stopPropagation(); onDelete(); }}
                 title="Delete"
-                style={{
-                    width: 32, height: 32, borderRadius: 8,
-                    border: '1px solid #e8e6e0', background: 'transparent',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    cursor: 'pointer', color: '#6b7280', transition: 'all 0.15s',
-                }}
-                onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#f04438'; e.currentTarget.style.background = '#fef3f2'; e.currentTarget.style.color = '#f04438'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#e8e6e0'; e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#6b7280'; }}
+                className="w-8 h-8 rounded-lg flex items-center justify-center border border-slate-200 dark:border-gray-700 bg-transparent text-slate-500 dark:text-slate-400 cursor-pointer transition-all hover:border-red-500 hover:bg-red-50 hover:text-red-600 dark:hover:border-red-500 dark:hover:bg-red-900/20 dark:hover:text-red-400"
             >
                 <Trash2 size={14} />
             </button>

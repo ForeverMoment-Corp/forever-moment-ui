@@ -174,13 +174,13 @@ export const ExperienceSplitView = ({
             className={cn(
                 "flex items-center gap-3 p-3 mb-1 cursor-pointer transition-all duration-200 rounded-lg group relative",
                 isSelected
-                    ? "bg-violet-50/80 dark:bg-violet-900/20"
+                    ? "bg-[var(--accent-light)]"
                     : "hover:bg-slate-50 dark:hover:bg-gray-800/50 transparent"
             )}
         >
             <div className={cn(
                 "absolute left-2 w-1 h-8 rounded-r-md transition-all duration-300",
-                isSelected ? "bg-violet-600 opacity-100" : "opacity-0"
+                isSelected ? "bg-[var(--accent)] opacity-100" : "opacity-0"
             )} />
             <div className={cn(
                 "h-7 px-2 min-w-[40px] w-auto rounded-[6px] flex items-center gap-1.5 font-bold text-[11px] shrink-0 ml-1",
@@ -192,7 +192,7 @@ export const ExperienceSplitView = ({
             <div className="flex-1 min-w-0">
                 <div className={cn(
                     "font-semibold text-[13.5px] truncate mb-0.5 transition-colors leading-tight",
-                    isSelected ? "text-violet-900 dark:text-violet-300" : "text-slate-800 dark:text-slate-100 group-hover:text-violet-600"
+                    isSelected ? "text-[var(--accent)]" : "text-slate-800 dark:text-slate-100 group-hover:text-[var(--accent)]"
                 )}>{exp.name}</div>
                 <div className="text-xs text-slate-400 dark:text-slate-500 font-medium">
                     ₹{(exp.basePrice || 0).toLocaleString('en-IN')}
@@ -307,8 +307,8 @@ export const ExperienceSplitView = ({
 
         const cards = [
             {
-                icon: <Sparkles size={18} color="#6c63ff" />,
-                iconBg: '#ede9ff',
+                icon: <Sparkles size={18} style={{ color: 'var(--accent)' }} />,
+                iconBg: 'var(--accent-light)',
                 value: total,
                 label: 'Total Experiences',
             },

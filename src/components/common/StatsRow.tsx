@@ -17,19 +17,7 @@ export const StatsRow: React.FC<StatsRowProps> = ({ stats }) => {
             {stats.map((c, i) => (
                 <div
                     key={i}
-                    style={{
-                        background: '#fff',
-                        border: '1px solid #e8e6e0',
-                        borderRadius: 14,
-                        padding: '16px 18px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 14,
-                        transition: 'box-shadow 0.2s',
-                        cursor: 'default',
-                    }}
-                    onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,0,0,0.10)'; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.boxShadow = 'none'; }}
+                    className="bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-800 rounded-2xl py-4 px-4 sm:px-[18px] flex items-center gap-[14px] transition-shadow duration-200 cursor-default hover:shadow-lg dark:hover:shadow-black/40"
                 >
                     <div style={{
                         width: 40, height: 40,
@@ -41,8 +29,8 @@ export const StatsRow: React.FC<StatsRowProps> = ({ stats }) => {
                         {c.icon}
                     </div>
                     <div>
-                        <div style={{ fontSize: 22, fontWeight: 600, color: '#0f1117', lineHeight: 1.2 }}>{c.value}</div>
-                        <div style={{ fontSize: 12, color: '#6b7280', marginTop: 2 }}>{c.label}</div>
+                        <div className="text-[22px] font-semibold text-slate-900 dark:text-white leading-[1.2]">{c.value}</div>
+                        <div className="text-[12px] text-slate-500 dark:text-slate-400 mt-0.5">{c.label}</div>
                     </div>
                 </div>
             ))}

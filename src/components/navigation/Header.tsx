@@ -64,7 +64,7 @@ const Header = ({ onToggleSidebar }: HeaderProps) => {
     const confirmLogout = () => { dispatch(logout()); navigate('/login'); setShowLogoutModal(false); };
 
     return (
-        <header className='h-16 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between px-7 sticky top-0 z-10 shrink-0'>
+        <header className='h-16 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between px-7 sticky top-0 z-10 shrink-0'>
             {/* Breadcrumb */}
             <div className="flex items-center gap-1">
                 <button onClick={onToggleSidebar} className="p-1.5 -ml-1.5 mr-1 text-gray-400 hover:text-gray-600 md:hidden">
@@ -89,22 +89,16 @@ const Header = ({ onToggleSidebar }: HeaderProps) => {
             <div className="flex items-center gap-2">
                 {/* Bell */}
                 <button
-                    className="relative flex items-center justify-center w-9 h-9 rounded-[8px] transition-all"
-                    style={{ border: '1px solid #e8e6e0', background: 'transparent', color: '#6b7280', cursor: 'pointer' }}
-                    onMouseEnter={(e) => { e.currentTarget.style.background = '#f5f4f0'; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}
+                    className="relative flex items-center justify-center w-9 h-9 rounded-[8px] transition-all border border-slate-200 dark:border-gray-700 hover:bg-slate-100 dark:hover:bg-gray-800 text-slate-500 dark:text-slate-400 cursor-pointer"
                 >
                     <Bell size={16} />
-                    <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-red-500 rounded-full border border-white" />
+                    <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-red-500 rounded-full border border-white dark:border-gray-900" />
                 </button>
 
                 {/* Settings */}
                 <Link
                     to='/admin/settings'
-                    className="flex items-center justify-center w-9 h-9 rounded-[8px] transition-all"
-                    style={{ border: '1px solid #e8e6e0', background: 'transparent', color: '#6b7280' }}
-                    onMouseEnter={(e) => { e.currentTarget.style.background = '#f5f4f0'; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}
+                    className="flex items-center justify-center w-9 h-9 rounded-[8px] transition-all border border-slate-200 dark:border-gray-700 hover:bg-slate-100 dark:hover:bg-gray-800 text-slate-500 dark:text-slate-400"
                 >
                     <Settings size={16} />
                 </Link>
@@ -119,10 +113,10 @@ const Header = ({ onToggleSidebar }: HeaderProps) => {
                         {(profileData?.fullName || user?.name || 'A').trim().split(/\s+/).map((n: string) => n[0]).join('').slice(0, 2).toUpperCase()}
                     </button>
                     {showDropdown && (
-                        <div className='absolute right-0 mt-2 w-44 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-[#e8e6e0] dark:border-gray-700 py-1.5 z-50'>
+                        <div className='absolute right-0 mt-2 w-44 bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-slate-200 dark:border-gray-700 py-1.5 z-50'>
                             <button
                                 onClick={handleLogout}
-                                className='w-full flex items-center gap-2.5 px-3.5 py-2 text-[13px] text-red-500 hover:bg-[#fef3f2] transition-colors'
+                                className='w-full flex items-center gap-2.5 px-3.5 py-2 text-[13px] text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors'
                             >
                                 <LogOut size={14} />
                                 <span>Logout</span>

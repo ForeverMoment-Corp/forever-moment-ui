@@ -121,14 +121,14 @@ const Sidebar = ({ isOpen, onToggle }: SidebarProps) => {
                 className={cn(
                     'flex items-center gap-3 px-3 py-2 rounded-md transition-colors duration-200 group mb-1',
                     isActive
-                        ? 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400'
+                        ? 'bg-[var(--accent-light)] text-[var(--accent)]'
                         : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800',
                     isCollapsed && 'justify-center px-2',
                     depth > 0 && 'pl-9' // Indent submenu items
                 )}
                 title={isCollapsed ? item.name : ''}
             >
-                <Icon size={20} className={cn('shrink-0', isActive ? 'text-blue-600 dark:text-blue-400' : 'text-gray-500 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white')} />
+                <Icon size={20} className={cn('shrink-0', isActive ? 'text-[var(--accent)]' : 'text-gray-500 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white')} />
                 {!isCollapsed && (
                     <span className='text-sm font-medium truncate'>{item.name}</span>
                 )}
@@ -159,7 +159,7 @@ const Sidebar = ({ isOpen, onToggle }: SidebarProps) => {
                 {/* Header */}
                 <div className='h-16 flex items-center px-4 border-b border-gray-200 dark:border-gray-800 shrink-0'>
                     <div className={cn('flex items-center gap-2 overflow-hidden', isCollapsed && 'justify-center w-full')}>
-                        <div className='h-8 w-8 rounded bg-blue-600 flex items-center justify-center shrink-0'>
+                        <div className='h-8 w-8 rounded flex items-center justify-center shrink-0' style={{ background: 'var(--accent)' }}>
                             <span className='text-white font-bold text-lg'>F</span>
                         </div>
                         {(!isCollapsed || isOpen) && (

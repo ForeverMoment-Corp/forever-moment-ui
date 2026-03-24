@@ -22,32 +22,32 @@ interface ModalProps {
 
 const variantStyles = {
     primary: {
-        headerBg: 'bg-[#f0f7ff]',
-        headerBorder: 'border-[#e0efff]',
-        iconContainer: 'from-[#e0f2fe] to-[#bae6fd]',
-        iconColor: 'text-[#0284c7]',
-        iconShadow: 'shadow-[0_2px_8px_rgba(2,132,199,0.15)]',
+        headerBg: 'bg-blue-50 dark:bg-blue-900/20',
+        headerBorder: 'border-blue-100 dark:border-blue-900/30',
+        iconContainer: 'from-blue-100 to-blue-200 dark:from-blue-900/40 dark:to-blue-800/40',
+        iconColor: 'text-blue-600 dark:text-blue-400',
+        iconShadow: 'shadow-sm dark:shadow-none',
     },
     danger: {
-        headerBg: 'bg-[#fff5f5]',
-        headerBorder: 'border-[#fee2e2]',
-        iconContainer: 'from-[#fee2e2] to-[#fecaca]',
-        iconColor: 'text-[#dc2626]',
-        iconShadow: 'shadow-[0_2px_8px_rgba(220,38,38,0.15)]',
+        headerBg: 'bg-red-50 dark:bg-red-900/20',
+        headerBorder: 'border-red-100 dark:border-red-900/30',
+        iconContainer: 'from-red-100 to-red-200 dark:from-red-900/40 dark:to-red-800/40',
+        iconColor: 'text-red-600 dark:text-red-400',
+        iconShadow: 'shadow-sm dark:shadow-none',
     },
     warning: {
-        headerBg: 'bg-[#fff8ed]',
-        headerBorder: 'border-[#fef3c7]',
-        iconContainer: 'from-[#fef3c7] to-[#fde68a]',
-        iconColor: 'text-[#d97706]',
-        iconShadow: 'shadow-[0_2px_8px_rgba(217,119,6,0.15)]',
+        headerBg: 'bg-amber-50 dark:bg-amber-900/20',
+        headerBorder: 'border-amber-100 dark:border-amber-900/30',
+        iconContainer: 'from-amber-100 to-amber-200 dark:from-amber-900/40 dark:to-amber-800/40',
+        iconColor: 'text-amber-600 dark:text-amber-400',
+        iconShadow: 'shadow-sm dark:shadow-none',
     },
     info: {
-        headerBg: 'bg-[#f8fafc]',
-        headerBorder: 'border-[#f1f5f9]',
-        iconContainer: 'from-[#f1f5f9] to-[#e2e8f0]',
-        iconColor: 'text-[#475569]',
-        iconShadow: 'shadow-[0_2px_8px_rgba(71,85,105,0.1)]',
+        headerBg: 'bg-slate-50 dark:bg-slate-800/50',
+        headerBorder: 'border-slate-100 dark:border-slate-700',
+        iconContainer: 'from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-600',
+        iconColor: 'text-slate-600 dark:text-slate-300',
+        iconShadow: 'shadow-sm dark:shadow-none',
     }
 };
 
@@ -69,7 +69,7 @@ export const Modal = ({
         <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
             <DialogContent
                 className={cn(
-                    "p-0 overflow-hidden border-none bg-white shadow-[0_32px_80px_rgba(0,0,0,0.35)] rounded-[20px] w-[calc(100%-2rem)] mx-auto sm:w-full",
+                    "p-0 overflow-hidden border border-slate-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-[0_32px_80px_rgba(0,0,0,0.35)] dark:shadow-black rounded-[20px] w-[calc(100%-2rem)] mx-auto sm:w-full",
                     className || 'sm:max-w-md'
                 )}
             >
@@ -86,14 +86,14 @@ export const Modal = ({
                     )}
 
                     <h2
-                        className="text-[24px] font-bold text-[#1a1410] leading-tight mb-2"
+                        className="text-[24px] font-bold text-slate-900 dark:text-white leading-tight mb-2"
                         style={{ fontFamily: "'Instrument Serif', serif" }}
                     >
                         {title}
                     </h2>
 
                     {description && (
-                        <p className="text-[14px] text-[#64748b] leading-relaxed max-w-[280px]">
+                        <p className="text-[14px] text-slate-500 dark:text-slate-400 leading-relaxed max-w-[280px]">
                             {description}
                         </p>
                     )}

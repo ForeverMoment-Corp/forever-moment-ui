@@ -6,10 +6,13 @@ import './sass/app.scss';
 import { store } from '@/store/store';
 import { router } from './router';
 import { Toaster } from 'react-hot-toast';
+import { ThemeProvider } from '@/context/ThemeContext';
 
 createRoot(document.getElementById('root')!).render(
-  <Provider store={store}>
-    <RouterProvider router={router} />
-    <Toaster position="top-right" />
-  </Provider>
+  <ThemeProvider>
+    <Provider store={store}>
+      <RouterProvider router={router} />
+      <Toaster position="top-right" />
+    </Provider>
+  </ThemeProvider>
 );

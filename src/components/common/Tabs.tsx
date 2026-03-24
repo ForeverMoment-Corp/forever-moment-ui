@@ -24,7 +24,7 @@ export const Tabs = ({ tabs, activeTab, onTabChange, variant = "vertical", class
                         className={cn(
                             "bg-transparent border-none border-b-2 py-4 text-[13.5px] cursor-pointer transition-all tracking-wide -mb-[1px]",
                             activeTab === t.id
-                                ? "border-blue-600 text-blue-600 dark:text-blue-400 font-semibold"
+                                ? "border-[var(--accent)] text-[var(--accent)] font-semibold"
                                 : "border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 font-medium"
                         )}
                     >
@@ -44,12 +44,12 @@ export const Tabs = ({ tabs, activeTab, onTabChange, variant = "vertical", class
                     className={cn(
                         "flex items-center gap-2 px-3 py-2.5 rounded-lg text-[12.5px] font-medium transition-all text-left w-full relative",
                         activeTab === t.id
-                            ? "bg-white dark:bg-gray-800 text-violet-700 dark:text-violet-400 font-semibold shadow-sm"
+                            ? "bg-white dark:bg-gray-800 text-[var(--accent)] font-semibold shadow-sm"
                             : "text-slate-500 hover:bg-white/70 dark:hover:bg-gray-800/50 hover:text-slate-700 dark:hover:text-slate-300"
                     )}
                 >
                     {activeTab === t.id && (
-                        <span className="absolute left-1.5 w-0.5 h-4 bg-violet-600 dark:bg-violet-500 rounded-full" />
+                        <span className="absolute left-1.5 w-0.5 h-4 rounded-full" style={{ background: 'var(--accent)' }} />
                     )}
                     <span className={activeTab === t.id ? "ml-2" : ""}>{t.label}</span>
                 </button>
