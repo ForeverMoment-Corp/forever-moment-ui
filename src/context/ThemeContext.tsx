@@ -11,56 +11,41 @@ export interface AccentColor {
     foreground: string;  // Text on accent bg
 }
 
-export const ACCENT_PRESETS: AccentColor[] = [
-    {
-        name: 'Violet',
-        value: '#6c63ff',
-        hover: '#5a52e8',
-        light: '#ede9ff',
-        ring: 'rgba(108,99,255,0.25)',
-        foreground: '#ffffff',
-    },
-    {
-        name: 'Blue',
-        value: '#3b82f6',
-        hover: '#2563eb',
-        light: '#dbeafe',
-        ring: 'rgba(59,130,246,0.25)',
-        foreground: '#ffffff',
-    },
-    {
-        name: 'Emerald',
-        value: '#10b981',
-        hover: '#059669',
-        light: '#d1fae5',
-        ring: 'rgba(16,185,129,0.25)',
-        foreground: '#ffffff',
-    },
-    {
-        name: 'Rose',
-        value: '#f43f5e',
-        hover: '#e11d48',
-        light: '#ffe4e6',
-        ring: 'rgba(244,63,94,0.25)',
-        foreground: '#ffffff',
-    },
-    {
-        name: 'Amber',
-        value: '#f59e0b',
-        hover: '#d97706',
-        light: '#fef3c7',
-        ring: 'rgba(245,158,11,0.25)',
-        foreground: '#ffffff',
-    },
-    {
-        name: 'Slate',
-        value: '#475569',
-        hover: '#334155',
-        light: '#f1f5f9',
-        ring: 'rgba(71,85,105,0.25)',
-        foreground: '#ffffff',
-    },
+export const COLOR_FAMILIES = [
+    { name: 'Violet', shades: ['#c084fc', '#8b5cf6', '#7c3aed'] },
+    { name: 'Blue', shades: ['#60a5fa', '#3b82f6', '#2563eb'] },
+    { name: 'Emerald', shades: ['#34d399', '#10b981', '#059669'] },
+    { name: 'Rose', shades: ['#fb7185', '#f43f5e', '#e11d48'] },
+    { name: 'Amber', shades: ['#fbbf24', '#f59e0b', '#d97706'] },
+    { name: 'Slate', shades: ['#94a3b8', '#64748b', '#475569'] },
 ];
+
+export function generateCustomAccent(hex: string): AccentColor {
+    // Basic validation fallback
+    if (!/^#[0-9A-F]{6}$/i.test(hex)) {
+        return generateCustomAccent('#8b5cf6'); // Default Violet-500
+    }
+    
+    // Parse RGB
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    
+    // Darken for hover (multiply by 0.8)
+    const hoverR = Math.floor(r * 0.8);
+    const hoverG = Math.floor(g * 0.8);
+    const hoverB = Math.floor(b * 0.8);
+    const hoverHex = `#${(1 << 24 | hoverR << 16 | hoverG << 8 | hoverB).toString(16).slice(1)}`;
+    
+    return {
+        name: 'Custom',
+        value: hex,
+        hover: hoverHex,
+        light: `rgba(${r}, ${g}, ${b}, 0.15)`,
+        ring: `rgba(${r}, ${g}, ${b}, 0.25)`,
+        foreground: '#ffffff'
+    };
+}
 
 interface ThemeContextType {
     mode: ThemeMode;
@@ -93,6 +78,8 @@ function applyAccent(accent: AccentColor) {
     root.style.setProperty('--accent-foreground', accent.foreground);
 }
 
+
+
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const [mode, setModeState] = useState<ThemeMode>(() => {
         const saved = localStorage.getItem(STORAGE_KEY_MODE);
@@ -107,13 +94,18 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         if (saved) {
             try {
                 const parsed = JSON.parse(saved);
-                const match = ACCENT_PRESETS.find(p => p.name === parsed.name);
-                return match || ACCENT_PRESETS[0];
+                if (parsed.value) {
+                    const loaded = generateCustomAccent(parsed.value);
+                    loaded.name = parsed.name || 'Custom';
+                    return loaded;
+                }
             } catch {
-                return ACCENT_PRESETS[0];
+                // Ignore parse errors and fallback
             }
         }
-        return ACCENT_PRESETS[0]; // Default: Violet
+        const defaultGen = generateCustomAccent('#8b5cf6');
+        defaultGen.name = 'Violet';
+        return defaultGen;
     });
 
     // Apply on mount and when mode/accent changes
@@ -124,7 +116,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
     useEffect(() => {
         applyAccent(accent);
-        localStorage.setItem(STORAGE_KEY_ACCENT, JSON.stringify({ name: accent.name }));
+        if (accent.name === 'Custom') {
+            localStorage.setItem(STORAGE_KEY_ACCENT, JSON.stringify({ name: 'Custom', value: accent.value }));
+        } else {
+            localStorage.setItem(STORAGE_KEY_ACCENT, JSON.stringify({ name: accent.name }));
+        }
     }, [accent]);
 
     const setMode = useCallback((m: ThemeMode) => setModeState(m), []);
