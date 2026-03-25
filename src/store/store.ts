@@ -16,6 +16,23 @@ import { cancellationPolicyReducer } from '@/features/cancellationPolicy/store/r
 import { addonReducer } from '@/features/addon/store/reducer';
 import { imageReducer } from '@/features/images/store/reducer';
 import { bookingsReducer } from '@/features/bookings/store/reducer';
+import { customerReducer } from '@/features/customers/store/reducer';
+import { paymentReducer } from '@/features/payments/store/reducer';
+import { promotionReducer } from '@/features/promotions/store/reducer';
+import { reviewReducer } from '@/features/reviews/store/reducer';
+import { reportReducer } from '@/features/reports/store/reducer';
+import { inventoryReducer } from '@/features/inventory/store/reducer';
+import { paymentPayoutReducer } from '@/features/payouts/store/reducer';
+import { notificationReducer } from '@/features/notifications/store/reducer';
+import { helpdeskReducer } from '@/features/helpdesk/store/reducer';
+import { surveyReducer } from '@/features/surveys/store/reducer';
+import { campaignReducer } from '@/features/campaigns/store/reducer';
+import { invoiceReducer } from '@/features/invoices/store/reducer';
+import { refundReducer } from '@/features/refunds/store/reducer';
+import { waitlistReducer } from '@/features/waitlist/store/reducer';
+import { timelineReducer } from '@/features/calendar-timeline/store/reducer';
+import { logsReducer } from '@/features/activity-logs/store/reducer';
+import { cmsReducer } from '@/features/cms/store/reducer';
 
 export const store = configureStore({
   reducer: {
@@ -36,6 +53,23 @@ export const store = configureStore({
     addon: addonReducer,
     image: imageReducer,
     bookings: bookingsReducer,
+    customers: customerReducer,
+    payments: paymentReducer,
+    promotions: promotionReducer,
+    reviews: reviewReducer,
+    reports: reportReducer,
+    inventory: inventoryReducer,
+    payouts: paymentPayoutReducer,
+    notifications: notificationReducer,
+    helpdesk: helpdeskReducer,
+    surveys: surveyReducer,
+    campaigns: campaignReducer,
+    invoices: invoiceReducer,
+    refunds: refundReducer,
+    waitlist: waitlistReducer,
+    timeline: timelineReducer,
+    logs: logsReducer,
+    cms: cmsReducer,
   },
 });
 

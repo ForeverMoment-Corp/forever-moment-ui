@@ -1,0 +1,5 @@
+export const GET_CAMPAIGNS_DATA = 'campaigns/GET_CAMPAIGNS_DATA';
+export const GET_CAMPAIGNS_DATA_SUCCESS = 'campaigns/GET_CAMPAIGNS_DATA_SUCCESS';
+export const GET_CAMPAIGNS_DATA_FAILURE = 'campaigns/GET_CAMPAIGNS_DATA_FAILURE';
+
+export const RESET_STATUS = 'campaigns/RESET_STATUS';

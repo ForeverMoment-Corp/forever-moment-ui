@@ -1,0 +1,5 @@
+export const GET_INVOICES_DATA = 'invoices/GET_INVOICES_DATA';
+export const GET_INVOICES_DATA_SUCCESS = 'invoices/GET_INVOICES_DATA_SUCCESS';
+export const GET_INVOICES_DATA_FAILURE = 'invoices/GET_INVOICES_DATA_FAILURE';
+
+export const RESET_STATUS = 'invoices/RESET_STATUS';

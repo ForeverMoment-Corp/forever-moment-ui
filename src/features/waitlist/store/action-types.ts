@@ -1,0 +1,5 @@
+export const GET_WAITLIST_DATA = 'waitlist/GET_WAITLIST_DATA';
+export const GET_WAITLIST_DATA_SUCCESS = 'waitlist/GET_WAITLIST_DATA_SUCCESS';
+export const GET_WAITLIST_DATA_FAILURE = 'waitlist/GET_WAITLIST_DATA_FAILURE';
+
+export const RESET_STATUS = 'waitlist/RESET_STATUS';

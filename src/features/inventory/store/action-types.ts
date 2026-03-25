@@ -1,0 +1,5 @@
+export const GET_INVENTORY_DATA = 'inventory/GET_INVENTORY_DATA';
+export const GET_INVENTORY_DATA_SUCCESS = 'inventory/GET_INVENTORY_DATA_SUCCESS';
+export const GET_INVENTORY_DATA_FAILURE = 'inventory/GET_INVENTORY_DATA_FAILURE';
+
+export const RESET_STATUS = 'inventory/RESET_STATUS';

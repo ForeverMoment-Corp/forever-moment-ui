@@ -1,0 +1,5 @@
+export const GET_PAYOUTS_DATA = 'payouts/GET_PAYOUTS_DATA';
+export const GET_PAYOUTS_DATA_SUCCESS = 'payouts/GET_PAYOUTS_DATA_SUCCESS';
+export const GET_PAYOUTS_DATA_FAILURE = 'payouts/GET_PAYOUTS_DATA_FAILURE';
+
+export const RESET_STATUS = 'payouts/RESET_STATUS';

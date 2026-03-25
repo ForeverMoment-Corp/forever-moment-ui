@@ -1,0 +1,5 @@
+export const GET_TIMELINE_DATA = 'timeline/GET_TIMELINE_DATA';
+export const GET_TIMELINE_DATA_SUCCESS = 'timeline/GET_TIMELINE_DATA_SUCCESS';
+export const GET_TIMELINE_DATA_FAILURE = 'timeline/GET_TIMELINE_DATA_FAILURE';
+
+export const RESET_STATUS = 'timeline/RESET_STATUS';

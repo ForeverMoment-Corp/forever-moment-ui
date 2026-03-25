@@ -1,0 +1,5 @@
+export const GET_REFUNDS_DATA = 'refunds/GET_REFUNDS_DATA';
+export const GET_REFUNDS_DATA_SUCCESS = 'refunds/GET_REFUNDS_DATA_SUCCESS';
+export const GET_REFUNDS_DATA_FAILURE = 'refunds/GET_REFUNDS_DATA_FAILURE';
+
+export const RESET_STATUS = 'refunds/RESET_STATUS';

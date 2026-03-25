@@ -1,0 +1,5 @@
+export const GET_SURVEYS_DATA = 'surveys/GET_SURVEYS_DATA';
+export const GET_SURVEYS_DATA_SUCCESS = 'surveys/GET_SURVEYS_DATA_SUCCESS';
+export const GET_SURVEYS_DATA_FAILURE = 'surveys/GET_SURVEYS_DATA_FAILURE';
+
+export const RESET_STATUS = 'surveys/RESET_STATUS';
