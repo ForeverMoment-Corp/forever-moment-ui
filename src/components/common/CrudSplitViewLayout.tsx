@@ -210,17 +210,44 @@ export function CrudSplitViewLayout<T>({
 
                     {/* Table Card */}
                     <div
-                        className="bg-white dark:bg-gray-900 rounded-2xl overflow-hidden flex flex-col border border-slate-200 dark:border-gray-800 shadow-sm"
+                        className="bg-white dark:bg-gray-900 md:rounded-2xl rounded-xl overflow-hidden flex flex-col md:border border-slate-200 dark:border-gray-800 md:shadow-sm"
                     >
-                        <DataTable
-                            data={filtered}
-                            columns={columns}
-                            keyExtractor={keyExtractor}
-                            onRowClick={handleItemClick}
-                            loading={loading && (!data || data.length === 0)}
-                            onReorder={(search === "" && Object.keys(activeFilters).length === 0) ? onDragReorder : undefined}
-                            draggable={(search === "" && Object.keys(activeFilters).length === 0) && !!onDragReorder}
-                        />
+                        {/* Desktop Table View */}
+                        <div className="hidden md:block">
+                            <DataTable
+                                data={filtered}
+                                columns={columns}
+                                keyExtractor={keyExtractor}
+                                onRowClick={handleItemClick}
+                                loading={loading && (!data || data.length === 0)}
+                                onReorder={(search === "" && Object.keys(activeFilters).length === 0) ? onDragReorder : undefined}
+                                draggable={(search === "" && Object.keys(activeFilters).length === 0) && !!onDragReorder}
+                            />
+                        </div>
+
+                        {/* Mobile Card View (Option B) */}
+                        <div className="block md:hidden p-2 space-y-2">
+                            {loading && (!data || data.length === 0) ? (
+                                Array.from({ length: 5 }).map((_, i) => (
+                                    <div key={`mob-skeleton-${i}`} className="h-[72px] bg-slate-100 dark:bg-gray-800 animate-pulse rounded-xl w-full" />
+                                ))
+                            ) : filtered.length > 0 ? (
+                                filtered.map((item: T) => (
+                                    <div 
+                                        key={keyExtractor(item)} 
+                                        onClick={() => handleItemClick(item)}
+                                        className="bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden shadow-sm"
+                                    >
+                                        {renderListItem(item, false)}
+                                    </div>
+                                ))
+                            ) : (
+                                <div className="text-center py-10 px-5 text-slate-400">
+                                    <div className="text-3xl mb-2 opacity-40">{emptyStateIcon}</div>
+                                    <div className="text-sm font-medium">No {pluralName.toLowerCase()} found</div>
+                                </div>
+                            )}
+                        </div>
 
                         {/* Table Footer with Pagination */}
                         {!loading && data && data.length > 0 && (
@@ -378,7 +405,7 @@ export function CrudSplitViewLayout<T>({
                                 </button>
                                 {renderCustomDetailsHeader && selectedItem && renderCustomDetailsHeader(selectedItem)}
                                 {/* Tab Content */}
-                                <div className="flex-1 min-h-0 overflow-y-auto p-8 pt-4 relative">
+                                <div className="flex-1 min-h-0 overflow-y-auto p-5 md:p-8 pt-4 relative">
                                     <div className="max-w-4xl flex flex-col w-full">
                                         {selectedItem && renderDetailsPanel(selectedItem, tab, { isDirty, handleDirtyChange })}
                                     </div>

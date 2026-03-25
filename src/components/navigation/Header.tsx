@@ -64,7 +64,7 @@ const Header = ({ onToggleSidebar }: HeaderProps) => {
     const confirmLogout = () => { dispatch(logout()); navigate('/login'); setShowLogoutModal(false); };
 
     return (
-        <header className='h-16 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between px-7 sticky top-0 z-10 shrink-0'>
+        <header className='h-16 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between px-4 md:px-7 sticky top-0 z-10 shrink-0'>
             {/* Breadcrumb */}
             <div className="flex items-center gap-1">
                 <button onClick={onToggleSidebar} className="p-1.5 -ml-1.5 mr-1 text-gray-400 hover:text-gray-600 md:hidden">

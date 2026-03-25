@@ -185,7 +185,7 @@ const Sidebar = ({ isOpen, onToggle }: SidebarProps) => {
                 </button>
 
                 {/* Navigation */}
-                <nav className='flex-1 p-3 overflow-y-auto no-scrollbar'>
+                <nav className='flex-1 p-3 overflow-y-auto custom-scrollbar'>
                     {sidebarItems.map(item => renderItem(item))}
                 </nav>
 
