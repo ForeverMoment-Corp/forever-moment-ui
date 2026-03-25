@@ -4,6 +4,7 @@ import { format } from 'date-fns';
 import { cn } from '@/utils/cn';
 import { RowActions } from '@/components/common/RowActions';
 import { ImageDetails } from './ImageDetails';
+import { ImagePreview } from './ImagePreview';
 import { getImageUrl, getImageByStorageNameUrl, getMediaAssetUrl } from '@/features/images/store/api';
 import { CrudSplitViewLayout } from '@/components/common/CrudSplitViewLayout';
 import { TABS } from '@/config/constants';
@@ -167,12 +168,16 @@ export const ImageSplitView = ({
     const renderDetailsPanel = useCallback((image: any, activeTab: string, _dirtyState: any) => {
         if (activeTab === TABS.DETAILS.id) {
             return (
-                <ImageDetails
-                    image={image}
-                    metadata={currentMetadata}
-                    previewUrl={currentPreviewUrl}
-                    onDownload={onDownloadClick}
-                />
+                <div className="flex flex-col h-full">
+                    <div className="flex-1 overflow-y-auto">
+                        <ImageDetails
+                            image={image}
+                            metadata={currentMetadata}
+                            previewUrl={currentPreviewUrl}
+                            onDownload={onDownloadClick}
+                        />
+                    </div>
+                </div>
             );
         }
         return null;
