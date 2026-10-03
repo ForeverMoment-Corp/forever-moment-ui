@@ -6,9 +6,17 @@ const initialState = {
     error: null,
     status: 'IDLE',
 
-    attachedLocations: [],
-    loadingLocations: false,
-    locationError: null,
+
+    /** Images attached to the currently selected sub-category. */
+    subCategoryMedia: [] as any[],
+    /** Sub-category id `subCategoryMedia` belongs to (or is being fetched for). */
+    subCategoryMediaFor: null as number | null,
+    mediaLoading: false,
+    /**
+     * Media errors are kept out of `error` on purpose: the page toasts every change
+     * of `error`, and the gallery already reports its own failures.
+     */
+    mediaError: null as string | null,
 };
 
 export const subCategoryReducer = (state = initialState, action: any) => {
@@ -61,12 +69,67 @@ export const subCategoryReducer = (state = initialState, action: any) => {
         case types.RESET_STATUS:
             return { ...state, status: 'IDLE', error: null };
 
-        case types.GET_SUB_CATEGORY_LOCATIONS:
-            return { ...state, loadingLocations: true };
-        case types.GET_SUB_CATEGORY_LOCATIONS_SUCCESS:
-            return { ...state, loadingLocations: false, attachedLocations: Array.isArray(action.payload) ? action.payload : [] };
-        case types.GET_SUB_CATEGORY_LOCATIONS_FAILURE:
-            return { ...state, loadingLocations: false, locationError: action.payload };
+
+        // ── Sub-category media ───────────────────────────────────────────────
+        // Media loading is tracked separately from `loading` so fetching a
+        // sub-category's images never puts the sub-category list into its loading state.
+        case types.GET_SUB_CATEGORY_MEDIA: {
+            const requestedFor = action.meta?.subCategoryId ?? state.subCategoryMediaFor;
+            const switching = requestedFor != null && requestedFor !== state.subCategoryMediaFor;
+            return {
+                ...state,
+                mediaLoading: true,
+                mediaError: null,
+                subCategoryMediaFor: requestedFor,
+                // Never show another sub-category's images while this one loads.
+                subCategoryMedia: switching ? [] : state.subCategoryMedia,
+            };
+        }
+        case types.GET_SUB_CATEGORY_MEDIA_SUCCESS: {
+            const responseFor = action.meta?.subCategoryId;
+            // Ignore a late response for a sub-category the user has already left.
+            if (responseFor != null && state.subCategoryMediaFor != null && responseFor !== state.subCategoryMediaFor) {
+                return state;
+            }
+            return { ...state, mediaLoading: false, subCategoryMedia: Array.isArray(action.payload) ? action.payload : [] };
+        }
+
+        case types.ATTACH_SUB_CATEGORY_MEDIA:
+        case types.DETACH_SUB_CATEGORY_MEDIA:
+        case types.UPDATE_SUB_CATEGORY_MEDIA:
+        case types.TOGGLE_SUB_CATEGORY_MEDIA_ACTIVE:
+        case types.SET_PRIMARY_SUB_CATEGORY_MEDIA:
+        case types.UPLOAD_SUB_CATEGORY_MEDIA:
+            return { ...state, mediaLoading: true, mediaError: null };
+
+        case types.ATTACH_SUB_CATEGORY_MEDIA_SUCCESS:
+        case types.DETACH_SUB_CATEGORY_MEDIA_SUCCESS:
+        case types.UPDATE_SUB_CATEGORY_MEDIA_SUCCESS:
+        case types.TOGGLE_SUB_CATEGORY_MEDIA_ACTIVE_SUCCESS:
+        case types.UPLOAD_SUB_CATEGORY_MEDIA_SUCCESS:
+            return { ...state, mediaLoading: false };
+
+        case types.SET_PRIMARY_SUB_CATEGORY_MEDIA_SUCCESS: {
+            const updated = action.payload;
+            const list = Array.isArray(state.subCategoryMedia) ? state.subCategoryMedia : [];
+            return {
+                ...state,
+                mediaLoading: false,
+                subCategoryMedia: list.map((sm: any) => ({
+                    ...sm,
+                    isPrimary: updated?.mediaId != null ? sm.mediaId === updated.mediaId : sm.isPrimary,
+                })),
+            };
+        }
+
+        case types.GET_SUB_CATEGORY_MEDIA_FAILURE:
+        case types.ATTACH_SUB_CATEGORY_MEDIA_FAILURE:
+        case types.DETACH_SUB_CATEGORY_MEDIA_FAILURE:
+        case types.UPDATE_SUB_CATEGORY_MEDIA_FAILURE:
+        case types.TOGGLE_SUB_CATEGORY_MEDIA_ACTIVE_FAILURE:
+        case types.SET_PRIMARY_SUB_CATEGORY_MEDIA_FAILURE:
+        case types.UPLOAD_SUB_CATEGORY_MEDIA_FAILURE:
+            return { ...state, mediaLoading: false, mediaError: action.payload };
 
         default:
             return state;

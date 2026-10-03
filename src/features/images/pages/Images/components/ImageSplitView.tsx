@@ -5,7 +5,7 @@ import { cn } from '@/utils/cn';
 import { RowActions } from '@/components/common/RowActions';
 import { ImageDetails } from './ImageDetails';
 import { ImagePreview } from './ImagePreview';
-import { getImageUrl, getImageByStorageNameUrl, getMediaAssetUrl } from '@/features/images/store/api';
+import { getImageUrl, getImageByStorageNameUrl, getImageSources } from '@/features/images/store/api';
 import { CrudSplitViewLayout } from '@/components/common/CrudSplitViewLayout';
 import { TABS } from '@/config/constants';
 
@@ -15,7 +15,7 @@ interface ImageSplitViewProps {
     onDeleteClick: (id: string) => void;
     selectedImage: any;
     onSelectImage: (img: any) => void;
-    onDownloadClick: (id: string, fileName: string) => void;
+    onDownloadClick: (id: string, fileName?: string, sourceUrl?: string) => void;
     currentMetadata: any;
     currentPreviewUrl: any;
     loading: boolean;
@@ -43,13 +43,15 @@ export const ImageSplitView = ({
     const getImageSize = (img: any) => img.fileSizeBytes || img.size || 0;
     const getThumbnailSrc = (img: any) => {
         if (!img) return '';
-        if (img.thumbnailUrl) return getMediaAssetUrl(img.thumbnailUrl);
-        if (img.url) return getMediaAssetUrl(img.url);
-        // Use the fetch-by-storageFileName endpoint which is the reliable path
+        // thumbnailUrl -> mediaUrl -> url (resolved against the API origin, not re-prefixed)
+        const { thumbnail } = getImageSources(img);
+        if (thumbnail) return thumbnail;
+        // Legacy fallbacks for records without direct media URLs
         if (img.storageFileName) return getImageByStorageNameUrl(img.storageFileName);
         if (img.id) return getImageUrl(String(img.id));
         return '';
     };
+    const handleDownload = (img: any) => onDownloadClick(img.id, img.fileName, img.originalUrl);
 
     const columns = [
         {
@@ -73,7 +75,16 @@ export const ImageSplitView = ({
             header: 'File Name',
             accessorKey: 'fileName',
             className: 'w-[30%] min-w-[200px] py-1.5 px-4 text-left font-semibold text-slate-900 dark:text-white',
-            render: (img: any) => <span>{img.fileName}</span>
+            render: (img: any) => (
+                <div className="flex items-center gap-2 min-w-0">
+                    <span className="truncate">{img.fileName}</span>
+                    {img.active === false && (
+                        <span className="px-1.5 py-0.5 rounded bg-red-50 dark:bg-red-900/30 text-[10px] font-bold text-red-600 dark:text-red-400 uppercase tracking-wider border border-red-200 dark:border-red-800 shrink-0">
+                            Inactive
+                        </span>
+                    )}
+                </div>
+            )
         },
         {
             header: 'Size',
@@ -106,7 +117,7 @@ export const ImageSplitView = ({
             render: (img: any) => (
                 <div className="flex justify-end gap-2" onClick={(e) => e.stopPropagation()}>
                     <button
-                        onClick={() => onDownloadClick(img.id, img.fileName)}
+                        onClick={() => handleDownload(img)}
                         className="p-1.5 text-[var(--accent)] hover:bg-[var(--accent-light)] rounded transition-colors"
                         title="Download Image"
                     >
@@ -147,7 +158,14 @@ export const ImageSplitView = ({
                     <div className={cn(
                         "font-semibold text-[13px] truncate mb-0.5 transition-colors",
                         isSelected ? "text-[var(--accent)]" : "text-slate-900 dark:text-slate-100 group-hover:text-[var(--accent)]"
-                    )}>{img.fileName}</div>
+                    )}>
+                        {img.fileName}
+                        {img.active === false && (
+                            <span className="ml-2 px-1.5 py-0.5 rounded bg-red-50 dark:bg-red-900/30 text-[9px] font-bold text-red-600 dark:text-red-400 uppercase tracking-wider border border-red-200 dark:border-red-800">
+                                Inactive
+                            </span>
+                        )}
+                    </div>
                     <div className="text-[11px] text-slate-400 dark:text-slate-500 flex items-center gap-2">
                         <span>{formatSize(getImageSize(img))}</span>
                         <span className="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-600" />
@@ -155,7 +173,7 @@ export const ImageSplitView = ({
                     </div>
                 </div>
                 <button
-                    onClick={(e) => { e.stopPropagation(); onDownloadClick(img.id, img.fileName); }}
+                    onClick={(e) => { e.stopPropagation(); onDownloadClick(img.id, img.fileName, img.originalUrl); }}
                     className="p-1.5 text-slate-400 hover:text-[var(--accent)] hover:bg-[var(--accent-light)] rounded-md transition-all opacity-0 group-hover:opacity-100"
                     title="Quick Download"
                 >
@@ -186,10 +204,17 @@ export const ImageSplitView = ({
     const customFilter = useCallback((img: any, activeFilters: Record<string, string[]>) => {
         let matchType = true;
         if (activeFilters.type && activeFilters.type.length > 0) {
-            const ext = getImageType(img)?.split('/')[1] || '';
-            matchType = activeFilters.type.includes(ext.toLowerCase());
+            const ext = (getImageType(img)?.split('/')[1] || '').toLowerCase();
+            // treat jpg and jpeg as the same filter value
+            const normalized = ext === 'jpg' ? 'jpeg' : ext;
+            matchType = activeFilters.type.includes(normalized);
         }
-        return matchType;
+        let matchStatus = true;
+        if (activeFilters.status && activeFilters.status.length > 0) {
+            const status = img.active === false ? 'inactive' : 'active';
+            matchStatus = activeFilters.status.includes(status);
+        }
+        return matchType && matchStatus;
     }, []);
 
     const customSearch = useCallback((img: any, search: string) => {
@@ -216,6 +241,14 @@ export const ImageSplitView = ({
                         { id: '1', label: 'PNG', value: 'png' },
                         { id: '2', label: 'JPG/JPEG', value: 'jpeg' },
                         { id: '3', label: 'WebP', value: 'webp' },
+                    ]
+                },
+                {
+                    id: 'status',
+                    name: 'Status',
+                    options: [
+                        { id: '1', label: 'Active', value: 'active' },
+                        { id: '2', label: 'Inactive', value: 'inactive' },
                     ]
                 }
             ]}

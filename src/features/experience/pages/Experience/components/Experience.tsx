@@ -50,6 +50,9 @@ interface ExperienceProps {
     onToggleLocationTimeSlot: (experienceId: number, locationId: number, mapperId: number) => void;
     addons: any[];
     toggleAddon: (experienceId: number, addonId: number, isAssociate: boolean, data?: any) => Promise<any>;
+    experienceAddons: any[];
+    addonsLoading: boolean;
+    getExperienceAddons: (experienceId: number) => Promise<any>;
     slots: any[];
     getSlotData: () => void;
     toggleExperienceActive: (id: number) => Promise<any>;
@@ -60,6 +63,10 @@ interface ExperienceProps {
     getExperienceMedia: (experienceId: number) => Promise<any>;
     bulkAttachMedia: (experienceId: number, data: { items: any[] }) => Promise<any>;
     disassociateMedia: (experienceId: number, mediaId: number) => Promise<any>;
+    setPrimaryMedia: (experienceId: number, mediaId: number, current?: any) => Promise<any>;
+    updateMediaAttachment: (experienceId: number, mediaId: number, data: any) => Promise<any>;
+    toggleMediaActive: (experienceId: number, mapperId: number) => Promise<any>;
+    uploadExperienceMedia: (experienceId: number, file: File, attach?: any, metadata?: Record<string, any>, refresh?: boolean) => Promise<any>;
 }
 
 const Experience = ({
@@ -97,6 +104,9 @@ const Experience = ({
     getAddonData,
     addons,
     toggleAddon,
+    experienceAddons,
+    addonsLoading,
+    getExperienceAddons,
     slots,
     getSlotData,
     toggleExperienceActive,
@@ -107,6 +117,10 @@ const Experience = ({
     getExperienceMedia,
     bulkAttachMedia,
     disassociateMedia,
+    setPrimaryMedia,
+    updateMediaAttachment,
+    toggleMediaActive,
+    uploadExperienceMedia,
 }: ExperienceProps) => {
 
     const [experiences, setExperiences] = useState<ExperienceType[]>([]);
@@ -273,6 +287,9 @@ const Experience = ({
                 onToggleLocationTimeSlot={onToggleLocationTimeSlot}
                 addons={addons}
                 toggleAddon={toggleAddon}
+                experienceAddons={experienceAddons}
+                addonsLoading={addonsLoading}
+                getExperienceAddons={getExperienceAddons}
                 slots={slots}
                 toggleExperienceActive={toggleExperienceActive}
                 toggleExperienceFeatured={toggleExperienceFeatured}
@@ -282,6 +299,10 @@ const Experience = ({
                 getExperienceMedia={getExperienceMedia}
                 bulkAttachMedia={bulkAttachMedia}
                 disassociateMedia={disassociateMedia}
+                setPrimaryMedia={setPrimaryMedia}
+                updateMediaAttachment={updateMediaAttachment}
+                toggleMediaActive={toggleMediaActive}
+                uploadExperienceMedia={uploadExperienceMedia}
             />
 
             <Modal

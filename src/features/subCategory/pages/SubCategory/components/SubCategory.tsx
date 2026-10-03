@@ -22,8 +22,27 @@ interface SubCategoryProps {
     associateLocation: (locationId: number, subCategoryId: number, data: any) => void;
     disassociateLocation: (locationId: number, subCategoryId: number) => void;
     resetStatus: () => void;
-    attachedLocations: any[];
-    getSubCategoryLocations: (subCategoryId: number) => void;
+    subCategoryLocationLinks: any[];
+    loadingSubCategoryLinks: boolean;
+    getSubCategoryLocationLinks: () => Promise<any>;
+
+    // Images tab — media library plus the sub-category's own attachments.
+    images: any[];
+    getImages: () => void;
+    subCategoryMedia: any[];
+    getSubCategoryMedia: (subCategoryId: number) => Promise<any>;
+    attachSubCategoryMedia: (subCategoryId: number, data: { items: any[] }) => Promise<any>;
+    detachSubCategoryMedia: (subCategoryId: number, mediaId: number) => Promise<any>;
+    updateSubCategoryMediaAttachment: (subCategoryId: number, mediaId: number, data: any) => Promise<any>;
+    toggleSubCategoryMediaActive: (subCategoryId: number, mapperId: number) => Promise<any>;
+    setPrimarySubCategoryMedia: (subCategoryId: number, mediaId: number, current?: any) => Promise<any>;
+    uploadSubCategoryMedia: (
+        subCategoryId: number,
+        file: File,
+        attach?: { displayOrder?: number; isPrimary?: boolean; altText?: string; isActive?: boolean },
+        metadata?: Record<string, any>,
+        refresh?: boolean
+    ) => Promise<any>;
 }
 
 export interface SubCategoryType {
@@ -52,8 +71,19 @@ const SubCategory = ({
     associateLocation,
     disassociateLocation,
     resetStatus,
-    attachedLocations,
-    getSubCategoryLocations
+    subCategoryLocationLinks,
+    loadingSubCategoryLinks,
+    getSubCategoryLocationLinks,
+    images,
+    getImages,
+    subCategoryMedia,
+    getSubCategoryMedia,
+    attachSubCategoryMedia,
+    detachSubCategoryMedia,
+    updateSubCategoryMediaAttachment,
+    toggleSubCategoryMediaActive,
+    setPrimarySubCategoryMedia,
+    uploadSubCategoryMedia
 }: SubCategoryProps) => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -97,15 +127,14 @@ const SubCategory = ({
             setIsDeleteModalOpen(false);
             setDeleteId(null);
         } else if (status === types.ASSOCIATE_LOCATION_SUCCESS) {
+            // The tab rebuilds the association index itself; this only reports the write.
             toast.success('Location associated successfully');
             resetStatus();
-            if (selectedSubCategory) getSubCategoryLocations(selectedSubCategory.id);
         } else if (status === types.DISASSOCIATE_LOCATION_SUCCESS) {
             toast.success('Location disassociated successfully');
             resetStatus();
-            if (selectedSubCategory) getSubCategoryLocations(selectedSubCategory.id);
         }
-    }, [status, resetStatus, selectedSubCategory, getSubCategoryLocations]);
+    }, [status, resetStatus]);
 
 
     useEffect(() => {
@@ -176,8 +205,20 @@ const SubCategory = ({
                 updateSubCategory={updateSubCategory}
                 associateLocation={associateLocation}
                 disassociateLocation={disassociateLocation}
-                attachedLocations={attachedLocations}
-                getSubCategoryLocations={getSubCategoryLocations}
+                getLocationData={getLocationData}
+                subCategoryLocationLinks={subCategoryLocationLinks}
+                loadingSubCategoryLinks={loadingSubCategoryLinks}
+                getSubCategoryLocationLinks={getSubCategoryLocationLinks}
+                images={images}
+                getImages={getImages}
+                subCategoryMedia={subCategoryMedia}
+                getSubCategoryMedia={getSubCategoryMedia}
+                attachSubCategoryMedia={attachSubCategoryMedia}
+                detachSubCategoryMedia={detachSubCategoryMedia}
+                updateSubCategoryMediaAttachment={updateSubCategoryMediaAttachment}
+                toggleSubCategoryMediaActive={toggleSubCategoryMediaActive}
+                setPrimarySubCategoryMedia={setPrimarySubCategoryMedia}
+                uploadSubCategoryMedia={uploadSubCategoryMedia}
             />
 
             <Modal

@@ -125,6 +125,38 @@ export const addonReducer = (state = initialState, action: any): AddonState => {
                 status: types.DELETE_ADDON_FAILURE,
             };
 
+        // Image upload / remove
+        case types.UPLOAD_ADDON_IMAGE_REQUEST:
+        case types.REMOVE_ADDON_IMAGE_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                error: null,
+                status: action.type,
+            };
+        case types.UPLOAD_ADDON_IMAGE_SUCCESS:
+        case types.REMOVE_ADDON_IMAGE_SUCCESS: {
+            const updated = action.payload;
+            const list = Array.isArray(state.data) ? state.data : null;
+            return {
+                ...state,
+                loading: false,
+                status: action.type,
+                // Patch the row in place so the thumbnail updates before the list refetch lands.
+                data: list && updated?.id != null
+                    ? list.map((a) => (String(a.id) === String(updated.id) ? { ...a, ...updated } : a))
+                    : list,
+            };
+        }
+        case types.UPLOAD_ADDON_IMAGE_FAILURE:
+        case types.REMOVE_ADDON_IMAGE_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload,
+                status: action.type,
+            };
+
         case types.RESET_ADDON_STATUS:
             return {
                 ...state,

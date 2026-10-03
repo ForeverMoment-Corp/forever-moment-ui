@@ -37,6 +37,9 @@ interface ExperienceSplitViewProps {
     onToggleLocationTimeSlot: (experienceId: number, locationId: number, mapperId: number) => void;
     addons: any[];
     toggleAddon: (experienceId: number, addonId: number, isAssociate: boolean, data?: any) => Promise<any>;
+    experienceAddons: any[];
+    addonsLoading?: boolean;
+    getExperienceAddons: (experienceId: number) => Promise<any>;
     slots: any[];
     toggleExperienceActive: (id: number) => Promise<any>;
     toggleExperienceFeatured: (id: number) => Promise<any>;
@@ -46,6 +49,10 @@ interface ExperienceSplitViewProps {
     getExperienceMedia: (experienceId: number) => Promise<any>;
     bulkAttachMedia: (experienceId: number, data: any) => Promise<any>;
     disassociateMedia: (experienceId: number, mediaId: number) => Promise<any>;
+    setPrimaryMedia: (experienceId: number, mediaId: number, current?: any) => Promise<any>;
+    updateMediaAttachment: (experienceId: number, mediaId: number, data: any) => Promise<any>;
+    toggleMediaActive: (experienceId: number, mapperId: number) => Promise<any>;
+    uploadExperienceMedia?: (experienceId: number, file: File, attach?: any, metadata?: Record<string, any>, refresh?: boolean) => Promise<any>;
     showStats?: boolean;
 }
 
@@ -76,6 +83,9 @@ export const ExperienceSplitView = ({
     onToggleLocationTimeSlot,
     addons,
     toggleAddon,
+    experienceAddons,
+    addonsLoading,
+    getExperienceAddons,
     slots,
     toggleExperienceActive,
     toggleExperienceFeatured,
@@ -85,6 +95,10 @@ export const ExperienceSplitView = ({
     getExperienceMedia,
     bulkAttachMedia,
     disassociateMedia,
+    setPrimaryMedia,
+    updateMediaAttachment,
+    toggleMediaActive,
+    uploadExperienceMedia,
     showStats = true
 }: ExperienceSplitViewProps) => {
 
@@ -265,9 +279,16 @@ export const ExperienceSplitView = ({
             onToggleAddon: (addonId: number, isAssociate: boolean, data?: any) => {
                 return toggleAddon(_exp.id, addonId, isAssociate, data);
             },
+            experienceAddons,
+            addonsLoading,
+            getExperienceAddons,
             getExperienceMedia,
             bulkAttachMedia,
             disassociateMedia,
+            setPrimaryMedia,
+            updateMediaAttachment,
+            toggleMediaActive,
+            uploadExperienceMedia,
             locations,
             addons,
             slots,
@@ -281,7 +302,8 @@ export const ExperienceSplitView = ({
         experienceDetail, inclusions, cancellationPolicies, subCategories, locations, addons, slots, images, experienceMedia,
         toggleCancellationPolicy, toggleInclusion, updateExperience, onAssociateLocation, onUpdateLocation, onDisassociateLocation,
         onToggleExperienceLocation, onAssociateLocationTimeSlot, onUpdateLocationTimeSlot, onDisassociateLocationTimeSlot,
-        onBulkAttachLocationTimeSlots, onToggleLocationTimeSlot, toggleAddon, getExperienceMedia, bulkAttachMedia, disassociateMedia, getImages
+        onBulkAttachLocationTimeSlots, onToggleLocationTimeSlot, toggleAddon, experienceAddons, addonsLoading, getExperienceAddons, getExperienceMedia, bulkAttachMedia, disassociateMedia,
+        setPrimaryMedia, updateMediaAttachment, toggleMediaActive, uploadExperienceMedia, getImages
     ]);
 
     const customFilter = useCallback((exp: any, activeFilters: Record<string, string[]>) => {

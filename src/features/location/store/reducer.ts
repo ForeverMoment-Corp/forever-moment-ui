@@ -18,6 +18,14 @@ const initialState = {
     categories: [],
     loadingCategories: false,
     categoryError: null,
+
+    /** Flat category ↔ location junction rows across every location. */
+    categoryLocationLinks: [] as any[],
+    loadingCategoryLinks: false,
+    /** Flat sub-category ↔ location junction rows across every location. */
+    subCategoryLocationLinks: [] as any[],
+    loadingSubCategoryLinks: false,
+    linkError: null as string | null,
 };
 
 export const locationReducer = (state = initialState, action: any) => {
@@ -95,6 +103,28 @@ export const locationReducer = (state = initialState, action: any) => {
             return { ...state, loadingCategories: false, categories: Array.isArray(action.payload) ? action.payload : [] };
         case types.GET_LOCATION_CATEGORIES_FAILURE:
             return { ...state, loadingCategories: false, categoryError: action.payload };
+
+        case types.GET_CATEGORY_LOCATION_LINKS:
+            return { ...state, loadingCategoryLinks: true, linkError: null };
+        case types.GET_CATEGORY_LOCATION_LINKS_SUCCESS:
+            return {
+                ...state,
+                loadingCategoryLinks: false,
+                categoryLocationLinks: Array.isArray(action.payload) ? action.payload : [],
+            };
+        case types.GET_CATEGORY_LOCATION_LINKS_FAILURE:
+            return { ...state, loadingCategoryLinks: false, linkError: action.payload };
+
+        case types.GET_SUB_CATEGORY_LOCATION_LINKS:
+            return { ...state, loadingSubCategoryLinks: true, linkError: null };
+        case types.GET_SUB_CATEGORY_LOCATION_LINKS_SUCCESS:
+            return {
+                ...state,
+                loadingSubCategoryLinks: false,
+                subCategoryLocationLinks: Array.isArray(action.payload) ? action.payload : [],
+            };
+        case types.GET_SUB_CATEGORY_LOCATION_LINKS_FAILURE:
+            return { ...state, loadingSubCategoryLinks: false, linkError: action.payload };
 
         default:
             return state;

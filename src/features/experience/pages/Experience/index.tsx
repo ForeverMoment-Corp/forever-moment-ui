@@ -13,11 +13,16 @@ import {
     updateExperienceLocation,
     disassociateLocation,
     toggleAddon,
+    getExperienceAddons,
     toggleExperienceActive,
     toggleExperienceFeatured,
     bulkAttachMedia,
     disassociateMedia,
     getExperienceMedia,
+    setPrimaryMedia,
+    updateMediaAttachment,
+    toggleMediaActive,
+    uploadExperienceMedia,
     associateLocationTimeSlot,
     updateLocationTimeSlot,
     disassociateLocationTimeSlot,
@@ -49,6 +54,8 @@ const mapStateToProps = (state: RootState) => ({
     slots: state.slot?.data || [],
     images: state.image?.data || [],
     experienceMedia: state.experience.experienceMedia || [],
+    experienceAddons: state.experience.experienceAddons || [],
+    addonsLoading: state.experience.addonsLoading || false,
 });
 
 const mapDispatchToProps = {
@@ -76,12 +83,17 @@ const mapDispatchToProps = {
     onToggleLocationTimeSlot: toggleLocationTimeSlot,
     getAddonData,
     toggleAddon,
+    getExperienceAddons,
     getSlotData,
     toggleExperienceActive,
     toggleExperienceFeatured,
     bulkAttachMedia,
     disassociateMedia,
     getExperienceMedia,
+    setPrimaryMedia,
+    updateMediaAttachment,
+    toggleMediaActive,
+    uploadExperienceMedia,
     getImages,
 };
 

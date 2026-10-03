@@ -1,8 +1,11 @@
 import { useCallback } from 'react';
 import { CategoryDetails } from './CategoryDetails';
 import { CategoryLocationTab } from './CategoryLocationTab';
+import { CategoryImages } from './CategoryImages';
 import { EditableStatusBadge } from '@/components/common/EditableStatusBadge';
 import { RowActions } from '@/components/common/RowActions';
+import { Image as ImageIcon } from 'lucide-react';
+import { getMediaAssetUrl } from '@/features/images/store/api';
 import { cn } from '@/utils/cn';
 import { CrudSplitViewLayout } from '@/components/common/CrudSplitViewLayout';
 import { TABS, ITEM_ID_PREFIX } from '@/config/constants';
@@ -21,8 +24,42 @@ export const CategorySplitView = ({
     locations,
     getLocationData,
     associateLocation,
-    disassociateLocation
+    disassociateLocation,
+    categoryLocationLinks,
+    loadingCategoryLinks,
+    getCategoryLocationLinks,
+    images,
+    getImages,
+    categoryMedia,
+    getCategoryMedia,
+    attachCategoryMedia,
+    detachCategoryMedia,
+    updateCategoryMediaAttachment,
+    toggleCategoryMediaActive,
+    setPrimaryCategoryMedia,
+    uploadCategoryMedia
 }: any) => {
+
+    /**
+     * Cover thumbnail from the category list response. The fields are only populated
+     * once the backend denormalises the primary image onto the category DTO, so this
+     * falls back to a placeholder icon.
+     */
+    const renderThumb = (cat: any, sizeClass: string) => {
+        const src = getMediaAssetUrl(cat.thumbnailUrl || cat.heroUrl || cat.originalUrl);
+        return (
+            <div className={cn(
+                sizeClass,
+                "rounded-[6px] overflow-hidden shrink-0 border border-slate-200/60 dark:border-slate-700 bg-[#f4f6f8] dark:bg-slate-800 flex items-center justify-center"
+            )}>
+                {src ? (
+                    <img src={src} alt={cat.name || ''} loading="lazy" className="h-full w-full object-cover" />
+                ) : (
+                    <ImageIcon size={14} className="text-slate-400" />
+                )}
+            </div>
+        );
+    };
 
     const columns = [
         {
@@ -39,6 +76,7 @@ export const CategorySplitView = ({
                             <span className="text-[12px] leading-none">📝</span>
                             {`${ITEM_ID_PREFIX}-${cat.id}`}
                         </div>
+                        {renderThumb(cat, 'h-9 w-9')}
                         <span>{cat.name}</span>
                     </div>
                 );
@@ -115,6 +153,7 @@ export const CategorySplitView = ({
                     <span className="text-[12px] leading-none">📝</span>
                     {`${ITEM_ID_PREFIX}-${cat.id}`}
                 </div>
+                {renderThumb(cat, 'h-9 w-9')}
                 <div className="flex-1 min-w-0">
                     <div className={cn(
                         "font-semibold text-[13.5px] truncate mb-0.5 transition-colors",
@@ -146,15 +185,42 @@ export const CategorySplitView = ({
                     <CategoryLocationTab
                         category={cat}
                         allLocations={locations}
+                        categoryLocationLinks={categoryLocationLinks || []}
+                        loadingLinks={loadingCategoryLinks}
                         onAssociate={associateLocation}
                         onDisassociate={disassociateLocation}
                         fetchLocations={getLocationData}
+                        fetchLinks={getCategoryLocationLinks}
+                    />
+                </div>
+            );
+        }
+        if (activeTab === TABS.IMAGES.id) {
+            return (
+                <div className="pt-2">
+                    <CategoryImages
+                        categoryId={cat.id}
+                        categoryMedia={categoryMedia || []}
+                        getCategoryMedia={getCategoryMedia}
+                        availableImages={images || []}
+                        getImages={getImages}
+                        attachCategoryMedia={attachCategoryMedia}
+                        detachCategoryMedia={detachCategoryMedia}
+                        setPrimaryCategoryMedia={setPrimaryCategoryMedia}
+                        updateCategoryMediaAttachment={updateCategoryMediaAttachment}
+                        toggleCategoryMediaActive={toggleCategoryMediaActive}
+                        uploadCategoryMedia={uploadCategoryMedia}
                     />
                 </div>
             );
         }
         return null;
-    }, [updateCategory, locations, associateLocation, disassociateLocation, getLocationData]);
+    }, [
+        updateCategory, locations, associateLocation, disassociateLocation, getLocationData,
+        categoryLocationLinks, loadingCategoryLinks, getCategoryLocationLinks,
+        categoryMedia, getCategoryMedia, images, getImages, attachCategoryMedia, detachCategoryMedia,
+        setPrimaryCategoryMedia, updateCategoryMediaAttachment, toggleCategoryMediaActive, uploadCategoryMedia
+    ]);
 
     const customFilter = useCallback((cat: any, activeFilters: Record<string, string[]>) => {
         if (activeFilters.status && activeFilters.status.length > 0) {
@@ -178,7 +244,8 @@ export const CategorySplitView = ({
             renderListItem={renderListItem}
             tabs={[
                 { id: TABS.GENERAL.id, label: TABS.GENERAL.labelShort },
-                { id: TABS.LOCATIONS.id, label: TABS.LOCATIONS.label }
+                { id: TABS.LOCATIONS.id, label: TABS.LOCATIONS.label },
+                { id: TABS.IMAGES.id, label: TABS.IMAGES.label }
             ]}
             renderDetailsPanel={renderDetailsPanel}
             searchFields={['name']}

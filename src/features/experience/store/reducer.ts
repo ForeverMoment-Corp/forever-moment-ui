@@ -7,7 +7,11 @@ const initialState = {
     error: null,
     status: 'IDLE',
     experienceMedia: [],
+    /** Experience id the current `experienceMedia` list belongs to (or is being fetched for). */
+    experienceMediaFor: null as number | null,
     primaryMedia: null,
+    experienceAddons: [],
+    addonsLoading: false,
 };
 
 export const experienceReducer = (state = initialState, action: any) => {
@@ -92,24 +96,64 @@ export const experienceReducer = (state = initialState, action: any) => {
         case types.RESET_STATUS:
             return { ...state, status: 'IDLE', error: null, selectedExperienceDetail: null };
 
+        case types.GET_EXPERIENCE_ADDONS:
+            return { ...state, addonsLoading: true, error: null };
+        case types.GET_EXPERIENCE_ADDONS_SUCCESS:
+            return { ...state, addonsLoading: false, experienceAddons: Array.isArray(action.payload) ? action.payload : [] };
+        case types.GET_EXPERIENCE_ADDONS_FAILURE:
+            return { ...state, addonsLoading: false, error: action.payload };
+
+        case types.GET_EXPERIENCE_MEDIA: {
+            const requestedFor = action.meta?.experienceId ?? state.experienceMediaFor;
+            const switching = requestedFor != null && requestedFor !== state.experienceMediaFor;
+            return {
+                ...state,
+                loading: true,
+                error: null,
+                experienceMediaFor: requestedFor,
+                // Never show another experience's images while this one loads.
+                experienceMedia: switching ? [] : state.experienceMedia,
+            };
+        }
         case types.BULK_ATTACH_MEDIA:
         case types.DISASSOCIATE_MEDIA:
-        case types.GET_EXPERIENCE_MEDIA:
         case types.ATTACH_MEDIA:
         case types.UPDATE_MEDIA_ATTACHMENT:
         case types.TOGGLE_MEDIA_ACTIVE:
         case types.GET_PRIMARY_MEDIA:
+        case types.SET_PRIMARY_MEDIA:
+        case types.UPLOAD_EXPERIENCE_MEDIA:
             return { ...state, loading: true, error: null };
+        case types.UPLOAD_EXPERIENCE_MEDIA_SUCCESS:
         case types.BULK_ATTACH_MEDIA_SUCCESS:
         case types.DISASSOCIATE_MEDIA_SUCCESS:
         case types.ATTACH_MEDIA_SUCCESS:
         case types.UPDATE_MEDIA_ATTACHMENT_SUCCESS:
         case types.TOGGLE_MEDIA_ACTIVE_SUCCESS:
             return { ...state, loading: false };
-        case types.GET_EXPERIENCE_MEDIA_SUCCESS:
-            return { ...state, loading: false, experienceMedia: action.payload };
+        case types.GET_EXPERIENCE_MEDIA_SUCCESS: {
+            const responseFor = action.meta?.experienceId;
+            // Ignore a late response for an experience the user has already left.
+            if (responseFor != null && state.experienceMediaFor != null && responseFor !== state.experienceMediaFor) {
+                return state;
+            }
+            return { ...state, loading: false, experienceMedia: Array.isArray(action.payload) ? action.payload : [] };
+        }
         case types.GET_PRIMARY_MEDIA_SUCCESS:
             return { ...state, loading: false, primaryMedia: action.payload };
+        case types.SET_PRIMARY_MEDIA_SUCCESS: {
+            const updated = action.payload;
+            const list = Array.isArray(state.experienceMedia) ? state.experienceMedia : [];
+            return {
+                ...state,
+                loading: false,
+                primaryMedia: updated,
+                experienceMedia: list.map((em: any) => ({
+                    ...em,
+                    isPrimary: updated?.mediaId != null ? em.mediaId === updated.mediaId : em.isPrimary,
+                })),
+            };
+        }
         case types.BULK_ATTACH_MEDIA_FAILURE:
         case types.DISASSOCIATE_MEDIA_FAILURE:
         case types.GET_EXPERIENCE_MEDIA_FAILURE:
@@ -117,6 +161,8 @@ export const experienceReducer = (state = initialState, action: any) => {
         case types.UPDATE_MEDIA_ATTACHMENT_FAILURE:
         case types.TOGGLE_MEDIA_ACTIVE_FAILURE:
         case types.GET_PRIMARY_MEDIA_FAILURE:
+        case types.SET_PRIMARY_MEDIA_FAILURE:
+        case types.UPLOAD_EXPERIENCE_MEDIA_FAILURE:
             return { ...state, loading: false, error: action.payload };
 
         default:

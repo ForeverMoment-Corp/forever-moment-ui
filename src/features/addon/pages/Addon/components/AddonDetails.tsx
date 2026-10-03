@@ -5,6 +5,7 @@ import { Cell, FieldGrid, FieldLabel, SectionLabel } from '@/components/common/D
 import { TabFooter } from '@/components/common/TabFooter';
 import { useUnsavedChanges } from '@/hooks/useUnsavedChanges';
 import type { AddonType } from '@/features/addon/store/action-types';
+import { NumberInput } from '@/components/common/NumberInput';
 
 interface AddonDetailsProps {
     addon: AddonType;
@@ -96,12 +97,22 @@ export const AddonDetails = ({ addon, updateAddon, onDirtyChange }: AddonDetails
                             onKeyDown={(e) => handleKeyDown(e)}
                             className="w-full text-[13px] font-medium text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 border border-blue-500 rounded-md px-2 py-1 outline-none shadow-sm focus:ring-2 focus:ring-blue-500/20 transition-all min-h-[80px] resize-none leading-relaxed"
                         />
+                    ) : fieldKey === 'basePrice' ? (
+                        <NumberInput
+                            ref={inputRef as React.RefObject<HTMLInputElement>}
+                            min="0"
+                            value={editValue as number}
+                            onChange={(e) => handleFieldUpdate(fieldKey, Number(e.target.value))}
+                            onBlur={() => setEditingField(null)}
+                            onKeyDown={(e) => handleKeyDown(e)}
+                            className="w-full text-[13px] font-medium text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 border border-blue-500 rounded-md px-2 py-1 outline-none shadow-sm focus:ring-2 focus:ring-blue-500/20 transition-all"
+                        />
                     ) : (
                         <input
                             ref={inputRef as React.RefObject<HTMLInputElement>}
-                            type={fieldKey === 'basePrice' ? 'number' : 'text'}
-                            value={editValue as string | number}
-                            onChange={(e) => handleFieldUpdate(fieldKey, fieldKey === 'basePrice' ? Number(e.target.value) : e.target.value)}
+                            type="text"
+                            value={editValue as string}
+                            onChange={(e) => handleFieldUpdate(fieldKey, e.target.value)}
                             onBlur={() => setEditingField(null)}
                             onKeyDown={(e) => handleKeyDown(e)}
                             className="w-full text-[13px] font-medium text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 border border-blue-500 rounded-md px-2 py-1 outline-none shadow-sm focus:ring-2 focus:ring-blue-500/20 transition-all"

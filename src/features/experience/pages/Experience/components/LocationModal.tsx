@@ -2,6 +2,7 @@ import React from 'react';
 import { Modal } from '@/components/common/Modal';
 import { Dropdown } from '@/components/common/Dropdown';
 import { Button } from '@/components/common/Button';
+import { NumberInput } from '@/components/common/NumberInput';
 
 interface LocationModalProps {
     isOpen: boolean;
@@ -58,8 +59,7 @@ export const LocationModal: React.FC<LocationModalProps> = ({
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
                         Price Override (₹)
                     </label>
-                    <input
-                        type="number"
+                    <NumberInput
                         min="0"
                         className="w-full bg-slate-50 dark:bg-gray-800/50 border border-slate-200 dark:border-gray-700 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500/20 text-slate-900 dark:text-white font-semibold"
                         value={formData.priceOverride}

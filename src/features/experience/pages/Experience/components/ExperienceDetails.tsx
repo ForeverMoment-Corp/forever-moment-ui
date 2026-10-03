@@ -6,6 +6,9 @@ import { CancellationPolicyTab } from './CancellationPolicyTab';
 import { LocationTab } from './LocationTab';
 import { AddonsTab } from './AddonsTab';
 import { ExperienceImages } from './ExperienceImages';
+import { RichTextEditor } from '@/components/common/RichTextEditor';
+import { RichTextContent } from '@/components/common/RichTextContent';
+import { isHtmlEmpty, htmlToPlainText } from '@/utils/html';
 import { Dropdown } from '@/components/common/Dropdown';
 import { cn } from '@/utils/cn';
 import { Cell, FieldGrid, FieldLabel, SectionLabel } from '@/components/common/DetailsLayout';
@@ -36,6 +39,9 @@ interface ExperienceDetailsProps {
     onBulkAttachLocationTimeSlots: (locationId: number, data: any) => void;
     onToggleLocationTimeSlot: (locationId: number, mapperId: number) => void;
     onToggleAddon: (addonId: number, isAssociate: boolean, data?: any) => void;
+    experienceAddons: any[];
+    addonsLoading?: boolean;
+    getExperienceAddons: (experienceId: number) => Promise<any>;
     updateExperience: (id: number, data: any) => Promise<any>;
     slots: any[];
     images: any[];
@@ -44,6 +50,10 @@ interface ExperienceDetailsProps {
     getExperienceMedia: (experienceId: number) => Promise<any>;
     bulkAttachMedia: (experienceId: number, data: { items: any[] }) => Promise<any>;
     disassociateMedia: (experienceId: number, mediaId: number) => Promise<any>;
+    setPrimaryMedia: (experienceId: number, mediaId: number, current?: any) => Promise<any>;
+    updateMediaAttachment: (experienceId: number, mediaId: number, data: any) => Promise<any>;
+    toggleMediaActive: (experienceId: number, mapperId: number) => Promise<any>;
+    uploadExperienceMedia?: (experienceId: number, file: File, attach?: any, metadata?: Record<string, any>, refresh?: boolean) => Promise<any>;
     onDirtyChange?: (isDirty: boolean, changes: any[]) => void;
 }
 
@@ -103,6 +113,17 @@ const GeneralInfoTab = ({ experience, experienceDetail, updateExperience, subCat
         fieldMapping,
         onDirtyChange
     });
+
+    // The unsaved-changes diff renders values as text, so show the description's
+    // prose rather than its markup.
+    const displayChanges = useMemo(
+        () => changes.map((change: any) => (
+            change.field === fieldMapping.description
+                ? { ...change, original: htmlToPlainText(change.original), current: htmlToPlainText(change.current) }
+                : change
+        )),
+        [changes, fieldMapping.description]
+    );
 
     useEffect(() => {
         if (editingField && inputRef.current) {
@@ -376,26 +397,62 @@ const GeneralInfoTab = ({ experience, experienceDetail, updateExperience, subCat
                     };
                     const val = localData[field];
                     const isEditing = editingField === field;
+                    // Only `description` is rich text; the other three stay plain textareas.
+                    const isRichText = field === 'description';
+                    const isBlank = isRichText ? isHtmlEmpty(val) : !val;
                     return (
                         <div key={field} className="group bg-slate-50 dark:bg-gray-800/50 border border-slate-200 dark:border-gray-700 rounded-xl px-4 py-3">
                             <FieldLabel>{labelMap[field]}</FieldLabel>
                             {isEditing ? (
-                                <textarea
-                                    ref={inputRef as React.RefObject<HTMLTextAreaElement>}
-                                    className="w-full text-[13px] text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 border border-blue-500 rounded-md px-2 py-1.5 outline-none shadow-sm focus:ring-2 focus:ring-blue-500/20 transition-all min-h-[80px] resize-none leading-relaxed"
-                                    value={editValue}
-                                    onChange={(e) => handleFieldUpdate(field, e.target.value)}
-                                    onBlur={() => setEditingField(null)}
-                                    onKeyDown={(e) => handleKeyDown(e)}
-                                />
+                                isRichText ? (
+                                    // The plain fields close on blur, but focus here moves between the
+                                    // toolbar and the editable area, so editing ends via Done or Escape.
+                                    <div className="space-y-2">
+                                        <RichTextEditor
+                                            autoFocus
+                                            value={editValue}
+                                            onChange={(html) => handleFieldUpdate(field, html)}
+                                            onKeyDown={(e) => { if (e.key === 'Escape') setEditingField(null); }}
+                                            className="min-h-[120px]"
+                                        />
+                                        <div className="flex justify-end">
+                                            <button
+                                                type="button"
+                                                onClick={() => setEditingField(null)}
+                                                className="text-[12px] font-medium text-[var(--accent)] hover:underline"
+                                            >
+                                                Done
+                                            </button>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <textarea
+                                        ref={inputRef as React.RefObject<HTMLTextAreaElement>}
+                                        className="w-full text-[13px] text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 border border-blue-500 rounded-md px-2 py-1.5 outline-none shadow-sm focus:ring-2 focus:ring-blue-500/20 transition-all min-h-[80px] resize-none leading-relaxed"
+                                        value={editValue}
+                                        onChange={(e) => handleFieldUpdate(field, e.target.value)}
+                                        onBlur={() => setEditingField(null)}
+                                        onKeyDown={(e) => handleKeyDown(e)}
+                                    />
+                                )
                             ) : (
                                 <div
                                     className="flex items-start gap-2 cursor-pointer"
                                     onClick={() => handleEditClick(field, val)}
                                 >
-                                    <p className={cn('text-[13px] leading-relaxed flex-1', val ? 'text-slate-600 dark:text-slate-300' : 'text-slate-400 italic')}>
-                                        {val || 'Empty'}
-                                    </p>
+                                    {isRichText ? (
+                                        <div className="flex-1 min-w-0">
+                                            <RichTextContent
+                                                html={val}
+                                                className="text-[13px] leading-relaxed text-slate-600 dark:text-slate-300"
+                                                fallback={<p className="text-[13px] leading-relaxed text-slate-400 italic">Empty</p>}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <p className={cn('text-[13px] leading-relaxed flex-1', isBlank ? 'text-slate-400 italic' : 'text-slate-600 dark:text-slate-300')}>
+                                            {val || 'Empty'}
+                                        </p>
+                                    )}
                                     <svg className="w-3 h-3 mt-0.5 text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9" /><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" /></svg>
                                 </div>
                             )}
@@ -408,7 +465,7 @@ const GeneralInfoTab = ({ experience, experienceDetail, updateExperience, subCat
                 isSaving={isSaving}
                 onSave={handleFinalSave}
                 onDiscard={handleDiscard}
-                changes={changes}
+                changes={displayChanges}
             />
         </div>
     );
@@ -476,8 +533,11 @@ export const getExperienceTabs = (params: ExperienceDetailsProps): SidePanelTab[
             label: TABS.ADDONS.label,
             content: (
                 <AddonsTab
+                    experienceId={params.experienceDetail?.id}
                     availableAddons={params.addons}
-                    experienceAddons={params.experienceDetail?.addons || []}
+                    experienceAddons={params.experienceAddons || []}
+                    loading={params.addonsLoading}
+                    getExperienceAddons={params.getExperienceAddons}
                     onToggleAddon={params.onToggleAddon}
                 />
             )
@@ -494,6 +554,10 @@ export const getExperienceTabs = (params: ExperienceDetailsProps): SidePanelTab[
                     getImages={params.getImages}
                     bulkAttachMedia={params.bulkAttachMedia}
                     disassociateMedia={params.disassociateMedia}
+                    setPrimaryMedia={params.setPrimaryMedia}
+                    updateMediaAttachment={params.updateMediaAttachment}
+                    toggleMediaActive={params.toggleMediaActive}
+                    uploadExperienceMedia={params.uploadExperienceMedia}
                 />
             )
         }

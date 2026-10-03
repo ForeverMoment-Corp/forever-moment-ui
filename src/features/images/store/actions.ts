@@ -1,5 +1,5 @@
 import * as types from './action-types';
-import { fetchImagesApi, uploadImageApi, deleteImageApi, fetchImageMetadataApi, downloadImageApi, fetchImageByStorageNameApi } from './api';
+import { fetchImagesApi, uploadImageApi, deleteImageApi, fetchImageMetadataApi, downloadImageApi, fetchImageByStorageNameApi, downloadMediaAssetApi } from './api';
 
 import toast from 'react-hot-toast';
 
@@ -59,11 +59,17 @@ export const deleteImage = (id: string) => async (dispatch: any) => {
     }
 };
 
-export const downloadImage = (id: string, fileName?: string) => async (dispatch: any) => {
+export const downloadImage = (id: string, fileName?: string, sourceUrl?: string) => async (dispatch: any) => {
     dispatch({ type: types.DOWNLOAD_IMAGE });
     try {
-        const response = await downloadImageApi(id);
-        const blob = new Blob([response.data], { type: response.headers['content-type'] });
+        let blob: Blob;
+        if (sourceUrl) {
+            // Prefer the public media URL (originalUrl) returned by the API
+            blob = await downloadMediaAssetApi(sourceUrl);
+        } else {
+            const response = await downloadImageApi(id);
+            blob = new Blob([response.data], { type: response.headers['content-type'] });
+        }
         const imageUrl = URL.createObjectURL(blob);
 
         if (fileName) {

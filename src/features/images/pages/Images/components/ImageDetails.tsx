@@ -1,4 +1,4 @@
-import { getImageUrl, getImageByStorageNameUrl } from '@/features/images/store/api';
+import { getImageUrl, getImageByStorageNameUrl, getImageSources } from '@/features/images/store/api';
 import { SectionLabel } from '@/components/common/DetailsLayout';
 import { ImagePreview } from './ImagePreview';
 import { ImageMetadata } from './ImageMetadata';
@@ -7,17 +7,25 @@ interface ImageDetailsProps {
     image: any;
     metadata?: any;
     previewUrl?: string | null;
-    onDownload?: (id: string, fileName: string) => void;
+    onDownload?: (id: string, fileName?: string, sourceUrl?: string) => void;
 }
 
 export const ImageDetails = ({ image, metadata, previewUrl, onDownload }: ImageDetailsProps) => {
     if (!image) return null;
 
     const displayMetadata = metadata || image.metadata || {};
-    const fallbackUrl = image.storageFileName
+    const sources = getImageSources(image);
+
+    // Prefer the direct media URL from the API; fall back to the blob preview or the admin endpoints.
+    const legacyFallbackUrl = image.storageFileName
         ? getImageByStorageNameUrl(image.storageFileName)
         : getImageUrl(String(image.id));
-    const displayUrl = previewUrl || fallbackUrl;
+    const fallbackUrl = sources.original || legacyFallbackUrl;
+    const displayUrl = sources.preview || previewUrl || legacyFallbackUrl;
+
+    const handleDownload = onDownload
+        ? () => onDownload(image.id, image.fileName, image.originalUrl)
+        : undefined;
 
     return (
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-500">
@@ -28,10 +36,10 @@ export const ImageDetails = ({ image, metadata, previewUrl, onDownload }: ImageD
                     <ImagePreview
                         src={displayUrl}
                         fileName={image.fileName}
-                        contentType={image.contentType}
-                        size={image.size}
+                        contentType={image.mimeType || image.contentType}
+                        size={image.fileSizeBytes ?? image.size}
                         fallbackUrl={fallbackUrl}
-                        onDownload={onDownload ? () => onDownload(image.id, image.fileName) : undefined}
+                        onDownload={handleDownload}
                     />
                 </div>
             </div>

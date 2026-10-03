@@ -75,6 +75,10 @@ export const disassociateLocationTimeSlotApi = async (experienceId: number, loca
     return await axios.delete(`/admin/experiences/${experienceId}/locations/${locationId}/timeslots/${timeSlotId}`);
 };
 
+export const fetchExperienceAddonsApi = async (experienceId: number) => {
+    return await axios.get(`/admin/experiences/${experienceId}/addons`);
+};
+
 export const associateAddonApi = async (experienceId: number, addonId: number, data: any) => {
     return await axios.post(`/admin/experiences/${experienceId}/addons/${addonId}`, {}, { params: data });
 };
@@ -111,8 +115,32 @@ export const updateExperienceMediaApi = async (experienceId: number, mediaId: nu
     return await axios.put(`/admin/experiences/${experienceId}/media/${mediaId}`, data);
 };
 
-export const toggleExperienceMediaActiveApi = async (mapperId: number) => {
-    return await axios.patch(`/admin/experiences/media/${mapperId}/toggle`);
+export const toggleExperienceMediaActiveApi = async (experienceId: number, mapperId: number) => {
+    return await axios.patch(`/admin/experiences/${experienceId}/media/${mapperId}/toggle`);
+};
+
+/**
+ * POST /admin/experiences/{experienceId}/media/upload — multipart upload that stores the image
+ * and attaches it to the experience in one call. The file goes under the `file` field, the
+ * attachment options (displayOrder, isPrimary, altText, isActive) under a JSON `attach` part,
+ * and any extra storage metadata is read from request params.
+ */
+export const uploadExperienceMediaApi = async (
+    experienceId: number,
+    file: File,
+    attach: { displayOrder?: number; isPrimary?: boolean; altText?: string; isActive?: boolean } = {},
+    metadata: Record<string, any> = {}
+) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('attach', new Blob([JSON.stringify(attach)], { type: 'application/json' }));
+
+    return await axios.post(`/admin/experiences/${experienceId}/media/upload`, formData, {
+        params: metadata,
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    });
 };
 
 export const fetchExperiencePrimaryMediaApi = async (experienceId: number) => {

@@ -16,12 +16,17 @@ export const ImageViewManager = ({
 }: any) => {
     const handleSelectImage = (img: any) => {
         setSelectedImage(img);
-        if (img) {
-            if (img.storageFileName && fetchImageByStorageName) {
-                fetchImageByStorageName(img.storageFileName);
-            } else {
-                downloadImage(img.id);
-            }
+        if (!img) return;
+
+        // When the API already provides direct media URLs the <img> tag loads them
+        // itself - no need to fetch a blob through the admin endpoint.
+        const hasDirectUrl = Boolean(img.mediaUrl || img.url || img.originalUrl);
+        if (hasDirectUrl) return;
+
+        if (img.storageFileName && fetchImageByStorageName) {
+            fetchImageByStorageName(img.storageFileName);
+        } else {
+            downloadImage(img.id);
         }
     };
 
@@ -41,4 +46,3 @@ export const ImageViewManager = ({
         />
     );
 };
-

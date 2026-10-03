@@ -16,6 +16,8 @@ interface AddonProps {
     createAddon: (data: AddonPayload) => Promise<any>;
     updateAddon: (id: number, data: AddonPayload) => Promise<any>;
     deleteAddon: (id: number) => Promise<any>;
+    uploadAddonImage: (id: number, file: File, metadata?: Record<string, any>) => Promise<any>;
+    removeAddonImage: (addon: AddonType) => Promise<any>;
     resetStatus: () => void;
 }
 
@@ -28,6 +30,8 @@ const Addon = ({
     createAddon,
     updateAddon,
     deleteAddon,
+    uploadAddonImage,
+    removeAddonImage,
     resetStatus,
 }: AddonProps) => {
 
@@ -73,6 +77,16 @@ const Addon = ({
         if (status === types.UPDATE_ADDON_SUCCESS) {
             toast.success('Addon updated successfully!');
             handleCloseModal();
+            resetStatus();
+        }
+
+        if (status === types.UPLOAD_ADDON_IMAGE_SUCCESS) {
+            toast.success('Addon image uploaded successfully!');
+            resetStatus();
+        }
+
+        if (status === types.REMOVE_ADDON_IMAGE_SUCCESS) {
+            toast.success('Addon image removed successfully!');
             resetStatus();
         }
 
@@ -133,6 +147,8 @@ const Addon = ({
                 setSelectedAddon={handleSelectAddon}
                 loading={loading}
                 updateAddon={updateAddon}
+                uploadAddonImage={uploadAddonImage}
+                removeAddonImage={removeAddonImage}
             />
 
             <AddonForm

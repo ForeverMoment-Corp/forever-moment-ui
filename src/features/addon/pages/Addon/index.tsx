@@ -4,6 +4,8 @@ import {
     createAddon,
     updateAddon,
     deleteAddon,
+    uploadAddonImage,
+    removeAddonImage,
     resetStatus,
 } from '@/features/addon/store/actions';
 import Addon from './components/Addon';
@@ -22,6 +24,8 @@ const mapDispatchToProps = {
     createAddon,
     updateAddon,
     deleteAddon,
+    uploadAddonImage,
+    removeAddonImage,
     resetStatus,
 };
 

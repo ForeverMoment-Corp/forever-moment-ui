@@ -1,8 +1,11 @@
 import { useCallback, useMemo } from 'react';
 import { SubCategoryDetails } from './SubCategoryDetails';
 import { SubCategoryLocationTab } from './SubCategoryLocationTab';
+import { SubCategoryImages } from './SubCategoryImages';
 import { EditableStatusBadge } from '@/components/common/EditableStatusBadge';
 import { RowActions } from '@/components/common/RowActions';
+import { Image as ImageIcon } from 'lucide-react';
+import { getMediaAssetUrl } from '@/features/images/store/api';
 import { cn } from '@/utils/cn';
 import { CrudSplitViewLayout } from '@/components/common/CrudSplitViewLayout';
 import { TABS, ITEM_ID_PREFIX } from '@/config/constants';
@@ -21,9 +24,42 @@ export const SubCategorySplitView = ({
     updateSubCategory,
     associateLocation,
     disassociateLocation,
-    attachedLocations,
-    getSubCategoryLocations
+    subCategoryLocationLinks,
+    loadingSubCategoryLinks,
+    getSubCategoryLocationLinks,
+    getLocationData,
+    images,
+    getImages,
+    subCategoryMedia,
+    getSubCategoryMedia,
+    attachSubCategoryMedia,
+    detachSubCategoryMedia,
+    updateSubCategoryMediaAttachment,
+    toggleSubCategoryMediaActive,
+    setPrimarySubCategoryMedia,
+    uploadSubCategoryMedia
 }: any) => {
+
+    /**
+     * Cover thumbnail from the sub-category list response. The fields are only populated
+     * once the backend denormalises the primary image onto the sub-category DTO, so this
+     * falls back to a placeholder icon.
+     */
+    const renderThumb = (sc: any, sizeClass: string) => {
+        const src = getMediaAssetUrl(sc.thumbnailUrl || sc.heroUrl || sc.originalUrl);
+        return (
+            <div className={cn(
+                sizeClass,
+                "rounded-[6px] overflow-hidden shrink-0 border border-slate-200/60 dark:border-slate-700 bg-[#f4f6f8] dark:bg-slate-800 flex items-center justify-center"
+            )}>
+                {src ? (
+                    <img src={src} alt={sc.name || ''} loading="lazy" className="h-full w-full object-cover" />
+                ) : (
+                    <ImageIcon size={14} className="text-slate-400" />
+                )}
+            </div>
+        );
+    };
 
     const columns = [
         {
@@ -39,6 +75,7 @@ export const SubCategorySplitView = ({
                         <span className="text-[12px] leading-none">📝</span>
                         {`${ITEM_ID_PREFIX}-${sc.id}`}
                     </div>
+                    {renderThumb(sc, 'h-9 w-9')}
                     <span>{sc.name}</span>
                 </div>
             )
@@ -123,6 +160,7 @@ export const SubCategorySplitView = ({
                 <span className="text-[12px] leading-none">📝</span>
                 {`${ITEM_ID_PREFIX}-${sc.id}`}
             </div>
+            {renderThumb(sc, 'h-9 w-9')}
             <div className="flex-1 min-w-0">
                 <div className={cn(
                     "font-semibold text-[13.5px] truncate mb-0.5 transition-colors",
@@ -151,16 +189,44 @@ export const SubCategorySplitView = ({
         if (activeTab === TABS.LOCATIONS.id) {
             return (
                 <SubCategoryLocationTab
-                    subCategory={{ ...sc, locations: attachedLocations }}
+                    subCategory={sc}
                     allLocations={locations}
                     onAssociate={associateLocation}
                     onDisassociate={disassociateLocation}
-                    fetchLocations={() => getSubCategoryLocations(sc.id)}
+                    subCategoryLocationLinks={subCategoryLocationLinks || []}
+                    loadingLinks={loadingSubCategoryLinks}
+                    fetchLocations={getLocationData}
+                    fetchLinks={getSubCategoryLocationLinks}
                 />
             );
         }
+        if (activeTab === TABS.IMAGES.id) {
+            return (
+                <div className="pt-2">
+                    <SubCategoryImages
+                        subCategoryId={sc.id}
+                        subCategoryMedia={subCategoryMedia || []}
+                        getSubCategoryMedia={getSubCategoryMedia}
+                        availableImages={images || []}
+                        getImages={getImages}
+                        attachSubCategoryMedia={attachSubCategoryMedia}
+                        detachSubCategoryMedia={detachSubCategoryMedia}
+                        setPrimarySubCategoryMedia={setPrimarySubCategoryMedia}
+                        updateSubCategoryMediaAttachment={updateSubCategoryMediaAttachment}
+                        toggleSubCategoryMediaActive={toggleSubCategoryMediaActive}
+                        uploadSubCategoryMedia={uploadSubCategoryMedia}
+                    />
+                </div>
+            );
+        }
         return null;
-    }, [updateSubCategory, locations, associateLocation, disassociateLocation, attachedLocations]);
+    }, [
+        updateSubCategory, locations, associateLocation, disassociateLocation,
+        subCategoryLocationLinks, loadingSubCategoryLinks, getSubCategoryLocationLinks, getLocationData,
+        categories, subCategoryMedia, getSubCategoryMedia, images, getImages,
+        attachSubCategoryMedia, detachSubCategoryMedia, setPrimarySubCategoryMedia,
+        updateSubCategoryMediaAttachment, toggleSubCategoryMediaActive, uploadSubCategoryMedia
+    ]);
 
     const customFilter = useCallback((sc: any, activeFilters: Record<string, string[]>) => {
         let matchStatus = true;
@@ -202,7 +268,8 @@ export const SubCategorySplitView = ({
             renderListItem={renderListItem}
             tabs={[
                 { id: TABS.GENERAL.id, label: TABS.GENERAL.labelShort },
-                { id: TABS.LOCATIONS.id, label: TABS.LOCATIONS.label }
+                { id: TABS.LOCATIONS.id, label: TABS.LOCATIONS.label },
+                { id: TABS.IMAGES.id, label: TABS.IMAGES.label }
             ]}
             renderDetailsPanel={renderDetailsPanel}
             filterConfig={[

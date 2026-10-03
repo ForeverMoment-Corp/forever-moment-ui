@@ -6,9 +6,10 @@ import {
     associateLocationApi, updateExperienceLocationApi, disassociateLocationApi, associateLocationTimeSlotApi,
     updateLocationTimeSlotApi, disassociateLocationTimeSlotApi, bulkAttachLocationTimeSlotsApi,
     toggleLocationTimeSlotApi, toggleExperienceLocationApi,
-    associateAddonApi, disassociateAddonApi, toggleExperienceActiveApi, toggleExperienceFeaturedApi,
+    associateAddonApi, disassociateAddonApi, fetchExperienceAddonsApi, toggleExperienceActiveApi, toggleExperienceFeaturedApi,
     bulkAttachExperienceMediaApi, disassociateExperienceMediaApi, fetchExperienceMediaApi,
-    attachExperienceMediaApi, updateExperienceMediaApi, toggleExperienceMediaActiveApi, fetchExperiencePrimaryMediaApi
+    attachExperienceMediaApi, updateExperienceMediaApi, toggleExperienceMediaActiveApi, fetchExperiencePrimaryMediaApi,
+    uploadExperienceMediaApi
 } from './api';
 
 export const getExperienceData = (isBackground: boolean = false) => async (dispatch: any) => {
@@ -348,6 +349,23 @@ export const toggleLocationTimeSlot = (experienceId: number, locationId: number,
     }
 };
 
+/** GET /admin/experiences/{experienceId}/addons — add-ons attached to one experience, with pricing overrides. */
+export const getExperienceAddons = (experienceId: number) => async (dispatch: any) => {
+    dispatch({ type: types.GET_EXPERIENCE_ADDONS });
+    try {
+        const response = await fetchExperienceAddonsApi(experienceId);
+        const payload = response.data?.response ?? response.data;
+        dispatch({ type: types.GET_EXPERIENCE_ADDONS_SUCCESS, payload });
+        return payload;
+    } catch (error: any) {
+        dispatch({
+            type: types.GET_EXPERIENCE_ADDONS_FAILURE,
+            payload: error.response?.data?.message || 'Failed to fetch experience add-ons',
+        });
+        throw error;
+    }
+};
+
 export const toggleAddon = (experienceId: number, addonId: number, isAssociate: boolean, data?: any) => async (dispatch: any) => {
     dispatch({ type: types.TOGGLE_ADDON });
     try {
@@ -361,6 +379,7 @@ export const toggleAddon = (experienceId: number, addonId: number, isAssociate: 
             type: types.TOGGLE_ADDON_SUCCESS,
             payload: response.data,
         });
+        await dispatch(getExperienceAddons(experienceId));
         dispatch(getExperienceById(experienceId));
         return response.data;
     } catch (error: any) {
@@ -453,18 +472,23 @@ export const disassociateMedia = (experienceId: number, mediaId: number) => asyn
 };
 
 export const getExperienceMedia = (experienceId: number) => async (dispatch: any) => {
-    dispatch({ type: types.GET_EXPERIENCE_MEDIA });
+    // `meta.experienceId` lets the reducer scope the media list to one experience and
+    // discard responses that arrive after the user has already switched to another one.
+    dispatch({ type: types.GET_EXPERIENCE_MEDIA, meta: { experienceId } });
     try {
         const response = await fetchExperienceMediaApi(experienceId);
+        const items = response.data.response || response.data;
         dispatch({
             type: types.GET_EXPERIENCE_MEDIA_SUCCESS,
-            payload: response.data.response || response.data,
+            payload: items,
+            meta: { experienceId },
         });
-        return response.data.response || response.data;
+        return items;
     } catch (error: any) {
         dispatch({
             type: types.GET_EXPERIENCE_MEDIA_FAILURE,
             payload: error.response?.data?.message || 'Failed to fetch experience media',
+            meta: { experienceId },
         });
         throw error;
     }
@@ -497,6 +521,7 @@ export const updateMediaAttachment = (experienceId: number, mediaId: number, dat
             type: types.UPDATE_MEDIA_ATTACHMENT_SUCCESS,
             payload: response.data,
         });
+        await dispatch(getExperienceMedia(experienceId));
         dispatch(getExperienceById(experienceId));
         return response.data;
     } catch (error: any) {
@@ -511,17 +536,77 @@ export const updateMediaAttachment = (experienceId: number, mediaId: number, dat
 export const toggleMediaActive = (experienceId: number, mapperId: number) => async (dispatch: any) => {
     dispatch({ type: types.TOGGLE_MEDIA_ACTIVE });
     try {
-        const response = await toggleExperienceMediaActiveApi(mapperId);
+        const response = await toggleExperienceMediaActiveApi(experienceId, mapperId);
         dispatch({
             type: types.TOGGLE_MEDIA_ACTIVE_SUCCESS,
             payload: response.data,
         });
+        await dispatch(getExperienceMedia(experienceId));
         dispatch(getExperienceById(experienceId));
         return response.data;
     } catch (error: any) {
         dispatch({
             type: types.TOGGLE_MEDIA_ACTIVE_FAILURE,
             payload: error.response?.data?.message || 'Failed to toggle media status',
+        });
+        throw error;
+    }
+};
+
+/**
+ * Mark one attached image as the experience's primary (cover) image.
+ * Uses PUT /admin/experiences/{experienceId}/media/{mediaId}; the backend demotes
+ * the previous primary itself. A cover must be visible, so it is also activated.
+ */
+export const setPrimaryMedia = (experienceId: number, mediaId: number, current?: any) => async (dispatch: any) => {
+    dispatch({ type: types.SET_PRIMARY_MEDIA });
+    try {
+        const response = await updateExperienceMediaApi(experienceId, mediaId, {
+            isPrimary: true,
+            isActive: true,
+            displayOrder: current?.displayOrder ?? undefined,
+            altText: current?.altText ?? undefined,
+        });
+        const payload = response.data?.response || response.data;
+        dispatch({ type: types.SET_PRIMARY_MEDIA_SUCCESS, payload });
+        await dispatch(getExperienceMedia(experienceId));
+        dispatch(getExperienceById(experienceId));
+        return payload;
+    } catch (error: any) {
+        dispatch({
+            type: types.SET_PRIMARY_MEDIA_FAILURE,
+            payload: error.response?.data?.message || 'Failed to set primary image',
+        });
+        throw error;
+    }
+};
+
+/**
+ * Upload a new file and attach it to the experience in one call.
+ * Callers uploading several files should pass `refresh: false` for all but the last one
+ * and refresh once at the end, to avoid a refetch per file.
+ */
+export const uploadExperienceMedia = (
+    experienceId: number,
+    file: File,
+    attach: { displayOrder?: number; isPrimary?: boolean; altText?: string; isActive?: boolean } = {},
+    metadata: Record<string, any> = {},
+    refresh: boolean = true
+) => async (dispatch: any) => {
+    dispatch({ type: types.UPLOAD_EXPERIENCE_MEDIA });
+    try {
+        const response = await uploadExperienceMediaApi(experienceId, file, attach, metadata);
+        const payload = response.data?.response ?? response.data;
+        dispatch({ type: types.UPLOAD_EXPERIENCE_MEDIA_SUCCESS, payload });
+        if (refresh) {
+            await dispatch(getExperienceMedia(experienceId));
+            dispatch(getExperienceById(experienceId));
+        }
+        return payload;
+    } catch (error: any) {
+        dispatch({
+            type: types.UPLOAD_EXPERIENCE_MEDIA_FAILURE,
+            payload: error.response?.data?.message || 'Failed to upload image',
         });
         throw error;
     }

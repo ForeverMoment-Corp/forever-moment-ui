@@ -210,10 +210,10 @@ export function CrudSplitViewLayout<T>({
 
                     {/* Table Card */}
                     <div
-                        className="bg-white dark:bg-gray-900 md:rounded-2xl rounded-xl overflow-hidden flex flex-col md:border border-slate-200 dark:border-gray-800 md:shadow-sm"
+                        className="bg-white dark:bg-gray-900 md:rounded-2xl rounded-xl overflow-hidden flex flex-col min-h-0 md:border border-slate-200 dark:border-gray-800 md:shadow-sm"
                     >
                         {/* Desktop Table View */}
-                        <div className="hidden md:block">
+                        <div className="hidden md:flex md:flex-col flex-1 min-h-0">
                             <DataTable
                                 data={filtered}
                                 columns={columns}
@@ -226,7 +226,7 @@ export function CrudSplitViewLayout<T>({
                         </div>
 
                         {/* Mobile Card View (Option B) */}
-                        <div className="block md:hidden p-2 space-y-2">
+                        <div className="block md:hidden p-2 space-y-2 flex-1 min-h-0 overflow-y-auto">
                             {loading && (!data || data.length === 0) ? (
                                 Array.from({ length: 5 }).map((_, i) => (
                                     <div key={`mob-skeleton-${i}`} className="h-[72px] bg-slate-100 dark:bg-gray-800 animate-pulse rounded-xl w-full" />
@@ -252,7 +252,7 @@ export function CrudSplitViewLayout<T>({
                         {/* Table Footer with Pagination */}
                         {!loading && data && data.length > 0 && (
                             <div
-                                className="flex flex-col sm:flex-row items-center justify-between px-[18px] py-[12px] text-[12.5px] gap-3 border-t border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-gray-800/50 text-slate-500 dark:text-slate-400"
+                                className="shrink-0 flex flex-col sm:flex-row items-center justify-between px-[18px] py-[12px] text-[12.5px] gap-3 border-t border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-gray-800/50 text-slate-500 dark:text-slate-400"
                             >
                                 <span>
                                     Showing <strong className="font-semibold text-slate-900 dark:text-slate-100">{filtered.length}</strong> of <strong className="font-semibold text-slate-900 dark:text-slate-100">{data.length}</strong> {pluralName.toLowerCase()}

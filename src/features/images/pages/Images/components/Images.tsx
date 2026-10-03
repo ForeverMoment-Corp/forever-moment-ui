@@ -18,7 +18,7 @@ interface ImagesProps {
     getImages: () => void;
     uploadImage: (files: File[], metadata: any) => Promise<any>;
     deleteImage: (id: string) => Promise<any>;
-    downloadImage: (id: string, fileName: string) => void;
+    downloadImage: (id: string, fileName?: string, sourceUrl?: string) => void;
     getImageMetadata: (id: string) => void;
     fetchImageByStorageName: (storageFileName: string) => Promise<string | undefined>;
     resetStatus: () => void;

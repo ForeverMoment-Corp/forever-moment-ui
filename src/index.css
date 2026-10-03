@@ -177,3 +177,55 @@
     background: #cbd5e1;
   }
 }
+
+/* Number inputs: hide the native increment/decrement spinner everywhere. */
+input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* ── Rich-text description fields ──────────────────────────────────────────
+   Tailwind's preflight strips list markers and heading sizes, so authored
+   markup needs them restored inside the editor and its read-only view. */
+.rich-text-content > :first-child { margin-top: 0; }
+.rich-text-content > :last-child { margin-bottom: 0; }
+
+.rich-text-content p { margin: 0 0 0.5em; }
+
+.rich-text-content ul,
+.rich-text-content ol {
+  margin: 0 0 0.5em;
+  padding-left: 1.25rem;
+}
+.rich-text-content ul { list-style: disc; }
+.rich-text-content ol { list-style: decimal; }
+.rich-text-content li { margin: 0.125em 0; }
+
+.rich-text-content b,
+.rich-text-content strong { font-weight: 600; }
+.rich-text-content i,
+.rich-text-content em { font-style: italic; }
+.rich-text-content u { text-decoration: underline; }
+.rich-text-content s { text-decoration: line-through; }
+
+.rich-text-content h1 { font-size: 1.25em; font-weight: 700; margin: 0 0 0.4em; }
+.rich-text-content h2 { font-size: 1.15em; font-weight: 700; margin: 0 0 0.4em; }
+.rich-text-content h3,
+.rich-text-content h4 { font-size: 1.05em; font-weight: 600; margin: 0 0 0.35em; }
+
+.rich-text-content blockquote {
+  margin: 0 0 0.5em;
+  padding-left: 0.75rem;
+  border-left: 3px solid var(--border);
+  color: color-mix(in srgb, currentColor 75%, transparent);
+}
+
+.rich-text-content a {
+  color: var(--accent);
+  text-decoration: underline;
+}

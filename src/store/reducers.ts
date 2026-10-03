@@ -21,6 +21,7 @@ import { bookingsReducer } from '@/features/bookings/store/reducer';
 import { customerReducer } from '@/features/customers/store/reducer';
 import { paymentReducer } from '@/features/payments/store/reducer';
 import { promotionReducer } from '@/features/promotions/store/reducer';
+import { promotionAssetReducer } from '@/features/promotionAssets/store/reducer';
 import { reviewReducer } from '@/features/reviews/store/reducer';
 import { reportReducer } from '@/features/reports/store/reducer';
 import { inventoryReducer } from '@/features/inventory/store/reducer';
@@ -58,6 +59,7 @@ export const rootReducer = combineReducers({
     customers: customerReducer,
     payments: paymentReducer,
     promotions: promotionReducer,
+    promotionAssets: promotionAssetReducer,
     reviews: reviewReducer,
     reports: reportReducer,
     inventory: inventoryReducer,

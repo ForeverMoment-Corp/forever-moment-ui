@@ -20,7 +20,28 @@ interface CategoryProps {
     getLocationData: () => void;
     associateLocation: (locationId: number, categoryId: number, data: any) => Promise<any>;
     disassociateLocation: (locationId: number, categoryId: number) => Promise<any>;
+    categoryLocationLinks: any[];
+    loadingCategoryLinks: boolean;
+    getCategoryLocationLinks: () => Promise<any>;
     resetStatus: () => void;
+
+    // Images tab — media library plus the category's own attachments.
+    images: any[];
+    getImages: () => void;
+    categoryMedia: any[];
+    getCategoryMedia: (categoryId: number) => Promise<any>;
+    attachCategoryMedia: (categoryId: number, data: { items: any[] }) => Promise<any>;
+    detachCategoryMedia: (categoryId: number, mediaId: number) => Promise<any>;
+    updateCategoryMediaAttachment: (categoryId: number, mediaId: number, data: any) => Promise<any>;
+    toggleCategoryMediaActive: (categoryId: number, mapperId: number) => Promise<any>;
+    setPrimaryCategoryMedia: (categoryId: number, mediaId: number, current?: any) => Promise<any>;
+    uploadCategoryMedia: (
+        categoryId: number,
+        file: File,
+        attach?: { displayOrder?: number; isPrimary?: boolean; altText?: string; isActive?: boolean },
+        metadata?: Record<string, any>,
+        refresh?: boolean
+    ) => Promise<any>;
 }
 
 export interface CategoryType {
@@ -48,7 +69,20 @@ const Category = ({
     getLocationData,
     associateLocation,
     disassociateLocation,
-    resetStatus
+    categoryLocationLinks,
+    loadingCategoryLinks,
+    getCategoryLocationLinks,
+    resetStatus,
+    images,
+    getImages,
+    categoryMedia,
+    getCategoryMedia,
+    attachCategoryMedia,
+    detachCategoryMedia,
+    updateCategoryMediaAttachment,
+    toggleCategoryMediaActive,
+    setPrimaryCategoryMedia,
+    uploadCategoryMedia
 }: CategoryProps) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingId, setEditingId] = useState<number | null>(null);
@@ -211,6 +245,19 @@ const Category = ({
                 getLocationData={getLocationData}
                 associateLocation={associateLocation}
                 disassociateLocation={disassociateLocation}
+                categoryLocationLinks={categoryLocationLinks}
+                loadingCategoryLinks={loadingCategoryLinks}
+                getCategoryLocationLinks={getCategoryLocationLinks}
+                images={images}
+                getImages={getImages}
+                categoryMedia={categoryMedia}
+                getCategoryMedia={getCategoryMedia}
+                attachCategoryMedia={attachCategoryMedia}
+                detachCategoryMedia={detachCategoryMedia}
+                updateCategoryMediaAttachment={updateCategoryMediaAttachment}
+                toggleCategoryMediaActive={toggleCategoryMediaActive}
+                setPrimaryCategoryMedia={setPrimaryCategoryMedia}
+                uploadCategoryMedia={uploadCategoryMedia}
             />
 
             <Modal

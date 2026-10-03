@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Modal } from '@/components/common/Modal';
 import { Button } from '@/components/common/Button';
 import type { AddonType } from '@/features/addon/store/action-types';
+import { NumberInput } from '@/components/common/NumberInput';
 
 export interface AddonPayload {
     name: string;
@@ -9,6 +10,8 @@ export interface AddonPayload {
     icon: string;
     basePrice: number;
     isActive: boolean;
+    /** Preserved on edit; the backend re-resolves the image from this field on every update. */
+    mediaId?: number | null;
 }
 
 interface AddonFormProps {
@@ -40,6 +43,7 @@ export const AddonForm: React.FC<AddonFormProps> = ({
                 icon: initialData.icon || '',
                 basePrice: initialData.basePrice || 0,
                 isActive: initialData.isActive ?? true,
+                mediaId: initialData.mediaId ?? null,
             });
         } else {
             // Reset form when opening for new item
@@ -119,8 +123,7 @@ export const AddonForm: React.FC<AddonFormProps> = ({
                     <label htmlFor="basePrice" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
                         Base Price (₹) *
                     </label>
-                    <input
-                        type="number"
+                    <NumberInput
                         id="basePrice"
                         name="basePrice"
                         value={formData.basePrice}

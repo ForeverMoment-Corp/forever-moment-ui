@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { getCategoryData } from '@/features/category/store/actions';
-import { getLocationData } from '@/features/location/store/actions';
+import { getLocationData, getSubCategoryLocationLinks } from '@/features/location/store/actions';
+import { getImages } from '@/features/images/store/actions';
 import {
     getSubCategoryData,
     createSubCategory,
@@ -8,7 +9,13 @@ import {
     deleteSubCategory,
     associateLocation,
     disassociateLocation,
-    getSubCategoryLocations,
+    getSubCategoryMedia,
+    attachSubCategoryMedia,
+    detachSubCategoryMedia,
+    updateSubCategoryMediaAttachment,
+    toggleSubCategoryMediaActive,
+    setPrimarySubCategoryMedia,
+    uploadSubCategoryMedia,
     resetStatus
 } from '@/features/subCategory/store/actions';
 import SubCategory from './components/SubCategory';
@@ -21,7 +28,10 @@ const mapStateToProps = (state: RootState) => ({
     status: state.subCategory ? (state.subCategory as any).status : 'IDLE',
     categories: state.category?.data || [],
     locations: state.location?.data || [],
-    attachedLocations: state.subCategory ? (state.subCategory as any).attachedLocations : [],
+    subCategoryLocationLinks: state.location?.subCategoryLocationLinks || [],
+    loadingSubCategoryLinks: state.location?.loadingSubCategoryLinks || false,
+    images: state.image?.data || [],
+    subCategoryMedia: state.subCategory ? (state.subCategory as any).subCategoryMedia || [] : [],
 });
 
 const mapDispatchToProps = {
@@ -33,7 +43,15 @@ const mapDispatchToProps = {
     deleteSubCategory,
     associateLocation,
     disassociateLocation,
-    getSubCategoryLocations,
+    getSubCategoryLocationLinks,
+    getImages,
+    getSubCategoryMedia,
+    attachSubCategoryMedia,
+    detachSubCategoryMedia,
+    updateSubCategoryMediaAttachment,
+    toggleSubCategoryMediaActive,
+    setPrimarySubCategoryMedia,
+    uploadSubCategoryMedia,
     resetStatus,
 };
 

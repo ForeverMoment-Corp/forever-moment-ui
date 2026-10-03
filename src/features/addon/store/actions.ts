@@ -3,7 +3,8 @@ import {
     getAddonDataApi,
     createAddonApi,
     updateAddonApi,
-    deleteAddonApi
+    deleteAddonApi,
+    uploadAddonImageApi
 } from './api';
 
 export const getAddonData = () => async (dispatch: any) => {
@@ -73,6 +74,58 @@ export const deleteAddon = (id: number) => async (dispatch: any) => {
         dispatch({
             type: types.DELETE_ADDON_FAILURE,
             payload: error.response?.data?.message || 'Failed to delete addon',
+        });
+        throw error;
+    }
+};
+
+/** Upload an image file and attach it to the add-on; the list is refreshed so the new URLs show up. */
+export const uploadAddonImage = (id: number, file: File, metadata: Record<string, any> = {}) => async (dispatch: any) => {
+    dispatch({ type: types.UPLOAD_ADDON_IMAGE_REQUEST });
+    try {
+        const response = await uploadAddonImageApi(id, file, metadata);
+        const payload = response.data?.response ?? response.data;
+        dispatch({
+            type: types.UPLOAD_ADDON_IMAGE_SUCCESS,
+            payload,
+        });
+        dispatch(getAddonData());
+        return payload;
+    } catch (error: any) {
+        dispatch({
+            type: types.UPLOAD_ADDON_IMAGE_FAILURE,
+            payload: error.response?.data?.message || 'Failed to upload addon image',
+        });
+        throw error;
+    }
+};
+
+/**
+ * Detach the add-on's image. There is no dedicated endpoint, so this is a regular update
+ * with `mediaId: null` (the backend resolves the media from that field on every update).
+ */
+export const removeAddonImage = (addon: types.AddonType) => async (dispatch: any) => {
+    dispatch({ type: types.REMOVE_ADDON_IMAGE_REQUEST });
+    try {
+        const response = await updateAddonApi(addon.id, {
+            name: addon.name,
+            description: addon.description,
+            icon: addon.icon,
+            basePrice: addon.basePrice,
+            isActive: addon.isActive,
+            mediaId: null,
+        });
+        const payload = response.data?.response ?? response.data;
+        dispatch({
+            type: types.REMOVE_ADDON_IMAGE_SUCCESS,
+            payload,
+        });
+        dispatch(getAddonData());
+        return payload;
+    } catch (error: any) {
+        dispatch({
+            type: types.REMOVE_ADDON_IMAGE_FAILURE,
+            payload: error.response?.data?.message || 'Failed to remove addon image',
         });
         throw error;
     }

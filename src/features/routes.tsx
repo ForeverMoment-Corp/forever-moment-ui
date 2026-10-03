@@ -17,6 +17,7 @@ import { bookingsRoutes } from '@/features/bookings/pages/routes';
 import { customerRoutes } from '@/features/customers/pages/routes';
 import { paymentRoutes } from '@/features/payments/pages/routes';
 import { promotionRoutes } from '@/features/promotions/pages/routes';
+import { promotionAssetRoutes } from '@/features/promotionAssets/pages/routes';
 import { reviewRoutes } from '@/features/reviews/pages/routes';
 import { reportRoutes } from '@/features/reports/pages/routes';
 import { inventoryRoutes } from '@/features/inventory/pages/routes';
@@ -52,6 +53,7 @@ export const adminRoutes = [
     ...customerRoutes,
     ...paymentRoutes,
     ...promotionRoutes,
+    ...promotionAssetRoutes,
     ...reviewRoutes,
     ...reportRoutes,
     ...inventoryRoutes,

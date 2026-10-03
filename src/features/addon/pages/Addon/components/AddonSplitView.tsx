@@ -1,9 +1,10 @@
 import { useCallback } from 'react';
 import { AddonDetails } from './AddonDetails';
+import { AddonImage, thumbSrc } from './AddonImage';
 import { EditableTitle } from '@/components/common/EditableTitle';
 import { EditableStatusBadge } from '@/components/common/EditableStatusBadge';
 import { RowActions } from '@/components/common/RowActions';
-import { PackageOpen } from 'lucide-react';
+import { ImageIcon } from 'lucide-react';
 import type { AddonType } from '@/features/addon/store/action-types';
 import { cn } from '@/utils/cn';
 import { CrudSplitViewLayout } from '@/components/common/CrudSplitViewLayout';
@@ -16,8 +17,38 @@ export const AddonSplitView = ({
     selectedAddon,
     setSelectedAddon,
     loading,
-    updateAddon
+    updateAddon,
+    uploadAddonImage,
+    removeAddonImage
 }: any) => {
+
+    // Every PUT rewrites the media association from `mediaId`, so inline edits must carry it
+    // through or an uploaded image would be silently detached.
+    const buildPayload = (a: AddonType, overrides: Partial<AddonType>) => ({
+        name: a.name,
+        description: a.description,
+        basePrice: a.basePrice,
+        isActive: a.isActive,
+        icon: a.icon,
+        mediaId: a.mediaId ?? null,
+        ...overrides,
+    });
+
+    const renderThumb = (a: AddonType, sizeClass: string) => {
+        const src = thumbSrc(a);
+        return (
+            <div className={cn(
+                sizeClass,
+                "rounded-[6px] overflow-hidden shrink-0 border border-slate-200/60 dark:border-slate-700 bg-[#f4f6f8] dark:bg-slate-800 flex items-center justify-center"
+            )}>
+                {src ? (
+                    <img src={src} alt={a.name || ''} loading="lazy" className="h-full w-full object-cover" />
+                ) : (
+                    <ImageIcon size={14} className="text-slate-400" />
+                )}
+            </div>
+        );
+    };
 
     const columns = [
         {
@@ -32,10 +63,11 @@ export const AddonSplitView = ({
                         <span className="text-[12px] leading-none">📝</span>
                         {`${ITEM_ID_PREFIX}-${a.id}`}
                     </div>
+                    {renderThumb(a, 'h-9 w-9')}
                     <div>
                         <EditableTitle
                             value={a.name || '-'}
-                            onChange={(val) => updateAddon(a.id, { name: val, description: a.description, basePrice: a.basePrice, isActive: a.isActive, icon: a.icon })}
+                            onChange={(val) => updateAddon(a.id, buildPayload(a, { name: val }))}
                         />
                         {a.description && <p className="text-xs text-slate-500 font-normal truncate mt-0.5 max-w-[250px]">{a.description}</p>}
                     </div>
@@ -57,7 +89,7 @@ export const AddonSplitView = ({
                 <EditableStatusBadge
                     status={a.isActive ? 'Active' : 'Inactive'}
                     options={['Active', 'Inactive']}
-                    onChange={(val) => updateAddon(a.id, { isActive: val === 'Active', name: a.name, description: a.description, basePrice: a.basePrice, icon: a.icon })}
+                    onChange={(val) => updateAddon(a.id, buildPayload(a, { isActive: val === 'Active' }))}
                 />
             )
         },
@@ -97,6 +129,7 @@ export const AddonSplitView = ({
                     <span className="text-[12px] leading-none">📝</span>
                     {`${ITEM_ID_PREFIX}-${a.id}`}
                 </div>
+                {renderThumb(a, 'h-9 w-9')}
                 <div className="flex-1 min-w-0">
                     <div className={cn(
                         "font-semibold text-[13.5px] truncate mb-0.5 transition-colors",
@@ -130,8 +163,19 @@ export const AddonSplitView = ({
                 </div>
             );
         }
+        if (activeTab === TABS.IMAGES.id) {
+            return (
+                <div className="pt-2">
+                    <AddonImage
+                        addon={addon}
+                        uploadAddonImage={uploadAddonImage}
+                        removeAddonImage={removeAddonImage}
+                    />
+                </div>
+            );
+        }
         return null;
-    }, [updateAddon]);
+    }, [updateAddon, uploadAddonImage, removeAddonImage]);
 
     const customFilter = useCallback((a: AddonType, activeFilters: Record<string, string[]>) => {
         let matchStatus = true;
@@ -156,7 +200,10 @@ export const AddonSplitView = ({
             columns={columns}
             keyExtractor={(item: any) => item.id}
             renderListItem={renderListItem}
-            tabs={[{ id: TABS.GENERAL.id, label: TABS.GENERAL.labelShort }]}
+            tabs={[
+                { id: TABS.GENERAL.id, label: TABS.GENERAL.labelShort },
+                { id: TABS.IMAGES.id, label: TABS.IMAGES.label },
+            ]}
             renderDetailsPanel={renderDetailsPanel}
             filterConfig={[
                 {

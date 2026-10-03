@@ -5,6 +5,17 @@ const initialState = {
     loading: false,
     error: null,
     status: 'IDLE',
+
+    /** Images attached to the currently selected category. */
+    categoryMedia: [] as any[],
+    /** Category id `categoryMedia` belongs to (or is being fetched for). */
+    categoryMediaFor: null as number | null,
+    mediaLoading: false,
+    /**
+     * Media errors are kept out of `error` on purpose: the page toasts every change
+     * of `error`, and the gallery already reports its own failures.
+     */
+    mediaError: null as string | null,
 };
 
 export const categoryReducer = (state = initialState, action: any) => {
@@ -60,6 +71,67 @@ export const categoryReducer = (state = initialState, action: any) => {
         case types.ASSOCIATE_LOCATION_FAILURE:
         case types.DISASSOCIATE_LOCATION_FAILURE:
             return { ...state, loading: false, status: 'FAILURE', error: action.payload };
+
+        // ── Category media ───────────────────────────────────────────────────
+        // Media loading is tracked separately from `loading` so fetching a
+        // category's images never puts the category list into its loading state.
+        case types.GET_CATEGORY_MEDIA: {
+            const requestedFor = action.meta?.categoryId ?? state.categoryMediaFor;
+            const switching = requestedFor != null && requestedFor !== state.categoryMediaFor;
+            return {
+                ...state,
+                mediaLoading: true,
+                mediaError: null,
+                categoryMediaFor: requestedFor,
+                // Never show another category's images while this one loads.
+                categoryMedia: switching ? [] : state.categoryMedia,
+            };
+        }
+        case types.GET_CATEGORY_MEDIA_SUCCESS: {
+            const responseFor = action.meta?.categoryId;
+            // Ignore a late response for a category the user has already left.
+            if (responseFor != null && state.categoryMediaFor != null && responseFor !== state.categoryMediaFor) {
+                return state;
+            }
+            return { ...state, mediaLoading: false, categoryMedia: Array.isArray(action.payload) ? action.payload : [] };
+        }
+
+        case types.ATTACH_CATEGORY_MEDIA:
+        case types.DETACH_CATEGORY_MEDIA:
+        case types.UPDATE_CATEGORY_MEDIA:
+        case types.TOGGLE_CATEGORY_MEDIA_ACTIVE:
+        case types.SET_PRIMARY_CATEGORY_MEDIA:
+        case types.UPLOAD_CATEGORY_MEDIA:
+            return { ...state, mediaLoading: true, mediaError: null };
+
+        case types.ATTACH_CATEGORY_MEDIA_SUCCESS:
+        case types.DETACH_CATEGORY_MEDIA_SUCCESS:
+        case types.UPDATE_CATEGORY_MEDIA_SUCCESS:
+        case types.TOGGLE_CATEGORY_MEDIA_ACTIVE_SUCCESS:
+        case types.UPLOAD_CATEGORY_MEDIA_SUCCESS:
+            return { ...state, mediaLoading: false };
+
+        case types.SET_PRIMARY_CATEGORY_MEDIA_SUCCESS: {
+            const updated = action.payload;
+            const list = Array.isArray(state.categoryMedia) ? state.categoryMedia : [];
+            return {
+                ...state,
+                mediaLoading: false,
+                categoryMedia: list.map((cm: any) => ({
+                    ...cm,
+                    isPrimary: updated?.mediaId != null ? cm.mediaId === updated.mediaId : cm.isPrimary,
+                })),
+            };
+        }
+
+        case types.GET_CATEGORY_MEDIA_FAILURE:
+        case types.ATTACH_CATEGORY_MEDIA_FAILURE:
+        case types.DETACH_CATEGORY_MEDIA_FAILURE:
+        case types.UPDATE_CATEGORY_MEDIA_FAILURE:
+        case types.TOGGLE_CATEGORY_MEDIA_ACTIVE_FAILURE:
+        case types.SET_PRIMARY_CATEGORY_MEDIA_FAILURE:
+        case types.UPLOAD_CATEGORY_MEDIA_FAILURE:
+            return { ...state, mediaLoading: false, mediaError: action.payload };
 
         default:
             return state;

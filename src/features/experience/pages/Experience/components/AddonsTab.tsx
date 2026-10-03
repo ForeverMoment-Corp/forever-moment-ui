@@ -1,15 +1,50 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { SearchBar } from '@/components/common/SearchBar';
 import { Button } from '@/components/common/Button';
 import { Modal } from '@/components/common/Modal';
 import { Dropdown } from '@/components/common/Dropdown';
-import { Package, Trash2, CheckCircle2 } from 'lucide-react';
+import { Package, Trash2, CheckCircle2, Loader2 } from 'lucide-react';
+import { getMediaAssetUrl } from '@/features/images/store/api';
+import { NumberInput } from '@/components/common/NumberInput';
+
+/** One row of GET /admin/experiences/{experienceId}/addons (ExperienceAddonResponseDto). */
+export interface ExperienceAddon {
+    mapperId?: number;
+    addonId: number;
+    mediaId?: number;
+    name?: string;
+    addonName?: string; // legacy field name from the experience-detail payload
+    description?: string;
+    icon?: string;
+    heroUrl?: string;
+    thumbnailUrl?: string;
+    originalUrl?: string;
+    basePrice?: number;
+    priceOverride?: number;
+    effectivePrice?: number;
+    isFree?: boolean;
+    isActive?: boolean;
+}
 
 interface AddonsTabProps {
-    availableAddons: any[]; // All active master addons in the system
-    experienceAddons: any[]; // Addons already associated with this experience
+    experienceId: number;
+    availableAddons: any[]; // All master addons in the system
+    experienceAddons: ExperienceAddon[]; // From GET /admin/experiences/{experienceId}/addons
+    loading?: boolean;
+    getExperienceAddons?: (experienceId: number) => Promise<any>;
     onToggleAddon: (addonId: number, isAssociate: boolean, data?: any) => void;
 }
+
+const addonName = (ea: ExperienceAddon) => ea.name || ea.addonName || `Add-on #${ea.addonId}`;
+
+const formatPrice = (value?: number | null) =>
+    value == null ? '—' : `₹${Number(value).toLocaleString('en-IN', { maximumFractionDigits: 2 })}`;
+
+/** Price shown to customers: the API's effectivePrice, else override, else base. */
+const displayPrice = (ea: ExperienceAddon) => {
+    if (ea.isFree) return 'Free';
+    return formatPrice(ea.effectivePrice ?? ea.priceOverride ?? ea.basePrice);
+};
 
 interface AddonFormData {
     priceOverride: number;
@@ -22,8 +57,11 @@ const emptyForm: AddonFormData = {
 };
 
 export const AddonsTab: React.FC<AddonsTabProps> = ({
+    experienceId,
     availableAddons,
     experienceAddons,
+    loading = false,
+    getExperienceAddons,
     onToggleAddon
 }) => {
     const [search, setSearch] = useState("");
@@ -31,10 +69,17 @@ export const AddonsTab: React.FC<AddonsTabProps> = ({
     const [selectedAddonId, setSelectedAddonId] = useState<number | null>(null);
     const [formData, setFormData] = useState<AddonFormData>(emptyForm);
 
-    const filteredAssignedAddons = experienceAddons?.filter((ea: any) => {
-        if (!search) return true;
-        return ea.addonName?.toLowerCase().includes(search.toLowerCase());
-    }) || [];
+    // Load this experience's add-ons from the dedicated endpoint whenever the experience changes.
+    useEffect(() => {
+        if (experienceId && getExperienceAddons) {
+            getExperienceAddons(experienceId).catch(() => { /* error surfaced via store */ });
+        }
+    }, [experienceId, getExperienceAddons]);
+
+    const filteredAssignedAddons = useMemo(() => {
+        const q = search.trim().toLowerCase();
+        return (experienceAddons || []).filter((ea) => !q || addonName(ea).toLowerCase().includes(q) || ea.description?.toLowerCase().includes(q));
+    }, [experienceAddons, search]);
 
     const handleOpenAssocModal = () => {
         setSelectedAddonId(null);
@@ -61,8 +106,8 @@ export const AddonsTab: React.FC<AddonsTabProps> = ({
     };
 
     // Filter available addons down to those that are active and not already assigned
-    const unassignedAddons = availableAddons.filter((addon: any) =>
-        addon.isActive && !experienceAddons?.some((ea: any) => ea.addonId === addon.id)
+    const unassignedAddons = (availableAddons || []).filter((addon: any) =>
+        addon.isActive && !experienceAddons?.some((ea) => ea.addonId === addon.id)
     );
 
     return (
@@ -81,16 +126,28 @@ export const AddonsTab: React.FC<AddonsTabProps> = ({
             </div>
 
             <div className="space-y-3 overflow-y-auto pr-2 pb-20">
-                {filteredAssignedAddons.map((ea: any) => (
-                    <div key={ea.addonId} className="flex flex-col gap-3 p-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm transition-all hover:border-blue-300">
+                {loading && filteredAssignedAddons.length === 0 && (
+                    <div className="flex items-center justify-center gap-2 py-10 text-sm text-slate-400">
+                        <Loader2 size={16} className="animate-spin" /> Loading add-ons…
+                    </div>
+                )}
+                {filteredAssignedAddons.map((ea) => (
+                    <div key={ea.mapperId ?? ea.addonId} className="flex flex-col gap-3 p-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm transition-all hover:border-blue-300">
                         <div className="flex items-start justify-between">
                             <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-600 dark:text-blue-400">
-                                    <Package size={18} />
+                                <div className="w-10 h-10 rounded-full overflow-hidden bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0">
+                                    {ea.thumbnailUrl || ea.originalUrl ? (
+                                        <img src={getMediaAssetUrl(ea.thumbnailUrl || ea.originalUrl)} alt={addonName(ea)} className="w-full h-full object-cover" />
+                                    ) : (
+                                        <Package size={18} />
+                                    )}
                                 </div>
                                 <div>
                                     <h4 className="font-semibold text-slate-900 dark:text-white flex items-center gap-2">
-                                        {ea.addonName}
+                                        {addonName(ea)}
+                                        {ea.isActive === false && (
+                                            <span className="text-[10px] uppercase font-bold bg-slate-100 dark:bg-gray-800 text-slate-500 px-1.5 py-0.5 rounded-full">Inactive</span>
+                                        )}
                                         {ea.isFree && (
                                             <span className="text-[10px] uppercase font-bold bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 px-1.5 py-0.5 rounded-full flex items-center gap-1">
                                                 <CheckCircle2 size={10} /> Free
@@ -98,8 +155,14 @@ export const AddonsTab: React.FC<AddonsTabProps> = ({
                                         )}
                                     </h4>
                                     <p className="text-xs text-slate-500">
-                                        Price: <span className="font-semibold">{ea.isFree ? 'Free' : `₹${ea.priceOverride}`}</span>
+                                        Price: <span className="font-semibold text-slate-700 dark:text-slate-200">{displayPrice(ea)}</span>
+                                        {!ea.isFree && ea.priceOverride != null && ea.basePrice != null && Number(ea.priceOverride) !== Number(ea.basePrice) && (
+                                            <span className="ml-1.5 text-slate-400">(base {formatPrice(ea.basePrice)})</span>
+                                        )}
                                     </p>
+                                    {ea.description && (
+                                        <p className="text-xs text-slate-400 mt-0.5 line-clamp-1">{ea.description}</p>
+                                    )}
                                 </div>
                             </div>
 
@@ -116,7 +179,7 @@ export const AddonsTab: React.FC<AddonsTabProps> = ({
                     </div>
                 ))}
 
-                {filteredAssignedAddons.length === 0 && (
+                {!loading && filteredAssignedAddons.length === 0 && (
                     <div className="text-center py-12 text-slate-400 dark:text-gray-500 border-2 border-dashed border-slate-200 dark:border-gray-800 rounded-xl">
                         <Package className="mx-auto h-8 w-8 opacity-20 mb-3" />
                         <p className="text-sm font-medium text-slate-600 dark:text-slate-400">No add-ons associated.</p>
@@ -155,8 +218,7 @@ export const AddonsTab: React.FC<AddonsTabProps> = ({
                             <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
                                 Price Override (₹)
                             </label>
-                            <input
-                                type="number"
+                            <NumberInput
                                 min="0"
                                 className="w-full bg-slate-50 dark:bg-gray-800/50 border border-slate-200 dark:border-gray-700 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500/20 text-slate-900 dark:text-white"
                                 value={formData.priceOverride}

@@ -1,6 +1,7 @@
 import * as React from "react"
 import { type LucideIcon, Eye, EyeOff } from 'lucide-react'
 import { cn } from "@/lib/utils"
+import { NumberInput, type NumberInputProps } from './NumberInput'
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string
@@ -11,6 +12,13 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, label, icon: Icon, error, ...props }, ref) => {
     const [showPassword, setShowPassword] = React.useState(false)
+    const inputClassName = cn(
+      "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium text-gray-900 dark:text-gray-100 placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--accent-ring)] focus-visible:border-[var(--accent)] disabled:cursor-not-allowed disabled:opacity-50",
+      Icon && "pl-9",
+      type === 'password' && "pr-10",
+      error && "border-red-500 focus-visible:ring-red-500 focus-visible:border-red-500",
+      className
+    )
     return (
       <div className="w-full space-y-2">
         {label && (
@@ -27,18 +35,21 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               <Icon className="h-4 w-4" />
             </div>
           )}
-          <input
-            type={type === 'password' && showPassword ? 'text' : type}
-            className={cn(
-              "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium text-gray-900 dark:text-gray-100 placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--accent-ring)] focus-visible:border-[var(--accent)] disabled:cursor-not-allowed disabled:opacity-50",
-              Icon && "pl-9",
-              type === 'password' && "pr-10",
-              error && "border-red-500 focus-visible:ring-red-500 focus-visible:border-red-500",
-              className
-            )}
-            ref={ref}
-            {...props}
-          />
+          {type === 'number' ? (
+            <NumberInput
+              className={inputClassName}
+              ref={ref}
+              {...props}
+              value={props.value as NumberInputProps['value']}
+            />
+          ) : (
+            <input
+              type={type === 'password' && showPassword ? 'text' : type}
+              className={inputClassName}
+              ref={ref}
+              {...props}
+            />
+          )}
           {type === 'password' && (
             <button
               type="button"
