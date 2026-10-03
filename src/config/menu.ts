@@ -31,7 +31,8 @@ import {
     Megaphone,
     Receipt,
     RotateCcw,
-    GalleryHorizontalEnd
+    GalleryHorizontalEnd,
+    CircleHelp
 } from 'lucide-react';
 
 export interface SidebarItem {
@@ -69,6 +70,7 @@ export const sidebarItems: SidebarItem[] = [
             { name: 'Customers', path: '/admin/customers', icon: Users },
             { name: 'Reviews', path: '/admin/reviews', icon: Star },
             { name: 'Helpdesk', path: '/admin/helpdesk', icon: Headset },
+            { name: 'FAQs', path: '/admin/faqs', icon: CircleHelp },
             { name: 'Surveys', path: '/admin/surveys', icon: ClipboardCheck },
             { name: 'Notifications', path: '/admin/notifications', icon: Bell },
         ]

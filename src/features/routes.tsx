@@ -32,6 +32,7 @@ import { waitlistRoutes } from '@/features/waitlist/pages/routes';
 import { timelineRoutes } from '@/features/calendar-timeline/pages/routes';
 import { logsRoutes } from '@/features/activity-logs/pages/routes';
 import { cmsRoutes } from '@/features/cms/pages/routes';
+import { faqRoutes } from '@/features/faq/pages/routes';
 
 export const adminRoutes = [
     ...dashboardRoutes,
@@ -68,4 +69,5 @@ export const adminRoutes = [
     ...timelineRoutes,
     ...logsRoutes,
     ...cmsRoutes,
+    ...faqRoutes,
 ];

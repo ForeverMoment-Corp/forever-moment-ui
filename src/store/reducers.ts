@@ -36,6 +36,7 @@ import { waitlistReducer } from '@/features/waitlist/store/reducer';
 import { timelineReducer } from '@/features/calendar-timeline/store/reducer';
 import { logsReducer } from '@/features/activity-logs/store/reducer';
 import { cmsReducer } from '@/features/cms/store/reducer';
+import { faqReducer } from '@/features/faq/store/reducer';
 
 export const rootReducer = combineReducers({
     // Global config
@@ -74,4 +75,5 @@ export const rootReducer = combineReducers({
     timeline: timelineReducer,
     logs: logsReducer,
     cms: cmsReducer,
+    faq: faqReducer,
 });

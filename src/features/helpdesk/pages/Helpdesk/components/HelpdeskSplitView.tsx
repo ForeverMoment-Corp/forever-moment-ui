@@ -1,70 +1,96 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { CrudSplitViewLayout } from '@/components/common/CrudSplitViewLayout';
 import { StatusBadge } from '@/components/common/StatusBadge';
-import { LifeBuoy, MessageSquare, User, Clock, CheckCircle, AlertCircle, Send } from 'lucide-react';
+import { StatsRow } from '@/components/common/StatsRow';
+import { Cell, FieldGrid, FieldLabel, SectionLabel } from '@/components/common/DetailsLayout';
+import { CheckCircle, Inbox, LifeBuoy, Mail, MessageSquare, Phone } from 'lucide-react';
+import { dateFormatTo } from '@/utils/date';
 import { cn } from '@/utils/cn';
+import type { SupportQuery } from '../../../store/api';
 
 interface HelpdeskSplitViewProps {
-    tickets: any[];
-    selectedTicket: any | null;
-    setSelectedTicket: (item: any | null) => void;
-    handleOpenModal: (item?: any) => void;
+    queries: SupportQuery[];
     loading: boolean;
+    selectedQuery: SupportQuery | null;
+    setSelectedQuery: (query: SupportQuery | null) => void;
+    onResolve: (query: SupportQuery) => void;
 }
 
+const formatDateTime = (date?: string | number | null) => (date ? dateFormatTo(date, 'dd MMM yyyy, hh:mm a') : '-');
+
+const QueryStatusBadge = ({ status, className }: { status: SupportQuery['status']; className?: string }) => (
+    <StatusBadge
+        status={status === 'OPEN' ? 'Open' : 'Resolved'}
+        variant={status === 'OPEN' ? 'info' : 'success'}
+        className={className}
+    />
+);
+
 export const HelpdeskSplitView: React.FC<HelpdeskSplitViewProps> = ({
-    tickets,
-    selectedTicket,
-    setSelectedTicket,
-    handleOpenModal,
-    loading
+    queries,
+    loading,
+    selectedQuery,
+    setSelectedQuery,
+    onResolve
 }) => {
     const columns = [
         {
             header: 'Subject',
             accessorKey: 'subject',
-            render: (item: any) => (
-                <div className="flex flex-col">
-                    <span className="text-[13.5px] font-bold text-slate-700 dark:text-slate-200">{item.subject}</span>
-                    <span className="text-[11px] text-slate-400 font-medium">{item.id}</span>
+            className: 'w-[35%] min-w-[220px] py-1.5 px-4 text-left',
+            render: (item: SupportQuery) => (
+                <div className="flex flex-col min-w-0">
+                    <span className="text-[13.5px] font-bold text-slate-700 dark:text-slate-200 truncate max-w-[360px]" title={item.subject || item.message}>
+                        {item.subject || item.message}
+                    </span>
+                    <span className="text-[11px] text-slate-400 font-medium">{item.referenceId}</span>
                 </div>
             )
         },
         {
             header: 'Customer',
-            accessorKey: 'customer',
-            render: (item: any) => (
-                <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 rounded-full bg-slate-100 dark:bg-gray-800 flex items-center justify-center text-[10px] font-bold text-slate-500">
-                        {item.customer.charAt(0)}
+            accessorKey: 'name',
+            className: 'w-[25%] min-w-[180px] py-1.5 px-4 text-left',
+            render: (item: SupportQuery) => (
+                <div className="flex items-center gap-2 min-w-0">
+                    <div className="w-6 h-6 rounded-full bg-slate-100 dark:bg-gray-800 flex items-center justify-center text-[10px] font-bold text-slate-500 shrink-0">
+                        {item.name?.charAt(0).toUpperCase() || '?'}
                     </div>
-                    <span className="text-[12.5px] font-medium text-slate-600 dark:text-slate-400">{item.customer}</span>
+                    <div className="flex flex-col min-w-0">
+                        <span className="text-[12.5px] font-medium text-slate-600 dark:text-slate-300 truncate">{item.name}</span>
+                        <span className="text-[11px] text-slate-400 truncate">{item.email}</span>
+                    </div>
                 </div>
             )
         },
         {
-            header: 'Priority',
-            accessorKey: 'priority',
-            render: (item: any) => (
-                <StatusBadge 
-                    status={item.priority} 
-                    variant={item.priority === 'High' ? 'error' : item.priority === 'Medium' ? 'warning' : 'neutral'} 
-                />
-            )
+            header: 'Received',
+            accessorKey: 'createdOn',
+            className: 'w-[20%] min-w-[150px] py-1.5 px-4 text-left text-[12.5px] text-slate-500 dark:text-slate-400',
+            render: (item: SupportQuery) => formatDateTime(item.createdOn)
         },
         {
             header: 'Status',
             accessorKey: 'status',
-            render: (item: any) => (
-                <StatusBadge 
-                    status={item.status} 
-                    variant={item.status === 'Open' ? 'info' : item.status === 'Resolved' ? 'success' : 'neutral'} 
-                />
+            preventRowClick: true,
+            className: 'w-[20%] min-w-[150px] py-1.5 px-4 text-left',
+            render: (item: SupportQuery) => (
+                <div className="flex items-center gap-2">
+                    <QueryStatusBadge status={item.status} />
+                    {item.status === 'OPEN' && (
+                        <button
+                            onClick={(e) => { e.stopPropagation(); onResolve(item); }}
+                            className="text-[11.5px] font-semibold text-[var(--accent)] hover:underline"
+                        >
+                            Resolve
+                        </button>
+                    )}
+                </div>
             )
         }
     ];
 
-    const renderListItem = useCallback((item: any, isSelected: boolean) => (
+    const renderListItem = useCallback((item: SupportQuery, isSelected: boolean) => (
         <div
             className={cn(
                 "flex items-center gap-3 p-3 mb-1 cursor-pointer transition-all duration-200 rounded-lg group relative",
@@ -84,100 +110,170 @@ export const HelpdeskSplitView: React.FC<HelpdeskSplitViewProps> = ({
                 <div className={cn(
                     "font-semibold text-[13.5px] truncate mb-0.5 transition-colors leading-tight",
                     isSelected ? "text-[var(--accent)]" : "text-slate-800 dark:text-slate-100 group-hover:text-[var(--accent)]"
-                )}>{item.subject}</div>
+                )}>{item.subject || item.message}</div>
                 <div className="text-xs text-slate-400 dark:text-slate-500 font-medium truncate">
-                    {item.customer} • {item.lastUpdate}
+                    {item.name} • {formatDateTime(item.createdOn)}
                 </div>
             </div>
-            <StatusBadge 
-                status={item.status} 
-                variant={item.status === 'Open' ? 'info' : 'success'} 
-                className="scale-75 origin-right"
-            />
+            <QueryStatusBadge status={item.status} className="scale-75 origin-right" />
         </div>
     ), []);
 
-    const renderDetailsPanel = useCallback((item: any) => {
+    const renderDetailsPanel = useCallback((item: SupportQuery) => {
         if (!item) return null;
+        const replySubject = encodeURIComponent(`Re: ${item.subject || 'Your support query'} [${item.referenceId}]`);
         return (
-            <div className="p-6 space-y-8 animate-in fade-in slide-in-from-right-4 duration-300">
-                <div className="flex items-start justify-between">
-                    <div className="flex gap-4">
-                        <div className="w-14 h-14 rounded-2xl bg-orange-50 dark:bg-orange-900/20 flex items-center justify-center text-orange-600 dark:text-orange-400 shadow-sm border border-orange-100/50 dark:border-orange-800/20">
-                            <LifeBuoy size={28} />
+            <div className="space-y-6 pb-20 pt-2">
+                <div className="flex items-start justify-between gap-4">
+                    <div className="flex gap-4 min-w-0">
+                        <div className="w-12 h-12 rounded-2xl bg-orange-50 dark:bg-orange-900/20 flex items-center justify-center text-orange-600 dark:text-orange-400 shrink-0">
+                            <LifeBuoy size={24} />
                         </div>
-                        <div>
-                            <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight leading-tight mb-1">{item.subject}</h2>
+                        <div className="min-w-0">
+                            <h2 className="text-lg font-bold text-slate-900 dark:text-white leading-tight mb-1 break-words">
+                                {item.subject || 'No subject'}
+                            </h2>
                             <div className="flex items-center gap-2">
-                                <span className="text-xs font-bold text-slate-400 bg-slate-100 dark:bg-gray-800 px-2 py-0.5 rounded-md">{item.id}</span>
-                                <StatusBadge status={item.priority} variant={item.priority === 'High' ? 'error' : 'warning'} />
-                                <StatusBadge status={item.status} variant={item.status === 'Open' ? 'info' : 'success'} />
+                                <span className="text-xs font-bold text-slate-400 bg-slate-100 dark:bg-gray-800 px-2 py-0.5 rounded-md">{item.referenceId}</span>
+                                <QueryStatusBadge status={item.status} />
                             </div>
                         </div>
                     </div>
+                    {item.status === 'OPEN' && (
+                        <button
+                            onClick={() => onResolve(item)}
+                            className="shrink-0 inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-[var(--accent)] text-white text-[12.5px] font-semibold hover:opacity-90 transition-opacity"
+                        >
+                            <CheckCircle size={14} />
+                            Mark resolved
+                        </button>
+                    )}
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-slate-50 dark:bg-gray-900/40 p-5 rounded-2xl border border-slate-100 dark:border-gray-800 space-y-1">
-                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Customer</p>
-                        <p className="text-[14px] font-bold text-slate-700 dark:text-slate-200 flex items-center gap-2">
-                            <User size={14} className="text-slate-400" />
-                            {item.customer}
-                        </p>
-                    </div>
-                    <div className="bg-slate-50 dark:bg-gray-900/40 p-5 rounded-2xl border border-slate-100 dark:border-gray-800 space-y-1">
-                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Technician</p>
-                        <p className="text-[14px] font-bold text-slate-700 dark:text-slate-200">
-                            {item.assignee}
-                        </p>
-                    </div>
+                <div>
+                    <SectionLabel>Message</SectionLabel>
+                    <p className="mt-2 text-[13.5px] text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-wrap break-words bg-slate-50 dark:bg-gray-900/40 p-4 rounded-xl border border-slate-100 dark:border-gray-800">
+                        {item.message}
+                    </p>
                 </div>
 
-                <div className="space-y-4">
-                    <h3 className="text-[13px] font-black text-slate-900 dark:text-white uppercase tracking-wider">Conversation History</h3>
-                    <div className="space-y-4">
-                        <div className="flex gap-3">
-                            <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-gray-800 flex items-center justify-center text-[10px] font-black text-slate-500 shrink-0">
-                                {item.customer.charAt(0)}
-                            </div>
-                            <div className="bg-white dark:bg-gray-900 p-4 rounded-2xl rounded-tl-none border border-slate-200 dark:border-gray-800 shadow-sm grow">
-                                <p className="text-[13.5px] text-slate-600 dark:text-slate-400 leading-relaxed italic">
-                                    "I am unable to access my package details in the dashboard. It keeps showing a loading spinner. Can you please check?"
-                                </p>
-                                <span className="text-[10px] font-bold text-slate-400 mt-2 block">{item.lastUpdate}</span>
-                            </div>
-                        </div>
-                    </div>
+                <div>
+                    <SectionLabel>Customer</SectionLabel>
+                    <FieldGrid>
+                        <Cell>
+                            <FieldLabel>Name</FieldLabel>
+                            <p className="text-[13px] font-semibold text-gray-900 dark:text-gray-100">{item.name}</p>
+                        </Cell>
+                        <Cell>
+                            <FieldLabel>Email</FieldLabel>
+                            <a
+                                href={`mailto:${item.email}?subject=${replySubject}`}
+                                className="text-[13px] font-semibold text-[var(--accent)] hover:underline inline-flex items-center gap-1.5 break-all"
+                            >
+                                <Mail size={13} className="shrink-0" />
+                                {item.email}
+                            </a>
+                        </Cell>
+                        <Cell>
+                            <FieldLabel>Phone</FieldLabel>
+                            {item.phone ? (
+                                <a
+                                    href={`tel:${item.phone}`}
+                                    className="text-[13px] font-semibold text-[var(--accent)] hover:underline inline-flex items-center gap-1.5"
+                                >
+                                    <Phone size={13} className="shrink-0" />
+                                    {item.phone}
+                                </a>
+                            ) : (
+                                <p className="text-[13px] text-slate-400 italic">Not provided</p>
+                            )}
+                        </Cell>
+                    </FieldGrid>
                 </div>
 
-                <div className="relative group pt-4">
-                    <textarea 
-                        className="w-full h-32 bg-slate-50 dark:bg-gray-900/60 rounded-2xl border border-slate-200 dark:border-gray-800 p-4 text-[13.5px] text-slate-700 dark:text-slate-200 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500/20 transition-all resize-none"
-                        placeholder="Type your response here..."
-                    />
-                    <button className="absolute bottom-4 right-4 p-3 bg-orange-500 text-white rounded-xl shadow-lg shadow-orange-500/30 hover:bg-orange-600 active:scale-95 transition-all">
-                        <Send size={18} />
-                    </button>
+                <div>
+                    <SectionLabel>Timeline</SectionLabel>
+                    <FieldGrid>
+                        <Cell>
+                            <FieldLabel>Received</FieldLabel>
+                            <p className="text-[13px] font-semibold text-gray-900 dark:text-gray-100">{formatDateTime(item.createdOn)}</p>
+                        </Cell>
+                        <Cell>
+                            <FieldLabel>Resolved</FieldLabel>
+                            <p className="text-[13px] font-semibold text-gray-900 dark:text-gray-100">{formatDateTime(item.resolvedOn)}</p>
+                        </Cell>
+                    </FieldGrid>
                 </div>
             </div>
         );
+    }, [onResolve]);
+
+    const renderStatsRow = useMemo(() => () => {
+        const open = queries.filter(q => q.status === 'OPEN').length;
+        return (
+            <StatsRow stats={[
+                {
+                    icon: <Inbox size={18} style={{ color: 'var(--accent)' }} />,
+                    iconBg: 'var(--accent-light)',
+                    value: queries.length,
+                    label: 'Total Queries',
+                },
+                {
+                    icon: <MessageSquare size={18} className="text-indigo-600 dark:text-indigo-400" />,
+                    iconBg: 'rgba(99, 102, 241, 0.12)',
+                    value: open,
+                    label: 'Open',
+                },
+                {
+                    icon: <CheckCircle size={18} className="text-emerald-600 dark:text-emerald-400" />,
+                    iconBg: 'rgba(16, 185, 129, 0.12)',
+                    value: queries.length - open,
+                    label: 'Resolved',
+                },
+            ]} />
+        );
+    }, [queries]);
+
+    const customFilter = useCallback((item: SupportQuery, activeFilters: Record<string, string[]>) => {
+        if (activeFilters.status && activeFilters.status.length > 0) {
+            return activeFilters.status.includes(item.status);
+        }
+        return true;
+    }, []);
+
+    const customSearch = useCallback((item: SupportQuery, search: string) => {
+        const s = search.toLowerCase();
+        return [item.referenceId, item.subject, item.message, item.name, item.email, item.phone]
+            .some(v => v?.toLowerCase().includes(s));
     }, []);
 
     return (
         <CrudSplitViewLayout
-            data={tickets}
+            data={queries}
             loading={loading}
-            resourceName="Ticket"
-            resourceNamePlural="Tickets"
-            selectedItem={selectedTicket}
-            onSelectItem={setSelectedTicket}
+            resourceName="Query"
+            resourceNamePlural="Queries"
+            selectedItem={selectedQuery}
+            onSelectItem={setSelectedQuery}
             columns={columns}
-            keyExtractor={(item: any) => item.id}
+            keyExtractor={(item: SupportQuery) => item.id}
             renderListItem={renderListItem}
-            tabs={[{ id: 'details', label: 'Ticket Activity' }]}
+            tabs={[{ id: 'details', label: 'Query Details' }]}
             renderDetailsPanel={renderDetailsPanel}
-            onAdd={() => handleOpenModal()}
-            searchFields={['subject', 'customer', 'id']}
+            renderStatsRow={renderStatsRow}
+            filterConfig={[
+                {
+                    id: 'status',
+                    name: 'Status',
+                    options: [
+                        { id: '1', label: 'Open', value: 'OPEN' },
+                        { id: '2', label: 'Resolved', value: 'RESOLVED' },
+                    ]
+                }
+            ]}
+            customFilter={customFilter}
+            customSearch={customSearch}
+            emptyStateIcon="💬"
         />
     );
 };
