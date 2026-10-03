@@ -22,7 +22,7 @@ export const PincodeForm = ({ initialData, onSubmit, onCancel, submitLabel }: Pi
     };
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-4 pt-4">
+        <form onSubmit={handleSubmit} className="space-y-3 pt-3">
             <div>
                 <Input
                     label="Pincode Code"
@@ -61,7 +61,7 @@ export const PincodeForm = ({ initialData, onSubmit, onCancel, submitLabel }: Pi
                     searchable={false}
                 />
             </div>
-            <div className="flex justify-end gap-3 mt-6">
+            <div className="flex justify-end gap-3 mt-3">
                 <Button type="button" variant="secondary" onClick={onCancel}>Cancel</Button>
                 <Button type="submit" variant="default">
                     {submitLabel}

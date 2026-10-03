@@ -34,7 +34,7 @@ export const TimeSlotModal: React.FC<TimeSlotModalProps> = ({
             title={isTsEditing ? "Update Time Slot" : "Associate Time Slot"}
             className="max-w-md w-[95vw]"
         >
-            <div className="space-y-6">
+            <div className="space-y-3">
                 {!isTsEditing && (
                     <div>
                         <Dropdown
@@ -115,7 +115,7 @@ export const TimeSlotModal: React.FC<TimeSlotModalProps> = ({
                     </label>
                 </div>
 
-                <div className="flex justify-end gap-3 pt-4 border-t border-slate-100 dark:border-gray-800">
+                <div className="flex justify-end gap-3 pt-3 border-t border-slate-100 dark:border-gray-800">
                     <Button variant="secondary" onClick={onClose}>
                         Cancel
                     </Button>

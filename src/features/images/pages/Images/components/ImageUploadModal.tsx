@@ -46,8 +46,8 @@ export const ImageUploadModal: React.FC<ImageUploadModalProps> = ({ onUpload, on
     };
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="flex flex-col items-center justify-center p-6 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-xl bg-gray-50 dark:bg-gray-800/50 hover:border-blue-500 transition-colors cursor-pointer relative">
+        <form onSubmit={handleSubmit} className="space-y-3">
+            <div className="flex flex-col items-center justify-center p-4 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-xl bg-gray-50 dark:bg-gray-800/50 hover:border-blue-500 transition-colors cursor-pointer relative">
                 {previews.length > 0 ? (
                     <div className="w-full space-y-3">
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
@@ -80,7 +80,7 @@ export const ImageUploadModal: React.FC<ImageUploadModalProps> = ({ onUpload, on
                 )}
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-3">
                 <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Label (Optional)</label>
                     <input
@@ -113,7 +113,7 @@ export const ImageUploadModal: React.FC<ImageUploadModalProps> = ({ onUpload, on
                 </div>
             </div>
 
-            <div className="flex justify-end gap-3 pt-4 border-t border-gray-100 dark:border-gray-800">
+            <div className="flex justify-end gap-3 pt-3 border-t border-gray-100 dark:border-gray-800">
                 <Button variant="secondary" onClick={onCancel}>Cancel</Button>
                 <Button type="submit" disabled={files.length === 0 || isLoading} isLoading={isLoading}>
                     Upload {files.length > 0 ? `${files.length} Image${files.length > 1 ? 's' : ''}` : 'Image'}

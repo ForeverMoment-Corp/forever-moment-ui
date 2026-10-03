@@ -71,7 +71,7 @@ export const PromotionAssetSplitView = ({
     const columns = [
         {
             header: 'Asset',
-            className: 'w-[34%] min-w-[220px] py-1.5 px-4 text-left font-semibold text-slate-900 dark:text-white',
+            className: 'w-[34%] min-w-[220px] px-3 text-left font-semibold text-slate-900 dark:text-white',
             render: (a: PromotionAssetType) => (
                 <div className="flex items-center gap-3">
                     {renderThumb(a, 'h-10 w-16')}
@@ -84,7 +84,7 @@ export const PromotionAssetSplitView = ({
         },
         {
             header: 'Placement',
-            className: 'w-[14%] min-w-[120px] py-1.5 px-4 text-left',
+            className: 'w-[14%] min-w-[120px] px-3 text-left',
             render: (a: PromotionAssetType) => (
                 <span className="inline-flex px-2 py-0.5 rounded-md bg-slate-100 dark:bg-gray-800 text-slate-700 dark:text-slate-300 text-[12px] font-medium">
                     {a.placement}
@@ -93,7 +93,7 @@ export const PromotionAssetSplitView = ({
         },
         {
             header: 'Window',
-            className: 'w-[24%] min-w-[200px] py-1.5 px-4 text-left',
+            className: 'w-[24%] min-w-[200px] px-3 text-left',
             render: (a: PromotionAssetType) => (
                 <div className="flex items-center gap-2 text-[12.5px] text-slate-600 dark:text-slate-300">
                     {renderScheduleBadge(a)}
@@ -103,7 +103,7 @@ export const PromotionAssetSplitView = ({
         },
         {
             header: 'Priority',
-            className: 'w-[8%] min-w-[80px] py-1.5 px-4 text-left',
+            className: 'w-[8%] min-w-[80px] px-3 text-left',
             render: (a: PromotionAssetType) => (
                 <span className="font-medium text-slate-700 dark:text-slate-300">{a.priority ?? 100}</span>
             ),
@@ -111,7 +111,7 @@ export const PromotionAssetSplitView = ({
         {
             header: 'Status',
             preventRowClick: true,
-            className: 'w-[12%] min-w-[120px] py-1.5 px-4 text-left',
+            className: 'w-[12%] min-w-[120px] px-3 text-left',
             render: (a: PromotionAssetType) => (
                 <EditableStatusBadge
                     status={a.isActive ? 'Active' : 'Inactive'}
@@ -123,7 +123,7 @@ export const PromotionAssetSplitView = ({
         {
             header: '',
             preventRowClick: true,
-            className: 'w-[8%] min-w-[80px] py-1.5 px-4 text-right',
+            className: 'w-[8%] min-w-[80px] px-3 text-right',
             render: (a: PromotionAssetType) => (
                 <div onClick={(e) => e.stopPropagation()}>
                     <RowActions

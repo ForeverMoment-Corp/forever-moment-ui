@@ -68,7 +68,7 @@ export const ImagePreview = ({
 
     return (
         <div className="w-full">
-            <div className="relative aspect-video w-full rounded-2xl overflow-hidden border border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-gray-950 flex items-center justify-center group shadow-inner">
+            <div className="relative aspect-video w-full rounded-lg overflow-hidden border border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-gray-950 flex items-center justify-center group shadow-inner">
                 <img
                     src={src}
                     alt={fileName}
@@ -102,11 +102,11 @@ export const ImagePreview = ({
             {/* Full Screen Lightbox */}
             {isFullScreen && createPortal(
                 <div
-                    className="fixed inset-0 z-[9999] bg-black/95 backdrop-blur-sm flex flex-col items-center justify-center p-4 animate-in fade-in duration-300 overflow-hidden"
+                    className="fixed inset-0 z-[9999] bg-black/95 backdrop-blur-sm flex flex-col items-center justify-center p-3 animate-in fade-in duration-300 overflow-hidden"
                     onClick={() => setIsFullScreen(false)}
                 >
                     {/* Controls Overlay */}
-                    <div className="absolute top-0 left-0 right-0 p-6 flex items-center justify-between z-10 pointer-events-none">
+                    <div className="absolute top-0 left-0 right-0 p-4 flex items-center justify-between z-10 pointer-events-none">
                         <div className="flex flex-col items-start pointer-events-auto">
                             <h3 className="text-white font-semibold text-lg drop-shadow-md">{fileName}</h3>
                             <p className="text-white/60 text-sm mt-1 uppercase tracking-wider font-mono drop-shadow-md">
@@ -173,7 +173,7 @@ export const ImagePreview = ({
                         {onDownload && (
                             <button
                                 onClick={(e) => { e.stopPropagation(); onDownload(); }}
-                                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-2xl font-semibold flex items-center gap-2.5 transition-all shadow-xl hover:scale-105 active:scale-95"
+                                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-lg font-semibold flex items-center gap-2.5 transition-all shadow-xl hover:scale-105 active:scale-95"
                             >
                                 <Download size={20} />
                                 Download Original
@@ -181,7 +181,7 @@ export const ImagePreview = ({
                         )}
                         <button
                             onClick={() => setIsFullScreen(false)}
-                            className="bg-white/10 hover:bg-white/20 text-white px-8 py-3 rounded-2xl font-semibold transition-all border border-white/10 backdrop-blur-md active:scale-95"
+                            className="bg-white/10 hover:bg-white/20 text-white px-4 py-3 rounded-lg font-semibold transition-all border border-white/10 backdrop-blur-md active:scale-95"
                         >
                             Dismiss
                         </button>

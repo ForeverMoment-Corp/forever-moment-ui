@@ -47,7 +47,7 @@ export const FaqSplitView = ({
         {
             header: 'Question',
             accessorKey: 'question',
-            className: 'w-[35%] min-w-[220px] py-1.5 px-4 text-left font-semibold text-slate-900 dark:text-white whitespace-nowrap',
+            className: 'w-[35%] min-w-[220px] px-3 text-left font-semibold text-slate-900 dark:text-white whitespace-nowrap',
             render: (faq: FaqType) => (
                 <div className="flex items-center gap-3">
                     <IdBadge id={faq.id} />
@@ -59,7 +59,7 @@ export const FaqSplitView = ({
         },
         {
             header: 'Answer',
-            className: 'w-[35%] min-w-[220px] py-1.5 px-4 text-left text-slate-500 dark:text-slate-400',
+            className: 'w-[35%] min-w-[220px] px-3 text-left text-slate-500 dark:text-slate-400',
             render: (faq: FaqType) => (
                 <div className="truncate max-w-[360px]" title={faq.answer}>
                     {faq.answer || '-'}
@@ -69,7 +69,7 @@ export const FaqSplitView = ({
         {
             header: 'Status',
             preventRowClick: true,
-            className: 'w-[15%] min-w-[120px] py-1.5 px-4 text-left',
+            className: 'w-[15%] min-w-[120px] px-3 text-left',
             render: (faq: FaqType) => (
                 <EditableStatusBadge
                     status={faq.isActive ? 'Active' : 'Inactive'}
@@ -85,7 +85,7 @@ export const FaqSplitView = ({
         {
             header: 'Actions',
             preventRowClick: true,
-            className: 'w-[15%] min-w-[100px] py-1.5 px-4 text-right',
+            className: 'w-[15%] min-w-[100px] px-3 text-right',
             render: (faq: FaqType) => (
                 <div onClick={(e) => e.stopPropagation()}>
                     <RowActions

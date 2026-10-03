@@ -33,7 +33,7 @@ export const SubCategoryForm = ({ initialData, onSubmit, onCancel, submitLabel, 
     };
 
     return (
-        <form onSubmit={handleSubmit} className='space-y-4 pt-4 relative'>
+        <form onSubmit={handleSubmit} className='space-y-3 pt-3 relative'>
             {loading && (
                 <div className="absolute inset-0 dark:bg-gray-900/50 flex items-center justify-center z-50">
                     <Loader2 className="animate-spin h-8 w-8 text-blue-500" />
@@ -83,7 +83,7 @@ export const SubCategoryForm = ({ initialData, onSubmit, onCancel, submitLabel, 
                     disabled={loading}
                 />
             </div>
-            <div className='flex justify-end gap-3 mt-6'>
+            <div className='flex justify-end gap-3 mt-3'>
                 <Button type='button' variant='secondary' onClick={onCancel} disabled={loading}>Cancel</Button>
                 <Button type='submit' variant='default' disabled={loading}>
                     {loading ? 'Saving...' : submitLabel}

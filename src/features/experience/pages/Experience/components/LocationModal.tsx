@@ -34,7 +34,7 @@ export const LocationModal: React.FC<LocationModalProps> = ({
             title={isEditing ? 'Update Location Details' : 'Associate New Location'}
             className="max-w-md w-[95vw]"
         >
-            <div className="space-y-4">
+            <div className="space-y-3">
                 {!isEditing && (
                     <div>
                         <Dropdown
@@ -108,7 +108,7 @@ export const LocationModal: React.FC<LocationModalProps> = ({
                     </label>
                 </div>
 
-                <div className="flex justify-end gap-3 pt-4 border-t border-slate-200 dark:border-gray-800 mt-6">
+                <div className="flex justify-end gap-3 pt-3 border-t border-slate-200 dark:border-gray-800 mt-3">
                     <Button variant="secondary" onClick={onClose}>
                         Cancel
                     </Button>

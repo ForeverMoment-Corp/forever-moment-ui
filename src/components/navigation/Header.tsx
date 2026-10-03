@@ -64,7 +64,7 @@ const Header = ({ onToggleSidebar }: HeaderProps) => {
     const confirmLogout = () => { dispatch(logout()); navigate('/login'); setShowLogoutModal(false); };
 
     return (
-        <header className='h-16 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between px-4 md:px-7 sticky top-0 z-10 shrink-0'>
+        <header className='h-12 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between px-3 md:px-4 sticky top-0 z-10 shrink-0'>
             {/* Breadcrumb */}
             <div className="flex items-center gap-1">
                 <button onClick={onToggleSidebar} className="p-1.5 -ml-1.5 mr-1 text-gray-400 hover:text-gray-600 md:hidden">
@@ -89,7 +89,7 @@ const Header = ({ onToggleSidebar }: HeaderProps) => {
             <div className="flex items-center gap-2">
                 {/* Bell */}
                 <button
-                    className="relative flex items-center justify-center w-9 h-9 rounded-[8px] transition-all border border-slate-200 dark:border-gray-700 hover:bg-slate-100 dark:hover:bg-gray-800 text-slate-500 dark:text-slate-400 cursor-pointer"
+                    className="relative flex items-center justify-center w-8 h-8 rounded-[8px] transition-all border border-slate-200 dark:border-gray-700 hover:bg-slate-100 dark:hover:bg-gray-800 text-slate-500 dark:text-slate-400 cursor-pointer"
                 >
                     <Bell size={16} />
                     <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-red-500 rounded-full border border-white dark:border-gray-900" />
@@ -98,7 +98,7 @@ const Header = ({ onToggleSidebar }: HeaderProps) => {
                 {/* Settings */}
                 <Link
                     to='/admin/settings'
-                    className="flex items-center justify-center w-9 h-9 rounded-[8px] transition-all border border-slate-200 dark:border-gray-700 hover:bg-slate-100 dark:hover:bg-gray-800 text-slate-500 dark:text-slate-400"
+                    className="flex items-center justify-center w-8 h-8 rounded-[8px] transition-all border border-slate-200 dark:border-gray-700 hover:bg-slate-100 dark:hover:bg-gray-800 text-slate-500 dark:text-slate-400"
                 >
                     <Settings size={16} />
                 </Link>
@@ -107,7 +107,7 @@ const Header = ({ onToggleSidebar }: HeaderProps) => {
                 <div className="relative" ref={dropdownRef}>
                     <button
                         onClick={() => setShowDropdown(!showDropdown)}
-                        className="h-9 w-9 rounded-[8px] flex items-center justify-center text-white text-xs font-bold uppercase"
+                        className="h-8 w-8 rounded-[8px] flex items-center justify-center text-white text-xs font-bold uppercase"
                         style={{ background: 'linear-gradient(135deg, #6c63ff, #a78bfa)' }}
                     >
                         {(profileData?.fullName || user?.name || 'A').trim().split(/\s+/).map((n: string) => n[0]).join('').slice(0, 2).toUpperCase()}

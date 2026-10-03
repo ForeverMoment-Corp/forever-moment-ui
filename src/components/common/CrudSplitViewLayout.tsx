@@ -154,12 +154,12 @@ export function CrudSplitViewLayout<T>({
         return (
             <div className="flex flex-col flex-1 h-full overflow-hidden">
                 {/* Scrollable content */}
-                <div className="flex-1 overflow-y-auto px-7 py-5 flex flex-col gap-4">
+                <div className="flex-1 overflow-y-auto px-3 py-2 flex flex-col gap-2">
                     {/* Stats Row */}
                     {renderStatsRow && renderStatsRow()}
 
                     {/* Toolbar: Search + Filter */}
-                    <div className="flex flex-col sm:flex-row sm:items-center gap-3 w-full">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-2 w-full">
                         <div className="flex-1 relative w-full">
                             <svg className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                 <circle cx="11" cy="11" r="8" />
@@ -167,7 +167,7 @@ export function CrudSplitViewLayout<T>({
                             </svg>
                             <SearchBar
                                 className="w-full"
-                                inputClassName="pl-9 py-2.5 rounded-[10px] bg-white dark:bg-gray-900 border border-[#e8e6e0] dark:border-gray-700 text-[13.5px] focus:border-[var(--accent)] focus:ring-[3px] focus:ring-[var(--accent-ring)] placeholder-[#b0b4be] shadow-sm"
+                                inputClassName="pl-9 py-1.5 rounded-lg bg-white dark:bg-gray-900 border border-[#e8e6e0] dark:border-gray-700 text-[13px] focus:border-[var(--accent)] focus:ring-[3px] focus:ring-[var(--accent-ring)] placeholder-[#b0b4be] shadow-sm"
                                 placeholder={`Search ${pluralName.toLowerCase()} by name, category…`}
                                 value={search}
                                 onChange={setSearch}
@@ -176,7 +176,7 @@ export function CrudSplitViewLayout<T>({
                         {/* Filters button */}
                         {filterConfig.length > 0 && (
                             <button
-                                className="flex items-center gap-1.5 text-[13.5px] font-medium px-4 py-[9px] rounded-[10px] whitespace-nowrap transition-all border border-slate-200 bg-white text-slate-700 dark:border-gray-700 dark:bg-gray-900 dark:text-slate-300 hover:border-[var(--accent)] hover:text-[var(--accent)] hover:bg-[var(--accent-light)] dark:hover:border-[var(--accent)] dark:hover:text-[var(--accent)] cursor-pointer"
+                                className="flex items-center gap-1.5 text-[13px] font-medium px-3 py-1.5 rounded-lg whitespace-nowrap transition-all border border-slate-200 bg-white text-slate-700 dark:border-gray-700 dark:bg-gray-900 dark:text-slate-300 hover:border-[var(--accent)] hover:text-[var(--accent)] hover:bg-[var(--accent-light)] dark:hover:border-[var(--accent)] dark:hover:text-[var(--accent)] cursor-pointer"
                             >
                                 <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 4h18M7 8h10M11 12h2" /></svg>
                                 Filters
@@ -184,7 +184,7 @@ export function CrudSplitViewLayout<T>({
                         )}
                         {/* Sort button */}
                         <button
-                            className="shrink-0 flex items-center gap-1.5 text-[13.5px] font-medium px-4 py-[9px] rounded-[10px] whitespace-nowrap transition-all border border-slate-200 bg-white text-slate-700 dark:border-gray-700 dark:bg-gray-900 dark:text-slate-300 hover:border-[var(--accent)] hover:text-[var(--accent)] hover:bg-[var(--accent-light)] dark:hover:border-[var(--accent)] dark:hover:text-[var(--accent)] cursor-pointer"
+                            className="shrink-0 flex items-center gap-1.5 text-[13px] font-medium px-3 py-1.5 rounded-lg whitespace-nowrap transition-all border border-slate-200 bg-white text-slate-700 dark:border-gray-700 dark:bg-gray-900 dark:text-slate-300 hover:border-[var(--accent)] hover:text-[var(--accent)] hover:bg-[var(--accent-light)] dark:hover:border-[var(--accent)] dark:hover:text-[var(--accent)] cursor-pointer"
                         >
                             <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" /></svg>
                             Sort
@@ -194,7 +194,7 @@ export function CrudSplitViewLayout<T>({
                         {onAdd && (
                             <button
                                 onClick={() => onAdd()}
-                                className="shrink-0 flex items-center gap-2 text-white text-[13.5px] font-semibold px-[18px] py-[9px] rounded-[10px] transition-all h-[40px]"
+                                className="shrink-0 flex items-center gap-2 text-white text-[13px] font-semibold px-3 py-1.5 rounded-lg transition-all h-8"
                                 style={{
                                     background: 'var(--accent)',
                                     boxShadow: '0 2px 6px var(--accent-ring)',
@@ -202,7 +202,7 @@ export function CrudSplitViewLayout<T>({
                                 onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--accent-hover)'; e.currentTarget.style.transform = 'translateY(-1px)'; }}
                                 onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--accent)'; e.currentTarget.style.transform = 'translateY(0)'; }}
                             >
-                                <Plus size={15} strokeWidth={2.5} />
+                                <Plus size={14} strokeWidth={2.5} />
                                 Add {resourceName}
                             </button>
                         )}
@@ -210,7 +210,7 @@ export function CrudSplitViewLayout<T>({
 
                     {/* Table Card */}
                     <div
-                        className="bg-white dark:bg-gray-900 md:rounded-2xl rounded-xl overflow-hidden flex flex-col min-h-0 md:border border-slate-200 dark:border-gray-800 md:shadow-sm"
+                        className="bg-white dark:bg-gray-900 md:rounded-lg rounded-lg overflow-hidden flex flex-col min-h-0 md:border border-slate-200 dark:border-gray-800 md:shadow-sm"
                     >
                         {/* Desktop Table View */}
                         <div className="hidden md:flex md:flex-col flex-1 min-h-0">
@@ -226,10 +226,10 @@ export function CrudSplitViewLayout<T>({
                         </div>
 
                         {/* Mobile Card View (Option B) */}
-                        <div className="block md:hidden p-2 space-y-2 flex-1 min-h-0 overflow-y-auto">
+                        <div className="block md:hidden p-1.5 space-y-1.5 flex-1 min-h-0 overflow-y-auto">
                             {loading && (!data || data.length === 0) ? (
                                 Array.from({ length: 5 }).map((_, i) => (
-                                    <div key={`mob-skeleton-${i}`} className="h-[72px] bg-slate-100 dark:bg-gray-800 animate-pulse rounded-xl w-full" />
+                                    <div key={`mob-skeleton-${i}`} className="h-[56px] bg-slate-100 dark:bg-gray-800 animate-pulse rounded-xl w-full" />
                                 ))
                             ) : filtered.length > 0 ? (
                                 filtered.map((item: T) => (
@@ -252,7 +252,7 @@ export function CrudSplitViewLayout<T>({
                         {/* Table Footer with Pagination */}
                         {!loading && data && data.length > 0 && (
                             <div
-                                className="shrink-0 flex flex-col sm:flex-row items-center justify-between px-[18px] py-[12px] text-[12.5px] gap-3 border-t border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-gray-800/50 text-slate-500 dark:text-slate-400"
+                                className="shrink-0 flex flex-col sm:flex-row items-center justify-between px-3 py-1 text-[12px] gap-2 border-t border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-gray-800/50 text-slate-500 dark:text-slate-400"
                             >
                                 <span>
                                     Showing <strong className="font-semibold text-slate-900 dark:text-slate-100">{filtered.length}</strong> of <strong className="font-semibold text-slate-900 dark:text-slate-100">{data.length}</strong> {pluralName.toLowerCase()}
@@ -290,11 +290,11 @@ export function CrudSplitViewLayout<T>({
                     className={cn(
                         "flex flex-col overflow-hidden transition-all duration-300",
                         showList ? "flex" : "hidden md:flex",
-                        "w-full md:w-[280px] md:min-w-[280px] bg-white dark:bg-[#0f1117] border-r border-slate-200 dark:border-gray-800 shadow-[2px_0_8px_rgba(0,0,0,0.04)] dark:shadow-none"
+                        "w-full md:w-[260px] md:min-w-[260px] bg-white dark:bg-[#0f1117] border-r border-slate-200 dark:border-gray-800 shadow-[2px_0_8px_rgba(0,0,0,0.04)] dark:shadow-none"
                     )}
                 >
                     {/* Header */}
-                    <div className="flex items-center justify-between px-4 py-4 border-b border-slate-200 dark:border-gray-800">
+                    <div className="flex items-center justify-between px-3 py-2 border-b border-slate-200 dark:border-gray-800">
                         <div>
                             <div className="font-bold text-[15px] text-slate-900 tracking-tight">{pluralName}</div>
                             <div className="flex items-center gap-1.5 mt-0.5">
@@ -324,7 +324,7 @@ export function CrudSplitViewLayout<T>({
                     </div>
 
                     {/* Search */}
-                    <div className="px-3 py-3 border-b border-white dark:border-gray-900 border-b-transparent">
+                    <div className="px-2 py-1.5 border-b border-white dark:border-gray-900 border-b-transparent">
                         <div className="relative">
                             <svg className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                 <circle cx="11" cy="11" r="8" />
@@ -332,21 +332,21 @@ export function CrudSplitViewLayout<T>({
                             </svg>
                             <SearchBar
                                 className="w-full"
-                                inputClassName="pl-8 py-2 text-[13px] rounded-[8px] bg-white dark:bg-gray-900 border-slate-200 dark:border-gray-700 focus:border-[var(--accent)] focus:ring-[2px] focus:ring-[var(--accent-ring)] placeholder-[#b0b4be] shadow-sm"
+                                inputClassName="pl-8 py-1.5 text-[13px] rounded-[8px] bg-white dark:bg-gray-900 border-slate-200 dark:border-gray-700 focus:border-[var(--accent)] focus:ring-[2px] focus:ring-[var(--accent-ring)] placeholder-[#b0b4be] shadow-sm"
                                 placeholder={`Search ${pluralName.toLowerCase()}...`}
                                 value={search}
                                 onChange={setSearch}
                             />
                         </div>
                         {filterConfig.length > 0 && (
-                            <div className="mt-2">
+                            <div className="mt-1.5">
                                 <Filter categories={filterConfig} onFilterChange={setActiveFilters} />
                             </div>
                         )}
                     </div>
 
                     {/* List */}
-                    <div className="flex-1 overflow-y-auto py-2 px-2 scrollbar-thin">
+                    <div className="flex-1 overflow-y-auto py-1 px-1.5 scrollbar-thin">
                         {filtered.length === 0 && !loading && (
                             <div className="text-center py-10 px-5 text-slate-400">
                                 <div className="text-3xl mb-2 opacity-40">{emptyStateIcon}</div>
@@ -367,14 +367,14 @@ export function CrudSplitViewLayout<T>({
                 {/* ── Detail Panel ── */}
                 {showDetails && (
                     <div className={cn(
-                        "flex-1 flex flex-col p-0 md:p-4 h-full overflow-hidden",
+                        "flex-1 flex flex-col p-0 md:p-2 h-full overflow-hidden",
                         !showList && "w-full" // Take full width on mobile when list is hidden
                     )}>
                         <div
-                            className={cn("flex-1 flex flex-col md:flex-row overflow-hidden relative bg-white dark:bg-[#0f1117] md:border md:border-slate-200 dark:md:border-gray-800 md:shadow-sm md:rounded-2xl", detailsPanelClassName)}
+                            className={cn("flex-1 flex flex-col md:flex-row overflow-hidden relative bg-white dark:bg-[#0f1117] md:border md:border-slate-200 dark:md:border-gray-800 md:shadow-sm md:rounded-lg", detailsPanelClassName)}
                         >
                             {/* Mobile Back Button & Header Area */}
-                            <div className="md:hidden flex items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-[#0f1117]">
+                            <div className="md:hidden flex items-center justify-between px-3 py-2 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-[#0f1117]">
                                 <button
                                     onClick={handleCloseProcess}
                                     className="flex items-center gap-1.5 text-slate-500 hover:text-slate-900 dark:hover:text-slate-200"
@@ -405,8 +405,8 @@ export function CrudSplitViewLayout<T>({
                                 </button>
                                 {renderCustomDetailsHeader && selectedItem && renderCustomDetailsHeader(selectedItem)}
                                 {/* Tab Content */}
-                                <div className="flex-1 min-h-0 overflow-y-auto p-5 md:p-8 pt-4 relative">
-                                    <div className="max-w-4xl flex flex-col w-full">
+                                <div className="flex-1 min-h-0 overflow-y-auto p-3 md:p-4 pt-3 relative">
+                                    <div className="flex flex-col w-full">
                                         {selectedItem && renderDetailsPanel(selectedItem, tab, { isDirty, handleDirtyChange })}
                                     </div>
                                 </div>

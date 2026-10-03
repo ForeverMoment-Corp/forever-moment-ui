@@ -57,7 +57,7 @@ export const ImageSplitView = ({
         {
             header: 'Preview',
             accessorKey: 'id',
-            className: 'w-[10%] min-w-[80px] py-1.5 px-4 text-center',
+            className: 'w-[10%] min-w-[80px] px-3 text-center',
             render: (img: any) => (
                 <div className="w-12 h-12 rounded-lg overflow-hidden bg-slate-100 dark:bg-gray-800 border border-slate-200 dark:border-gray-700 flex items-center justify-center shrink-0 shadow-sm">
                     <img
@@ -74,7 +74,7 @@ export const ImageSplitView = ({
         {
             header: 'File Name',
             accessorKey: 'fileName',
-            className: 'w-[30%] min-w-[200px] py-1.5 px-4 text-left font-semibold text-slate-900 dark:text-white',
+            className: 'w-[30%] min-w-[200px] px-3 text-left font-semibold text-slate-900 dark:text-white',
             render: (img: any) => (
                 <div className="flex items-center gap-2 min-w-0">
                     <span className="truncate">{img.fileName}</span>
@@ -89,13 +89,13 @@ export const ImageSplitView = ({
         {
             header: 'Size',
             accessorKey: 'size',
-            className: 'w-[15%] min-w-[100px] py-1.5 px-4 text-left text-slate-600 dark:text-slate-300',
+            className: 'w-[15%] min-w-[100px] px-3 text-left text-slate-600 dark:text-slate-300',
             render: (img: any) => <span>{formatSize(getImageSize(img))}</span>
         },
         {
             header: 'Upload Date',
             accessorKey: 'uploadDate',
-            className: 'w-[20%] min-w-[150px] py-1.5 px-4 text-left text-slate-600 dark:text-slate-300',
+            className: 'w-[20%] min-w-[150px] px-3 text-left text-slate-600 dark:text-slate-300',
             render: (img: any) => (
                 <span>{img.uploadDate ? format(new Date(img.uploadDate), 'MMM dd, yyyy') : '-'}</span>
             )
@@ -103,7 +103,7 @@ export const ImageSplitView = ({
         {
             header: 'Type',
             accessorKey: 'contentType',
-            className: 'w-[10%] min-w-[100px] py-1.5 px-4 text-center',
+            className: 'w-[10%] min-w-[100px] px-3 text-center',
             render: (img: any) => (
                 <span className="px-2 py-0.5 rounded bg-slate-100 dark:bg-gray-800 text-[10px] font-bold text-slate-500 uppercase tracking-wider border border-slate-200 dark:border-gray-700">
                     {getImageType(img)?.split('/')[1] || 'IMG'}
@@ -113,7 +113,7 @@ export const ImageSplitView = ({
         {
             header: 'Actions',
             preventRowClick: true,
-            className: 'w-[15%] min-w-[100px] py-1.5 px-4 text-right',
+            className: 'w-[15%] min-w-[100px] px-3 text-right',
             render: (img: any) => (
                 <div className="flex justify-end gap-2" onClick={(e) => e.stopPropagation()}>
                     <button

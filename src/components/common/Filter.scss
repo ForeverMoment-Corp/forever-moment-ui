@@ -4,13 +4,13 @@
 }
 
 .filter-open-btn {
-    height: 36px;
+    height: 32px;
     background: rgb(255, 255, 255);
     border: 1px solid #e2e8f0; // Neutral gray border
     border-radius: 6px;
     transition: all 0.2s ease;
-    min-width: 100px;
-    padding: 0 12px;
+    min-width: 88px;
+    padding: 0 10px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -25,8 +25,8 @@
     .filter-open-btn-text {
         font-family: inherit;
         font-weight: 500;
-        font-size: 14px;
-        line-height: 20px;
+        font-size: 13px;
+        line-height: 18px;
         color: #334155; // Slate-700
         display: flex;
         align-items: center;
@@ -74,7 +74,7 @@
 
 .filter-panel {
     position: absolute;
-    top: 42px;
+    top: 36px;
     left: 0;
     background: white;
     border: 1px solid #dadada;
@@ -88,7 +88,7 @@
 }
 
 .filter-panel-header {
-    padding: 16px 20px;
+    padding: 10px 14px;
     border-bottom: 1px solid #dadada;
     display: flex;
     justify-content: space-between;
@@ -143,13 +143,13 @@
     position: relative;
     width: 170px;
     height: 100%;
-    padding: 10px 6px;
+    padding: 6px 4px;
     border-right: 1px solid #dadada;
     overflow-y: auto;
 
     .filter-header-title {
         width: auto;
-        height: 36px;
+        height: 30px;
         border-radius: 4px;
 
         &.filter-active {
@@ -160,8 +160,8 @@
             }
         }
 
-        margin: 4px auto;
-        padding: 10px 7px;
+        margin: 2px auto;
+        padding: 7px 7px;
 
         .filter-name-btn {
             border: none;
@@ -191,18 +191,18 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    padding: 10px 12px;
+    padding: 8px 10px;
 
     .search-box-container {
         max-width: 100%;
         display: flex;
         align-items: center;
         position: relative;
-        margin-bottom: 12px;
+        margin-bottom: 8px;
 
         .search-input {
             width: 100%;
-            height: 37px;
+            height: 32px;
             padding: 0.68em 2.5em 0.68em 1em;
             border: 1px solid #dadada;
             border-radius: 4px;
@@ -229,7 +229,7 @@
         flex: 1;
 
         .checkbox-div {
-            margin-bottom: 10px;
+            margin-bottom: 6px;
 
             .checkbox-label {
                 display: flex;

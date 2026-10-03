@@ -23,7 +23,7 @@ export const CancellationPolicySplitView = ({
         {
             header: 'Description',
             accessorKey: 'description',
-            className: 'w-[40%] min-w-[200px] py-1.5 px-4 text-left font-semibold text-slate-900 dark:text-white whitespace-nowrap',
+            className: 'w-[40%] min-w-[200px] px-3 text-left font-semibold text-slate-900 dark:text-white whitespace-nowrap',
             render: (p: any) => (
                 <div className="flex items-center gap-3">
                     <div className={cn(
@@ -41,7 +41,7 @@ export const CancellationPolicySplitView = ({
         },
         {
             header: 'Is Included?',
-            className: 'w-[20%] min-w-[120px] py-1.5 px-4 text-left',
+            className: 'w-[20%] min-w-[120px] px-3 text-left',
             render: (policy: any) => (
                 <span className={
                     policy.isIncluded ? 'inline-flex px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' : 'inline-flex px-2 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-400'
@@ -53,7 +53,7 @@ export const CancellationPolicySplitView = ({
         {
             header: 'Status',
             preventRowClick: true,
-            className: 'w-[15%] min-w-[120px] py-1.5 px-4 text-left',
+            className: 'w-[15%] min-w-[120px] px-3 text-left',
             render: (policy: any) => (
                 <EditableStatusBadge
                     status={policy.isActive ? 'Active' : 'Inactive'}
@@ -76,7 +76,7 @@ export const CancellationPolicySplitView = ({
         {
             header: 'Actions',
             preventRowClick: true,
-            className: 'w-[25%] min-w-[100px] py-1.5 px-4 text-right',
+            className: 'w-[25%] min-w-[100px] px-3 text-right',
             render: (policy: any) => (
                 <div onClick={(e) => e.stopPropagation()}>
                     <RowActions

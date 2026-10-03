@@ -22,7 +22,7 @@ export const VendorSplitView = ({
         {
             header: 'Business Name',
             accessorKey: 'name',
-            className: 'w-[25%] min-w-[200px] py-1.5 px-4 text-left font-semibold text-slate-900 dark:text-white whitespace-nowrap',
+            className: 'w-[25%] min-w-[200px] px-3 text-left font-semibold text-slate-900 dark:text-white whitespace-nowrap',
             render: (v: any) => (
                 <div className="flex items-center gap-3">
                     <div className={cn(
@@ -39,12 +39,12 @@ export const VendorSplitView = ({
         {
             header: 'Category',
             accessorKey: 'category',
-            className: 'w-[20%] min-w-[150px] py-1.5 px-4 text-left text-slate-600 dark:text-slate-300',
+            className: 'w-[20%] min-w-[150px] px-3 text-left text-slate-600 dark:text-slate-300',
         },
         {
             header: 'Contact',
             accessorKey: 'contactPerson',
-            className: 'w-[25%] min-w-[200px] py-1.5 px-4 text-left text-slate-600 dark:text-slate-300',
+            className: 'w-[25%] min-w-[200px] px-3 text-left text-slate-600 dark:text-slate-300',
             render: (v: any) => (
                 <div className="flex flex-col">
                     <span>{v.contactPerson}</span>
@@ -55,7 +55,7 @@ export const VendorSplitView = ({
         {
             header: 'Status',
             preventRowClick: true,
-            className: 'w-[15%] min-w-[100px] py-1.5 px-4 text-left',
+            className: 'w-[15%] min-w-[100px] px-3 text-left',
             render: (v: any) => (
                 <EditableStatusBadge
                     status={v.status}
@@ -74,7 +74,7 @@ export const VendorSplitView = ({
         {
             header: 'Actions',
             preventRowClick: true,
-            className: 'w-[15%] min-w-[100px] py-1.5 px-4 text-right',
+            className: 'w-[15%] min-w-[100px] px-3 text-right',
             render: (v: any) => (
                 <div onClick={(e) => e.stopPropagation()}>
                     <RowActions
@@ -157,7 +157,7 @@ export const VendorSplitView = ({
     }, []);
 
     const renderCustomDetailsHeader = useCallback((vendor: any) => (
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-3">
             <div className={cn(
                 "h-12 px-3 w-auto rounded-xl flex items-center gap-2 font-bold text-[14px]",
                 "bg-[#f4f6f8] text-slate-500 border border-slate-200/60 shadow-sm dark:bg-slate-800 dark:border-slate-700 dark:text-slate-400"

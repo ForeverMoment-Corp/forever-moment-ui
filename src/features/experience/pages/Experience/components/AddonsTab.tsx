@@ -120,19 +120,19 @@ export const AddonsTab: React.FC<AddonsTabProps> = ({
                     value={search}
                     onChange={setSearch}
                 />
-                <Button onClick={handleOpenAssocModal} className="h-10 px-4 text-sm shrink-0">
+                <Button onClick={handleOpenAssocModal} className="h-10 px-3 text-sm shrink-0">
                     Associate Add-on
                 </Button>
             </div>
 
             <div className="space-y-3 overflow-y-auto pr-2 pb-20">
                 {loading && filteredAssignedAddons.length === 0 && (
-                    <div className="flex items-center justify-center gap-2 py-10 text-sm text-slate-400">
+                    <div className="flex items-center justify-center gap-2 py-5 text-sm text-slate-400">
                         <Loader2 size={16} className="animate-spin" /> Loading add-ons…
                     </div>
                 )}
                 {filteredAssignedAddons.map((ea) => (
-                    <div key={ea.mapperId ?? ea.addonId} className="flex flex-col gap-3 p-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm transition-all hover:border-blue-300">
+                    <div key={ea.mapperId ?? ea.addonId} className="flex flex-col gap-3 p-3 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm transition-all hover:border-blue-300">
                         <div className="flex items-start justify-between">
                             <div className="flex items-center gap-3">
                                 <div className="w-10 h-10 rounded-full overflow-hidden bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0">
@@ -180,7 +180,7 @@ export const AddonsTab: React.FC<AddonsTabProps> = ({
                 ))}
 
                 {!loading && filteredAssignedAddons.length === 0 && (
-                    <div className="text-center py-12 text-slate-400 dark:text-gray-500 border-2 border-dashed border-slate-200 dark:border-gray-800 rounded-xl">
+                    <div className="text-center py-6 text-slate-400 dark:text-gray-500 border-2 border-dashed border-slate-200 dark:border-gray-800 rounded-xl">
                         <Package className="mx-auto h-8 w-8 opacity-20 mb-3" />
                         <p className="text-sm font-medium text-slate-600 dark:text-slate-400">No add-ons associated.</p>
                         <p className="text-xs mt-1">Click "Associate Add-on" to link one.</p>
@@ -194,7 +194,7 @@ export const AddonsTab: React.FC<AddonsTabProps> = ({
                 title="Associate New Add-on"
                 className="max-w-md w-[95vw]"
             >
-                <div className="space-y-4">
+                <div className="space-y-3">
                     <div>
                         <Dropdown
                             label="Select Add-on"
@@ -243,7 +243,7 @@ export const AddonsTab: React.FC<AddonsTabProps> = ({
                         </label>
                     </div>
 
-                    <div className="flex justify-end gap-3 pt-4 border-t border-slate-200 dark:border-gray-800 mt-6">
+                    <div className="flex justify-end gap-3 pt-3 border-t border-slate-200 dark:border-gray-800 mt-3">
                         <Button variant="secondary" onClick={handleCloseModal}>
                             Cancel
                         </Button>

@@ -162,7 +162,7 @@ const PincodeComponent = ({
 
     return (
         <div className="flex flex-col h-full">
-            <div className="flex justify-end mb-6">
+            <div className="flex justify-end mb-3">
                 <div className="flex items-center gap-3 w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0 hide-scrollbar">
                     <SearchBar
                         className="w-full sm:w-64 min-w-[200px]"
@@ -202,9 +202,9 @@ const PincodeComponent = ({
 
             {
                 loadingPincodes ? (
-                    <div className="flex items-center justify-center p-10 text-slate-400">Loading...</div>
+                    <div className="flex items-center justify-center p-5 text-slate-400">Loading...</div>
                 ) : filteredPincodes.length === 0 ? (
-                    <div className="bg-slate-50/50 dark:bg-gray-800/30 rounded-2xl border border-dashed border-slate-200 dark:border-gray-700 p-10 text-center flex flex-col items-center justify-center">
+                    <div className="bg-slate-50/50 dark:bg-gray-800/30 rounded-lg border border-dashed border-slate-200 dark:border-gray-700 p-5 text-center flex flex-col items-center justify-center">
                         <div className="text-3xl mb-3 opacity-40">📮</div>
                         <div className="text-slate-500 font-medium text-sm">No pincodes found</div>
                         <div className="text-slate-400 text-xs mt-1">Try a different search query or add a new pincode</div>

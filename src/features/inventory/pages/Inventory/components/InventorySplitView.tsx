@@ -98,10 +98,10 @@ export const InventorySplitView: React.FC<InventorySplitViewProps> = ({
     const renderDetailsPanel = useCallback((item: any) => {
         if (!item) return null;
         return (
-            <div className="p-6 space-y-8 animate-in fade-in slide-in-from-right-4 duration-300">
+            <div className="p-4 space-y-4 animate-in fade-in slide-in-from-right-4 duration-300">
                 <div className="flex items-start justify-between">
                     <div className="flex gap-4">
-                        <div className="w-14 h-14 rounded-2xl bg-indigo-50 dark:bg-indigo-900/20 flex items-center justify-center text-indigo-600 dark:text-indigo-400 shadow-sm border border-indigo-100/50 dark:border-indigo-800/20">
+                        <div className="w-14 h-14 rounded-lg bg-indigo-50 dark:bg-indigo-900/20 flex items-center justify-center text-indigo-600 dark:text-indigo-400 shadow-sm border border-indigo-100/50 dark:border-indigo-800/20">
                             <Box size={28} />
                         </div>
                         <div>
@@ -129,26 +129,26 @@ export const InventorySplitView: React.FC<InventorySplitViewProps> = ({
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-slate-50 dark:bg-gray-800/40 p-4 rounded-2xl border border-slate-100 dark:border-gray-800/60">
+                    <div className="bg-slate-50 dark:bg-gray-800/40 p-3 rounded-lg border border-slate-100 dark:border-gray-800/60">
                         <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Current Stock</p>
                         <p className="text-[17px] font-black text-slate-900 dark:text-white">{item.quantity} {item.unit}</p>
                     </div>
-                    <div className="bg-slate-50 dark:bg-gray-800/40 p-4 rounded-2xl border border-slate-100 dark:border-gray-800/60">
+                    <div className="bg-slate-50 dark:bg-gray-800/40 p-3 rounded-lg border border-slate-100 dark:border-gray-800/60">
                         <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Location</p>
                         <p className="text-[17px] font-black text-slate-900 dark:text-white">{item.location}</p>
                     </div>
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-3">
                     <h3 className="text-[13px] font-black text-slate-900 dark:text-white uppercase tracking-wider">Item Information</h3>
-                    <div className="bg-white dark:bg-[#0f1117] rounded-2xl border border-slate-200 dark:border-gray-800/60 overflow-hidden">
+                    <div className="bg-white dark:bg-[#0f1117] rounded-lg border border-slate-200 dark:border-gray-800/60 overflow-hidden">
                         {[
                             { label: 'Category', value: item.category },
                             { label: 'Unit of Measure', value: item.unit },
                             { label: 'Asset Reference', value: 'FM-AST-' + item.id.split('-')[1] },
                             { label: 'Last Inspected', value: '2025-05-20' }
                         ].map((info, i) => (
-                            <div key={i} className="px-5 py-3.5 flex items-center justify-between border-b last:border-0 border-slate-50 dark:border-gray-800/40">
+                            <div key={i} className="px-3 py-3.5 flex items-center justify-between border-b last:border-0 border-slate-50 dark:border-gray-800/40">
                                 <span className="text-[13px] font-bold text-slate-400">{info.label}</span>
                                 <span className="text-[13px] font-black text-slate-700 dark:text-slate-200">{info.value}</span>
                             </div>

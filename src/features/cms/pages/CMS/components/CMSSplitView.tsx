@@ -88,10 +88,10 @@ export const CMSSplitView: React.FC<CMSSplitViewProps> = ({
     const renderDetailsPanel = useCallback((item: any) => {
         if (!item) return null;
         return (
-            <div className="p-6 space-y-8 animate-in fade-in slide-in-from-right-4 duration-300">
+            <div className="p-4 space-y-4 animate-in fade-in slide-in-from-right-4 duration-300">
                 <div className="flex items-start justify-between">
                     <div className="flex gap-4">
-                        <div className="w-14 h-14 rounded-2xl bg-slate-900 dark:bg-white flex items-center justify-center text-white dark:text-slate-900 shadow-xl shadow-slate-200 dark:shadow-none">
+                        <div className="w-14 h-14 rounded-lg bg-slate-900 dark:bg-white flex items-center justify-center text-white dark:text-slate-900 shadow-xl shadow-slate-200 dark:shadow-none">
                             <Layout size={28} />
                         </div>
                         <div>
@@ -104,7 +104,7 @@ export const CMSSplitView: React.FC<CMSSplitViewProps> = ({
                     </div>
                 </div>
 
-                <div className="bg-slate-50 dark:bg-gray-900/40 rounded-3xl p-6 border border-slate-100 dark:border-gray-800 space-y-6">
+                <div className="bg-slate-50 dark:bg-gray-900/40 rounded-xl p-4 border border-slate-100 dark:border-gray-800 space-y-3">
                     <div className="flex justify-between items-start">
                         <div className="space-y-1">
                             <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">SEO Title</p>
@@ -113,7 +113,7 @@ export const CMSSplitView: React.FC<CMSSplitViewProps> = ({
                         <Globe size={18} className="text-slate-400" />
                     </div>
 
-                    <div className="space-y-4">
+                    <div className="space-y-3">
                         <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Page Structure</p>
                         <div className="grid grid-cols-2 gap-3">
                             {[
@@ -122,7 +122,7 @@ export const CMSSplitView: React.FC<CMSSplitViewProps> = ({
                                 { label: 'Revision', value: 'v2.4', icon: History },
                                 { label: 'Last Edit', value: item.lastModified, icon: Clock },
                             ].map((info, i) => (
-                                <div key={i} className="p-4 bg-white dark:bg-gray-900 rounded-2xl border border-slate-200 dark:border-gray-800 shadow-sm grow">
+                                <div key={i} className="p-3 bg-white dark:bg-gray-900 rounded-lg border border-slate-200 dark:border-gray-800 shadow-sm grow">
                                     <div className="flex items-center gap-2 mb-1">
                                         <info.icon size={12} className="text-slate-400" />
                                         <p className="text-[10px] text-slate-400 font-black uppercase tracking-wider">{info.label}</p>
@@ -135,13 +135,13 @@ export const CMSSplitView: React.FC<CMSSplitViewProps> = ({
                 </div>
 
                 <div className="flex gap-3">
-                    <button className="flex-1 py-3.5 rounded-2xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-black text-[13px] hover:opacity-90 transition-all shadow-lg flex items-center justify-center gap-2">
+                    <button className="flex-1 py-3.5 rounded-lg bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-black text-[13px] hover:opacity-90 transition-all shadow-lg flex items-center justify-center gap-2">
                         <Eye size={16} />
                         Preview Content
                     </button>
                     <button 
                         onClick={() => handleOpenModal(item)}
-                        className="px-6 py-3.5 rounded-2xl bg-slate-100 dark:bg-gray-800 text-slate-700 dark:text-slate-300 font-black text-[13px] hover:bg-slate-200 dark:hover:bg-gray-700 transition-all flex items-center justify-center gap-2 border border-slate-200 dark:border-gray-700"
+                        className="px-4 py-3.5 rounded-lg bg-slate-100 dark:bg-gray-800 text-slate-700 dark:text-slate-300 font-black text-[13px] hover:bg-slate-200 dark:hover:bg-gray-700 transition-all flex items-center justify-center gap-2 border border-slate-200 dark:border-gray-700"
                     >
                         <Settings size={16} />
                         Edit Page

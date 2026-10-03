@@ -1,11 +1,11 @@
 export const PreviewSection = () => {
     return (
-        <div className="bg-white dark:bg-[#0f1117] rounded-2xl border border-slate-200 dark:border-gray-800 shadow-sm overflow-hidden flex flex-col">
-            <div className="px-6 py-5 border-b border-slate-100 dark:border-gray-800/60 bg-slate-50/50 dark:bg-gray-900/20">
+        <div className="bg-white dark:bg-[#0f1117] rounded-lg border border-slate-200 dark:border-gray-800 shadow-sm overflow-hidden flex flex-col">
+            <div className="px-4 py-3 border-b border-slate-100 dark:border-gray-800/60 bg-slate-50/50 dark:bg-gray-900/20">
                 <h2 className="text-[15px] font-semibold text-slate-900 dark:text-slate-100 tracking-tight">Live Preview</h2>
                 <p className="text-[13px] text-slate-500 dark:text-slate-400 mt-1">See how your accent color translates to buttons, active states, and focus rings.</p>
             </div>
-            <div className="p-6">
+            <div className="p-4">
                 <div className="flex flex-wrap items-center gap-4">
                     <button
                         className="px-[18px] py-[9px] rounded-[10px] text-[13.5px] font-semibold text-white transition-all shadow-[0_2px_6px_var(--accent-ring)]"

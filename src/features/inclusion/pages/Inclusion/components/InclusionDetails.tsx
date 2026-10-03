@@ -74,7 +74,7 @@ export const InclusionDetails = ({ inclusion, updateInclusion, onDirtyChange }: 
     };
 
     return (
-        <div className="space-y-6 pb-20">
+        <div className="space-y-3 pb-20">
             <SectionLabel>Inclusion Details</SectionLabel>
             <FieldGrid>
                 <Cell full>

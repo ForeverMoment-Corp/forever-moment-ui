@@ -183,7 +183,7 @@ export const AddonDetails = ({ addon, updateAddon, onDirtyChange }: AddonDetails
 
             {/* ── DESCRIPTIONS ─────────────────────────── */}
             <SectionLabel>Description</SectionLabel>
-            <div className="group bg-slate-50 dark:bg-gray-800/50 border border-slate-200 dark:border-gray-700 rounded-xl px-4 py-3">
+            <div className="group bg-slate-50 dark:bg-gray-800/50 border border-slate-200 dark:border-gray-700 rounded-xl px-3 py-3">
                 <FieldLabel>Description</FieldLabel>
                 {editingField === 'description' ? (
                     <textarea

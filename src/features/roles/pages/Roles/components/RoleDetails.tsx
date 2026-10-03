@@ -105,7 +105,7 @@ export const RoleDetails = ({ role, updateRole, onDirtyChange }: RoleDetailsProp
                     )
                 ) : (
                     <div
-                        className="text-[15px] text-slate-900 dark:text-white cursor-text min-h-[24px] pr-8 relative"
+                        className="text-[15px] text-slate-900 dark:text-white cursor-text min-h-[24px] pr-4 relative"
                         onClick={() => handleEditStart(fieldKey, value || '')}
                     >
                         {value || <span className="text-slate-400 italic font-normal">Not specified</span>}
@@ -117,8 +117,8 @@ export const RoleDetails = ({ role, updateRole, onDirtyChange }: RoleDetailsProp
     };
 
     return (
-        <div className="space-y-4 pb-20">
-            <div className="flex flex-col md:flex-row md:items-start md:gap-8">
+        <div className="space-y-3 pb-20">
+            <div className="flex flex-col md:flex-row md:items-start md:gap-4">
                 <div className="flex-1">
                     {renderEditableField('Role Name', 'roleName', localData.roleName)}
                 </div>

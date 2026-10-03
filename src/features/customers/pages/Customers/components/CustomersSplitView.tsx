@@ -17,7 +17,7 @@ export const CustomersSplitView = ({
         {
             header: 'Customer',
             accessorKey: 'name',
-            className: 'w-[30%] min-w-[200px] py-3 px-4 text-left font-semibold text-slate-900 dark:text-white',
+            className: 'w-[30%] min-w-[200px] px-3 text-left font-semibold text-slate-900 dark:text-white',
             render: (customer: any) => (
                 <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-full bg-[var(--accent-light)] flex items-center justify-center text-[var(--accent)] font-bold text-xs">
@@ -33,7 +33,7 @@ export const CustomersSplitView = ({
         {
             header: 'Status',
             accessorKey: 'status',
-            className: 'w-[15%] min-w-[100px] py-3 px-4 text-left',
+            className: 'w-[15%] min-w-[100px] px-3 text-left',
             render: (customer: any) => (
                 <StatusBadge 
                     status={customer.status} 
@@ -45,18 +45,18 @@ export const CustomersSplitView = ({
         {
             header: 'Bookings',
             accessorKey: 'totalBookings',
-            className: 'w-[15%] min-w-[100px] py-3 px-4 text-left font-medium text-slate-600 dark:text-slate-400',
+            className: 'w-[15%] min-w-[100px] px-3 text-left font-medium text-slate-600 dark:text-slate-400',
         },
         {
             header: 'Spent',
             accessorKey: 'totalSpent',
-            className: 'w-[20%] min-w-[120px] py-3 px-4 text-left font-bold text-slate-900 dark:text-white',
+            className: 'w-[20%] min-w-[120px] px-3 text-left font-bold text-slate-900 dark:text-white',
             render: (customer: any) => `₹${customer.totalSpent.toLocaleString()}`
         },
         {
             header: 'Actions',
             preventRowClick: true,
-            className: 'w-[20%] min-w-[100px] py-3 px-4 text-right',
+            className: 'w-[20%] min-w-[100px] px-3 text-right',
             render: (customer: any) => (
                 <RowActions
                     onEdit={() => handleOpenModal(customer)}
@@ -99,10 +99,10 @@ export const CustomersSplitView = ({
 
     const renderDetailsPanel = useCallback((customer: any) => {
         return (
-            <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-300">
+            <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
                 <div className="flex items-start justify-between">
                     <div className="flex items-center gap-4">
-                        <div className="w-16 h-16 rounded-2xl bg-[var(--accent)] flex items-center justify-center text-white text-2xl font-bold shadow-lg shadow-[var(--accent-ring)]">
+                        <div className="w-16 h-16 rounded-lg bg-[var(--accent)] flex items-center justify-center text-white text-2xl font-bold shadow-lg shadow-[var(--accent-ring)]">
                             {customer.name.charAt(0)}
                         </div>
                         <div>
@@ -117,26 +117,26 @@ export const CustomersSplitView = ({
                 </div>
 
                 <div className="grid grid-cols-3 gap-4">
-                    <div className="p-4 rounded-xl bg-slate-50 dark:bg-gray-800/50 border border-slate-100 dark:border-gray-700">
+                    <div className="p-3 rounded-xl bg-slate-50 dark:bg-gray-800/50 border border-slate-100 dark:border-gray-700">
                         <div className="text-[11px] uppercase tracking-widest font-bold text-slate-400 mb-1">Total Bookings</div>
                         <div className="text-xl font-bold text-slate-900 dark:text-white">{customer.totalBookings}</div>
                     </div>
-                    <div className="p-4 rounded-xl bg-slate-50 dark:bg-gray-800/50 border border-slate-100 dark:border-gray-700">
+                    <div className="p-3 rounded-xl bg-slate-50 dark:bg-gray-800/50 border border-slate-100 dark:border-gray-700">
                         <div className="text-[11px] uppercase tracking-widest font-bold text-slate-400 mb-1">Total Spent</div>
                         <div className="text-xl font-bold text-slate-900 dark:text-white">₹{customer.totalSpent.toLocaleString()}</div>
                     </div>
-                    <div className="p-4 rounded-xl bg-slate-50 dark:bg-gray-800/50 border border-slate-100 dark:border-gray-700">
+                    <div className="p-3 rounded-xl bg-slate-50 dark:bg-gray-800/50 border border-slate-100 dark:border-gray-700">
                         <div className="text-[11px] uppercase tracking-widest font-bold text-slate-400 mb-1">Customer Tier</div>
                         <div className="text-xl font-bold text-[var(--accent)]">{customer.status}</div>
                     </div>
                 </div>
                 
-                <div className="bg-white dark:bg-gray-900 rounded-2xl border border-slate-200 dark:border-gray-800 overflow-hidden">
-                    <div className="px-5 py-4 border-b border-slate-100 dark:border-gray-800 bg-slate-50/50 dark:bg-gray-800/30 flex items-center justify-between">
+                <div className="bg-white dark:bg-gray-900 rounded-lg border border-slate-200 dark:border-gray-800 overflow-hidden">
+                    <div className="px-3 py-3 border-b border-slate-100 dark:border-gray-800 bg-slate-50/50 dark:bg-gray-800/30 flex items-center justify-between">
                         <h3 className="font-bold text-slate-900 dark:text-white">Recent Activity</h3>
                         <span className="text-xs font-semibold text-slate-400">Joined {customer.joinDate}</span>
                     </div>
-                    <div className="p-5 text-center py-10">
+                    <div className="p-3 text-center py-5">
                         <div className="text-3xl mb-2 opacity-20">📜</div>
                         <p className="text-sm text-slate-400 font-medium">History is synced from live bookings.</p>
                     </div>

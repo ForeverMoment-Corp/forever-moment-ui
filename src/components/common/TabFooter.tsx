@@ -51,7 +51,7 @@ export const TabFooter = ({
 
     const footerContent = (
         <div className={cn(
-            "py-3 pl-8 pr-6 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-t border-slate-200 dark:border-gray-800 flex items-center justify-between animate-in fade-in slide-in-from-bottom-5 duration-300 shadow-[0_-8px_20px_rgba(0,0,0,0.06)] relative",
+            "py-2 px-4 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-t border-slate-200 dark:border-gray-800 flex items-center justify-between animate-in fade-in slide-in-from-bottom-5 duration-300 shadow-[0_-8px_20px_rgba(0,0,0,0.06)] relative",
             className
         )}>
             {/* Popover */}

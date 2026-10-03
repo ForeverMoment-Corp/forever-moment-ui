@@ -109,7 +109,7 @@ export const LocationDetails = ({ location, updateLocation, onDirtyChange }: any
     if (!location) return null;
 
     return (
-        <div className="space-y-8">
+        <div className="space-y-4">
             <SectionLabel>General Information</SectionLabel>
             <FieldGrid>
                 <Cell>
@@ -146,7 +146,7 @@ export const LocationDetails = ({ location, updateLocation, onDirtyChange }: any
             </FieldGrid>
 
             <SectionLabel>Address Details</SectionLabel>
-            <div className="group bg-slate-50 dark:bg-gray-800/50 border border-slate-200 dark:border-gray-700 rounded-xl px-4 py-3">
+            <div className="group bg-slate-50 dark:bg-gray-800/50 border border-slate-200 dark:border-gray-700 rounded-xl px-3 py-3">
                 <FieldLabel>Address</FieldLabel>
                 {editingField === 'address' ? (
                     <textarea

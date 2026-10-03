@@ -53,7 +53,7 @@ export const AddonSplitView = ({
     const columns = [
         {
             header: 'Name',
-            className: 'w-[45%] min-w-[200px] py-1.5 px-4 text-left font-semibold text-slate-900 dark:text-white',
+            className: 'w-[45%] min-w-[200px] px-3 text-left font-semibold text-slate-900 dark:text-white',
             render: (a: any) => (
                 <div className="flex items-center gap-3">
                     <div className={cn(
@@ -76,7 +76,7 @@ export const AddonSplitView = ({
         },
         {
             header: 'Base Price',
-            className: 'w-[20%] min-w-[120px] py-1.5 px-4 text-left',
+            className: 'w-[20%] min-w-[120px] px-3 text-left',
             render: (a: any) => (
                 <span className="font-medium text-slate-700 dark:text-slate-300">₹{a.basePrice || 0}</span>
             )
@@ -84,7 +84,7 @@ export const AddonSplitView = ({
         {
             header: 'Status',
             preventRowClick: true,
-            className: 'w-[15%] min-w-[120px] py-1.5 px-4 text-left',
+            className: 'w-[15%] min-w-[120px] px-3 text-left',
             render: (a: any) => (
                 <EditableStatusBadge
                     status={a.isActive ? 'Active' : 'Inactive'}
@@ -96,7 +96,7 @@ export const AddonSplitView = ({
         {
             header: '',
             preventRowClick: true,
-            className: 'w-[10%] min-w-[80px] py-1.5 px-4 text-right',
+            className: 'w-[10%] min-w-[80px] px-3 text-right',
             render: (a: any) => (
                 <div onClick={(e) => e.stopPropagation()}>
                     <RowActions

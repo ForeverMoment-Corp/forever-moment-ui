@@ -65,7 +65,7 @@ export const CategorySplitView = ({
         {
             header: 'Name',
             accessorKey: 'name',
-            className: 'w-[25%] min-w-[150px] py-1.5 px-4 text-left font-semibold text-slate-900 dark:text-white whitespace-nowrap',
+            className: 'w-[25%] min-w-[150px] px-3 text-left font-semibold text-slate-900 dark:text-white whitespace-nowrap',
             render: (cat: any) => {
                 return (
                     <div className="flex items-center gap-3">
@@ -85,7 +85,7 @@ export const CategorySplitView = ({
         {
             header: 'Description',
             accessorKey: 'description',
-            className: 'w-[30%] min-w-[200px] py-1.5 px-4 text-left text-slate-600 dark:text-slate-300',
+            className: 'w-[30%] min-w-[200px] px-3 text-left text-slate-600 dark:text-slate-300',
             render: (cat: any) => (
                 <div className="truncate max-w-[300px]" title={cat.description}>
                     {cat.description || '-'}
@@ -95,7 +95,7 @@ export const CategorySplitView = ({
         {
             header: 'Status',
             preventRowClick: true,
-            className: 'w-[15%] min-w-[120px] py-1.5 px-4 text-left',
+            className: 'w-[15%] min-w-[120px] px-3 text-left',
             render: (cat: any) => (
                 <EditableStatusBadge
                     status={cat.isActive ? 'true' : 'false'}
@@ -120,7 +120,7 @@ export const CategorySplitView = ({
         {
             header: 'Actions',
             preventRowClick: true,
-            className: 'w-[20%] min-w-[100px] py-1.5 px-4 text-right',
+            className: 'w-[20%] min-w-[100px] px-3 text-right',
             render: (cat: any) => (
                 <div onClick={(e) => e.stopPropagation()}>
                     <RowActions

@@ -68,7 +68,7 @@ export const SidePanel = ({ isOpen, onClose, title, children, tabs, className, v
                 )}
             >
                 {/* Header */}
-                <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-800">
+                <div className="flex items-center justify-between px-4 py-2.5 border-b border-gray-200 dark:border-gray-800">
                     <h2 className="text-lg font-semibold text-gray-900 dark:text-white">{title}</h2>
                     <button
                         onClick={onClose}
@@ -87,7 +87,7 @@ export const SidePanel = ({ isOpen, onClose, title, children, tabs, className, v
                             onTabChange={setActiveTabId}
                         />
                     )}
-                    <div className="flex-1 overflow-y-auto p-6">
+                    <div className="flex-1 overflow-y-auto p-4">
                         {activeContent}
                     </div>
                 </div>
@@ -113,7 +113,7 @@ export const SidePanel = ({ isOpen, onClose, title, children, tabs, className, v
                 )}
             >
                 {/* Header */}
-                <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-800">
+                <div className="flex items-center justify-between px-4 py-2.5 border-b border-gray-200 dark:border-gray-800">
                     <h2 className="text-lg font-semibold text-gray-900 dark:text-white">{title}</h2>
                     <button
                         onClick={onClose}
@@ -132,7 +132,7 @@ export const SidePanel = ({ isOpen, onClose, title, children, tabs, className, v
                             onTabChange={setActiveTabId}
                         />
                     )}
-                    <div className="flex-1 overflow-y-auto p-6">
+                    <div className="flex-1 overflow-y-auto p-4">
                         {activeContent}
                     </div>
                 </div>

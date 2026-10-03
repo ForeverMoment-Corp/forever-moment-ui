@@ -95,10 +95,10 @@ export const InvoicesSplitView: React.FC<InvoicesSplitViewProps> = ({
     const renderDetailsPanel = useCallback((item: any) => {
         if (!item) return null;
         return (
-            <div className="p-6 space-y-8 animate-in fade-in slide-in-from-right-4 duration-300">
+            <div className="p-4 space-y-4 animate-in fade-in slide-in-from-right-4 duration-300">
                 <div className="flex items-start justify-between">
                     <div className="flex gap-4">
-                        <div className="w-14 h-14 rounded-2xl bg-slate-900 dark:bg-white flex items-center justify-center text-white dark:text-slate-900 shadow-xl shadow-slate-200 dark:shadow-none">
+                        <div className="w-14 h-14 rounded-lg bg-slate-900 dark:bg-white flex items-center justify-center text-white dark:text-slate-900 shadow-xl shadow-slate-200 dark:shadow-none">
                             <FileText size={28} />
                         </div>
                         <div>
@@ -111,8 +111,8 @@ export const InvoicesSplitView: React.FC<InvoicesSplitViewProps> = ({
                     </div>
                 </div>
 
-                <div className="bg-slate-50 dark:bg-gray-900/40 rounded-3xl p-6 border border-slate-100 dark:border-gray-800 space-y-6">
-                    <div className="flex justify-between items-start border-b border-slate-100 dark:border-gray-800 pb-6">
+                <div className="bg-slate-50 dark:bg-gray-900/40 rounded-xl p-4 border border-slate-100 dark:border-gray-800 space-y-3">
+                    <div className="flex justify-between items-start border-b border-slate-100 dark:border-gray-800 pb-4">
                         <div className="space-y-1">
                             <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Billed To</p>
                             <h3 className="text-[15px] font-black text-slate-900 dark:text-white">{item.customer}</h3>
@@ -124,9 +124,9 @@ export const InvoicesSplitView: React.FC<InvoicesSplitViewProps> = ({
                         </div>
                     </div>
 
-                    <div className="space-y-4">
+                    <div className="space-y-3">
                         <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Payment Method</p>
-                        <div className="flex items-center gap-3 bg-white dark:bg-gray-900 p-4 rounded-2xl border border-slate-200 dark:border-gray-800">
+                        <div className="flex items-center gap-3 bg-white dark:bg-gray-900 p-3 rounded-lg border border-slate-200 dark:border-gray-800">
                             <div className="w-10 h-6 bg-slate-100 dark:bg-gray-800 rounded flex items-center justify-center">
                                 <CreditCard size={14} className="text-slate-400" />
                             </div>
@@ -134,8 +134,8 @@ export const InvoicesSplitView: React.FC<InvoicesSplitViewProps> = ({
                         </div>
                     </div>
 
-                    <div className="pt-6 border-t border-slate-100 dark:border-gray-800">
-                        <div className="flex justify-between items-center bg-slate-900 dark:bg-white p-5 rounded-2xl text-white dark:text-slate-900">
+                    <div className="pt-4 border-t border-slate-100 dark:border-gray-800">
+                        <div className="flex justify-between items-center bg-slate-900 dark:bg-white p-3 rounded-lg text-white dark:text-slate-900">
                             <span className="text-[13px] font-bold uppercase tracking-wider">Total Amount</span>
                             <span className="text-xl font-black italic">{item.amount}</span>
                         </div>
@@ -143,11 +143,11 @@ export const InvoicesSplitView: React.FC<InvoicesSplitViewProps> = ({
                 </div>
 
                 <div className="flex gap-3">
-                    <button className="flex-1 py-3.5 rounded-2xl bg-slate-100 dark:bg-gray-800 text-slate-700 dark:text-slate-300 font-black text-[13px] hover:bg-slate-200 dark:hover:bg-gray-700 transition-all flex items-center justify-center gap-2">
+                    <button className="flex-1 py-3.5 rounded-lg bg-slate-100 dark:bg-gray-800 text-slate-700 dark:text-slate-300 font-black text-[13px] hover:bg-slate-200 dark:hover:bg-gray-700 transition-all flex items-center justify-center gap-2">
                         <Download size={16} />
                         Download PDF
                     </button>
-                    <button className="p-3.5 rounded-2xl bg-slate-100 dark:bg-gray-800 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-all active:scale-95">
+                    <button className="p-3.5 rounded-lg bg-slate-100 dark:bg-gray-800 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-all active:scale-95">
                         <Printer size={16} />
                     </button>
                 </div>

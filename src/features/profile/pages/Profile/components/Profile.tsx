@@ -43,7 +43,7 @@ const Profile = ({
 
     return (
         <div className="profile-page-container w-full h-full flex flex-col">
-            <div className="flex-1 overflow-y-auto w-full mx-auto p-6 md:px-10 max-w-4xl">
+            <div className="flex-1 overflow-y-auto w-full mx-auto p-4 md:px-5 max-w-4xl">
                 {user || profileData ? (
                     <ProfileForm
                         initialData={profileData || user}

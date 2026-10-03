@@ -164,7 +164,7 @@ export const PromotionAssetForm: React.FC<PromotionAssetFormProps> = ({
             className="max-w-3xl w-[95vw]"
         >
             <form onSubmit={handleSubmit} className="flex flex-col max-h-[70vh]">
-                <div className="flex-1 min-h-0 overflow-y-auto pr-1 space-y-5">
+                <div className="flex-1 min-h-0 overflow-y-auto pr-1 space-y-3">
                     {/* ── Image ───────────────────────────────── */}
                     <div>
                         <div className="flex items-center justify-between mb-1">
@@ -329,7 +329,7 @@ export const PromotionAssetForm: React.FC<PromotionAssetFormProps> = ({
                     </Field>
                 </div>
 
-                <div className="flex justify-end gap-3 pt-4 border-t border-slate-200 dark:border-gray-800 mt-5 shrink-0">
+                <div className="flex justify-end gap-3 pt-3 border-t border-slate-200 dark:border-gray-800 mt-3 shrink-0">
                     <Button type="button" variant="secondary" onClick={onClose} disabled={isSubmitting}>
                         Cancel
                     </Button>

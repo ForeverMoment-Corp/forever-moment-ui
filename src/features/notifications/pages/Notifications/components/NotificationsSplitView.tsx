@@ -93,10 +93,10 @@ export const NotificationsSplitView: React.FC<NotificationsSplitViewProps> = ({
     const renderDetailsPanel = useCallback((item: any) => {
         if (!item) return null;
         return (
-            <div className="p-6 space-y-8 animate-in fade-in slide-in-from-right-4 duration-300">
+            <div className="p-4 space-y-4 animate-in fade-in slide-in-from-right-4 duration-300">
                 <div className="flex items-start justify-between">
                     <div className="flex gap-4">
-                        <div className="w-14 h-14 rounded-2xl bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-600 dark:text-blue-400 shadow-sm border border-blue-100/50 dark:border-blue-800/20">
+                        <div className="w-14 h-14 rounded-lg bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-600 dark:text-blue-400 shadow-sm border border-blue-100/50 dark:border-blue-800/20">
                             <Bell size={28} />
                         </div>
                         <div>
@@ -114,8 +114,8 @@ export const NotificationsSplitView: React.FC<NotificationsSplitViewProps> = ({
                     </div>
                 </div>
 
-                <div className="bg-slate-50 dark:bg-gray-900/40 p-6 rounded-3xl border border-slate-100 dark:border-gray-800 space-y-4">
-                    <div className="flex items-center justify-between border-b border-slate-100 dark:border-gray-700 pb-4">
+                <div className="bg-slate-50 dark:bg-gray-900/40 p-4 rounded-xl border border-slate-100 dark:border-gray-800 space-y-3">
+                    <div className="flex items-center justify-between border-b border-slate-100 dark:border-gray-700 pb-3">
                         <div className="flex items-center gap-3">
                             <div className="w-8 h-8 rounded-full bg-white dark:bg-gray-800 flex items-center justify-center text-slate-400 border border-slate-100 dark:border-gray-700">
                                 <Phone size={14} />
@@ -125,7 +125,7 @@ export const NotificationsSplitView: React.FC<NotificationsSplitViewProps> = ({
                         <span className="text-[11px] font-black text-slate-400 uppercase tracking-widest">{item.date}</span>
                     </div>
                     
-                    <div className="space-y-4">
+                    <div className="space-y-3">
                         {[
                             { label: 'Subject', value: item.title },
                             { label: 'Channel', value: item.type },
@@ -140,14 +140,14 @@ export const NotificationsSplitView: React.FC<NotificationsSplitViewProps> = ({
 
                     <div className="space-y-2 pt-2 border-t border-slate-100 dark:border-gray-700">
                         <p className="text-[11px] font-black text-slate-400 uppercase tracking-widest">Message Body</p>
-                        <p className="text-[13.5px] text-slate-500 dark:text-slate-400 leading-relaxed italic bg-white dark:bg-gray-950 p-4 rounded-2xl border border-slate-200 dark:border-gray-800">
+                        <p className="text-[13.5px] text-slate-500 dark:text-slate-400 leading-relaxed italic bg-white dark:bg-gray-950 p-3 rounded-lg border border-slate-200 dark:border-gray-800">
                             {item.message}
                         </p>
                     </div>
                 </div>
 
                 <div className="flex gap-3">
-                    <button className="flex-1 py-3.5 rounded-2xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-black text-[13px] hover:opacity-90 transition-all flex items-center justify-center gap-2">
+                    <button className="flex-1 py-3.5 rounded-lg bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-black text-[13px] hover:opacity-90 transition-all flex items-center justify-center gap-2">
                         <Eye size={16} />
                         View Live Preview
                     </button>

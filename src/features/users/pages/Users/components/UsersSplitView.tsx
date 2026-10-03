@@ -21,7 +21,7 @@ export const UsersSplitView = ({
         {
             header: 'Name',
             accessorKey: 'fullName',
-            className: 'w-[25%] min-w-[200px] py-1.5 px-4 text-left font-semibold text-slate-900 dark:text-white whitespace-nowrap',
+            className: 'w-[25%] min-w-[200px] px-3 text-left font-semibold text-slate-900 dark:text-white whitespace-nowrap',
             render: (u: any) => (
                 <div className="flex items-center gap-3">
                     <div className={cn(
@@ -38,16 +38,16 @@ export const UsersSplitView = ({
         {
             header: 'Email',
             accessorKey: 'email',
-            className: 'w-[25%] min-w-[200px] py-1.5 px-4 text-left text-slate-600 dark:text-slate-300',
+            className: 'w-[25%] min-w-[200px] px-3 text-left text-slate-600 dark:text-slate-300',
         },
         {
             header: 'Phone',
             accessorKey: 'phoneNumber',
-            className: 'w-[15%] min-w-[130px] py-1.5 px-4 text-left text-slate-600 dark:text-slate-300',
+            className: 'w-[15%] min-w-[130px] px-3 text-left text-slate-600 dark:text-slate-300',
         },
         {
             header: 'Role',
-            className: 'w-[15%] min-w-[100px] py-1.5 px-4 text-left',
+            className: 'w-[15%] min-w-[100px] px-3 text-left',
             render: (user: any) => {
                 const activeRoleIds = user.roleIds && user.roleIds.length > 0 ? user.roleIds : (user.roleId != null ? [user.roleId] : []);
                 const roleNames = activeRoleIds.map((id: number) => roles?.find((r: any) => r.id === id)?.roleName).filter(Boolean).join(', ');
@@ -62,7 +62,7 @@ export const UsersSplitView = ({
         {
             header: 'Actions',
             preventRowClick: true,
-            className: 'w-[10%] min-w-[80px] py-1.5 px-4 text-right',
+            className: 'w-[10%] min-w-[80px] px-3 text-right',
             render: (u: any) => (
                 <div onClick={(e) => e.stopPropagation()}>
                     <RowActions

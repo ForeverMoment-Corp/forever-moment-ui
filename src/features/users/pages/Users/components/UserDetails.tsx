@@ -98,7 +98,7 @@ export const UserDetails = ({ user, updateUser, onDirtyChange }: UserDetailsProp
                     />
                 ) : (
                     <div
-                        className={cn("text-[15px] min-h-[24px] pr-8 relative", disabled ? "text-slate-500 dark:text-slate-400 group-hover:cursor-not-allowed" : "cursor-text text-slate-900 dark:text-white")}
+                        className={cn("text-[15px] min-h-[24px] pr-4 relative", disabled ? "text-slate-500 dark:text-slate-400 group-hover:cursor-not-allowed" : "cursor-text text-slate-900 dark:text-white")}
                         onClick={() => !disabled && handleEditStart(fieldKey, value || '')}
                     >
                         {value || <span className="text-slate-400 italic font-normal">Not specified</span>}
@@ -117,7 +117,7 @@ export const UserDetails = ({ user, updateUser, onDirtyChange }: UserDetailsProp
     const activeRoleLabel = user.rolesData?.find(r => String(r.id) === String(localData.roleId))?.roleName || 'No Role';
 
     return (
-        <div className="space-y-4 pb-20">
+        <div className="space-y-3 pb-20">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {renderEditableField('Full Name', 'fullName', localData.fullName)}
                 {renderEditableField('Email', 'email', localData.email, true)}
@@ -142,7 +142,7 @@ export const UserDetails = ({ user, updateUser, onDirtyChange }: UserDetailsProp
                         />
                     ) : (
                         <div
-                            className="text-[15px] min-h-[24px] pr-8 relative cursor-pointer w-max flex items-center"
+                            className="text-[15px] min-h-[24px] pr-4 relative cursor-pointer w-max flex items-center"
                             onClick={() => setEditingField('roleId')}
                         >
                             <span className={cn(

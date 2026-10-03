@@ -4,7 +4,7 @@ export const PresetColorGrid = () => {
     const { accent, setAccent } = useTheme();
 
     return (
-        <div className="flex flex-wrap gap-x-8 gap-y-6">
+        <div className="flex flex-wrap gap-x-4 gap-y-3">
             {COLOR_FAMILIES.map((family) => (
                 <div key={family.name} className="flex flex-col gap-2.5">
                     <span className="text-[11px] font-bold text-slate-400 dark:text-slate-500 tracking-widest uppercase ml-1">

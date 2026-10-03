@@ -30,7 +30,7 @@ export const LocationCard: React.FC<LocationCardProps> = ({
     onToggleTimeSlot
 }) => {
     return (
-        <div className="flex flex-col gap-3 p-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm transition-all hover:border-blue-300">
+        <div className="flex flex-col gap-3 p-3 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm transition-all hover:border-blue-300">
             <div className="flex items-start justify-between">
                 <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-600 dark:text-blue-400">
@@ -93,7 +93,7 @@ export const LocationCard: React.FC<LocationCardProps> = ({
 
             {/* Associated Time Slots Section */}
             {el.timeslots && el.timeslots.length > 0 && (
-                <div className="mt-4 pt-4 border-t border-slate-100 dark:border-gray-800">
+                <div className="mt-4 pt-3 border-t border-slate-100 dark:border-gray-800">
                     <span className="text-[10px] uppercase text-slate-400 font-bold tracking-wider mb-3 block">Associated Time Slots</span>
                     <div className="space-y-2">
                         {el.timeslots.map((ts: any) => (

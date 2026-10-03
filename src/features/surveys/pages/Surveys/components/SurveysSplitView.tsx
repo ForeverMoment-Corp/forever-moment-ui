@@ -88,10 +88,10 @@ export const SurveysSplitView: React.FC<SurveysSplitViewProps> = ({
     const renderDetailsPanel = useCallback((item: any) => {
         if (!item) return null;
         return (
-            <div className="p-6 space-y-8 animate-in fade-in slide-in-from-right-4 duration-300">
+            <div className="p-4 space-y-4 animate-in fade-in slide-in-from-right-4 duration-300">
                 <div className="flex items-start justify-between">
                     <div className="flex gap-4">
-                        <div className="w-14 h-14 rounded-2xl bg-indigo-50 dark:bg-indigo-900/20 flex items-center justify-center text-indigo-600 dark:text-indigo-400 shadow-sm border border-indigo-100/50 dark:border-indigo-800/20">
+                        <div className="w-14 h-14 rounded-lg bg-indigo-50 dark:bg-indigo-900/20 flex items-center justify-center text-indigo-600 dark:text-indigo-400 shadow-sm border border-indigo-100/50 dark:border-indigo-800/20">
                             <BarChart3 size={28} />
                         </div>
                         <div>
@@ -108,7 +108,7 @@ export const SurveysSplitView: React.FC<SurveysSplitViewProps> = ({
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-slate-900 dark:bg-slate-950 p-6 rounded-3xl text-white shadow-xl shadow-slate-200/50 dark:shadow-none col-span-2">
+                    <div className="bg-slate-900 dark:bg-slate-950 p-4 rounded-xl text-white shadow-xl shadow-slate-200/50 dark:shadow-none col-span-2">
                         <div className="flex justify-between items-center mb-1">
                             <p className="text-[11px] font-black text-slate-400 uppercase tracking-widest">Completion Rate</p>
                             <span className="text-[12px] text-emerald-400 font-black">84%</span>
@@ -123,16 +123,16 @@ export const SurveysSplitView: React.FC<SurveysSplitViewProps> = ({
                     </div>
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-3">
                     <h3 className="text-[13px] font-black text-slate-900 dark:text-white uppercase tracking-wider">Survey Summary</h3>
-                    <div className="bg-white dark:bg-[#0f1117] rounded-2xl border border-slate-200 dark:border-gray-800/60 overflow-hidden">
+                    <div className="bg-white dark:bg-[#0f1117] rounded-lg border border-slate-200 dark:border-gray-800/60 overflow-hidden">
                         {[
                             { label: 'Total Questions', value: '12', icon: ClipboardList },
                             { label: 'Avg. Finish Time', value: '4m 20s', icon: Clock },
                             { label: 'Active Since', value: item.date, icon: Calendar },
                             { label: 'Expiry Date', value: item.endDate, icon: Calendar },
                         ].map((info, i) => (
-                            <div key={i} className="px-5 py-4 flex items-center justify-between border-b last:border-0 border-slate-50 dark:border-gray-800/40">
+                            <div key={i} className="px-3 py-3 flex items-center justify-between border-b last:border-0 border-slate-50 dark:border-gray-800/40">
                                 <div className="flex items-center gap-3">
                                     <info.icon size={16} className="text-slate-400" />
                                     <span className="text-[13px] font-bold text-slate-400">{info.label}</span>
@@ -143,7 +143,7 @@ export const SurveysSplitView: React.FC<SurveysSplitViewProps> = ({
                     </div>
                 </div>
 
-                <button className="w-full py-4 rounded-2xl bg-indigo-600 dark:bg-indigo-500 font-black text-[13px] text-white hover:bg-indigo-700 dark:hover:bg-indigo-600 transition-all shadow-lg shadow-indigo-200 dark:shadow-none flex items-center justify-center gap-2">
+                <button className="w-full py-3 rounded-lg bg-indigo-600 dark:bg-indigo-500 font-black text-[13px] text-white hover:bg-indigo-700 dark:hover:bg-indigo-600 transition-all shadow-lg shadow-indigo-200 dark:shadow-none flex items-center justify-center gap-2">
                     <PieChart size={16} />
                     View Detailed Analytics
                     <ArrowRight size={16} />

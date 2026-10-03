@@ -34,7 +34,7 @@ export const PayoutsSplitView: React.FC<PayoutsSplitViewProps> = ({
             header: 'Net Payout',
             accessorKey: 'netPayout',
             render: (item: any) => (
-                <div className="flex flex-col text-right pr-4">
+                <div className="flex flex-col text-right pr-3">
                     <span className="text-[14px] font-black text-slate-900 dark:text-white">₹{item.netPayout.toLocaleString()}</span>
                     <span className="text-[10px] text-slate-400 font-bold">Comm: ₹{item.commission.toLocaleString()}</span>
                 </div>
@@ -92,10 +92,10 @@ export const PayoutsSplitView: React.FC<PayoutsSplitViewProps> = ({
     const renderDetailsPanel = useCallback((item: any) => {
         if (!item) return null;
         return (
-            <div className="p-6 space-y-8 animate-in fade-in slide-in-from-right-4 duration-300">
+            <div className="p-4 space-y-4 animate-in fade-in slide-in-from-right-4 duration-300">
                 <div className="flex items-start justify-between">
                     <div className="flex gap-4">
-                        <div className="w-14 h-14 rounded-2xl bg-emerald-50 dark:bg-emerald-900/20 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shadow-sm border border-emerald-100/50 dark:border-emerald-800/20">
+                        <div className="w-14 h-14 rounded-lg bg-emerald-50 dark:bg-emerald-900/20 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shadow-sm border border-emerald-100/50 dark:border-emerald-800/20">
                             <HandCoins size={28} />
                         </div>
                         <div>
@@ -113,7 +113,7 @@ export const PayoutsSplitView: React.FC<PayoutsSplitViewProps> = ({
                     </div>
                 </div>
 
-                <div className="bg-slate-900 dark:bg-slate-950 p-6 rounded-3xl text-white shadow-xl shadow-slate-200/50 dark:shadow-none">
+                <div className="bg-slate-900 dark:bg-slate-950 p-4 rounded-xl text-white shadow-xl shadow-slate-200/50 dark:shadow-none">
                     <p className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-1">Total Settlement</p>
                     <div className="flex items-baseline gap-1">
                         <span className="text-3xl font-black italic">₹{item.netPayout.toLocaleString()}</span>
@@ -121,16 +121,16 @@ export const PayoutsSplitView: React.FC<PayoutsSplitViewProps> = ({
                     </div>
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-3">
                     <h3 className="text-[13px] font-black text-slate-900 dark:text-white uppercase tracking-wider">Statement Breakdown</h3>
-                    <div className="bg-white dark:bg-[#0f1117] rounded-2xl border border-slate-200 dark:border-gray-800/60 overflow-hidden">
+                    <div className="bg-white dark:bg-[#0f1117] rounded-lg border border-slate-200 dark:border-gray-800/60 overflow-hidden">
                         {[
                             { label: 'Gross Booking Amount', value: '₹' + item.amount.toLocaleString() },
                             { label: 'Commission Fee (10%)', value: '- ₹' + item.commission.toLocaleString(), color: 'text-red-500' },
                             { label: 'Net Payable', value: '₹' + item.netPayout.toLocaleString(), bold: true },
                             { label: 'Settlement Date', value: item.date },
                         ].map((info, i) => (
-                            <div key={i} className="px-5 py-4 flex items-center justify-between border-b last:border-0 border-slate-50 dark:border-gray-800/40">
+                            <div key={i} className="px-3 py-3 flex items-center justify-between border-b last:border-0 border-slate-50 dark:border-gray-800/40">
                                 <span className="text-[13px] font-bold text-slate-400">{info.label}</span>
                                 <span className={`text-[13px] ${info.bold ? 'font-black' : 'font-bold'} ${info.color || 'text-slate-700 dark:text-slate-200'}`}>{info.value}</span>
                             </div>
@@ -138,7 +138,7 @@ export const PayoutsSplitView: React.FC<PayoutsSplitViewProps> = ({
                     </div>
                 </div>
 
-                <button className="w-full py-4 rounded-2xl bg-slate-50 dark:bg-gray-800 font-black text-[13px] text-slate-600 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-gray-700 transition-all border border-slate-200 dark:border-gray-700 flex items-center justify-center gap-2">
+                <button className="w-full py-3 rounded-lg bg-slate-50 dark:bg-gray-800 font-black text-[13px] text-slate-600 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-gray-700 transition-all border border-slate-200 dark:border-gray-700 flex items-center justify-center gap-2">
                     <ExternalLink size={16} />
                     View Full Statement
                 </button>

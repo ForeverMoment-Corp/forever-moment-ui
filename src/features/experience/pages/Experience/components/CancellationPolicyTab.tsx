@@ -18,7 +18,7 @@ export const CancellationPolicyTab: React.FC<CancellationPolicyTabProps> = ({ ca
     });
 
     return (
-        <div className="flex flex-col h-full space-y-4">
+        <div className="flex flex-col h-full space-y-3">
             <SearchBar
                 className="w-full"
                 inputClassName="bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800"
@@ -45,7 +45,7 @@ export const CancellationPolicyTab: React.FC<CancellationPolicyTabProps> = ({ ca
                     );
                 })}
                 {filteredPolicies.length === 0 && (
-                    <div className="text-center py-8 text-slate-400 dark:text-gray-500">
+                    <div className="text-center py-4 text-slate-400 dark:text-gray-500">
                         <p className="text-sm">No active policies found.</p>
                     </div>
                 )}

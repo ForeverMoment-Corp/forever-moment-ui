@@ -87,7 +87,7 @@ export const AddonForm: React.FC<AddonFormProps> = ({
             title={initialData ? 'Edit Addon' : 'Create Addon'}
             className="max-w-md w-[95vw]"
         >
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-3">
                 <div>
                     <label htmlFor="name" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
                         Name *
@@ -166,7 +166,7 @@ export const AddonForm: React.FC<AddonFormProps> = ({
                     </label>
                 </div>
 
-                <div className="flex justify-end gap-3 pt-4 border-t border-slate-200 dark:border-gray-800 mt-6">
+                <div className="flex justify-end gap-3 pt-3 border-t border-slate-200 dark:border-gray-800 mt-3">
                     <Button type="button" variant="secondary" onClick={onClose}>
                         Cancel
                     </Button>

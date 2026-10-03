@@ -78,7 +78,7 @@ export const BulkTimeSlotModal: React.FC<BulkTimeSlotModalProps> = ({
             title="Bulk Associate Time Slots"
             className="max-w-xl w-[95vw]"
         >
-            <div className="space-y-6">
+            <div className="space-y-3">
                 <div>
                     <div className="flex items-center justify-between mb-2">
                         <label className="text-sm font-bold text-slate-700 dark:text-slate-300">
@@ -107,7 +107,7 @@ export const BulkTimeSlotModal: React.FC<BulkTimeSlotModalProps> = ({
                             </button>
                         ))}
                         {availableSlots.length === 0 && (
-                            <div className="col-span-full py-4 text-center text-slate-400 text-xs italic">
+                            <div className="col-span-full py-3 text-center text-slate-400 text-xs italic">
                                 All time slots are already associated with this location.
                             </div>
                         )}
@@ -177,7 +177,7 @@ export const BulkTimeSlotModal: React.FC<BulkTimeSlotModalProps> = ({
                     </label>
                 </div>
 
-                <div className="flex justify-end gap-3 pt-4 border-t border-slate-100 dark:border-gray-800">
+                <div className="flex justify-end gap-3 pt-3 border-t border-slate-100 dark:border-gray-800">
                     <Button variant="secondary" onClick={onClose}>
                         Cancel
                     </Button>

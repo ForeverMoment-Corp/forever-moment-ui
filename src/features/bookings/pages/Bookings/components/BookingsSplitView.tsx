@@ -27,7 +27,7 @@ export const BookingsSplitView = ({
     const columns = [
         {
             accessorKey: 'id',
-            className: 'py-1.5 px-4 text-left font-semibold text-slate-900 dark:text-white',
+            className: 'px-3 text-left font-semibold text-slate-900 dark:text-white',
             render: (booking: any) => (
                 <div className="flex items-center gap-3">
                     <div className={cn(
@@ -47,7 +47,7 @@ export const BookingsSplitView = ({
         {
             header: 'Date',
             accessorKey: 'date',
-            className: 'py-1.5 px-4 text-left',
+            className: 'px-3 text-left',
             render: (booking: any) => (
                 <div className="text-[13px] text-slate-600 dark:text-slate-300">
                     {booking.date}
@@ -57,7 +57,7 @@ export const BookingsSplitView = ({
         {
             header: 'Amount',
             accessorKey: 'amount',
-            className: 'py-1.5 px-4 text-right',
+            className: 'px-3 text-right',
             render: (booking: any) => (
                 <div className="text-right">
                     <span className="font-semibold text-[14px] text-slate-800 dark:text-slate-100">${booking.amount}</span>
@@ -67,7 +67,7 @@ export const BookingsSplitView = ({
         {
             header: 'Status',
             preventRowClick: true,
-            className: 'py-1.5 px-4 text-center',
+            className: 'px-3 text-center',
             render: (booking: any) => (
                 <EditableStatusBadge
                     status={booking.status}
@@ -81,7 +81,7 @@ export const BookingsSplitView = ({
         {
             header: 'Actions',
             preventRowClick: true,
-            className: 'py-1.5 px-4 text-right',
+            className: 'px-3 text-right',
             render: (booking: any) => (
                 <div onClick={(e) => e.stopPropagation()}>
                     <RowActions
@@ -133,8 +133,8 @@ export const BookingsSplitView = ({
     const renderDetailsPanel = useCallback((booking: any) => {
         if (!booking) return null;
         return (
-            <div className="p-6">
-                <div className="flex items-center justify-between mb-6">
+            <div className="p-4">
+                <div className="flex items-center justify-between mb-3">
                     <div>
                         <h2 className="text-xl font-bold text-slate-900 dark:text-white leading-tight">{booking.eventName}</h2>
                         <span className="text-sm text-slate-500 dark:text-slate-400 mt-1 block">Booking References: {booking.id}</span>
@@ -150,8 +150,8 @@ export const BookingsSplitView = ({
                     </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4 mt-8">
-                     <div className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-100 dark:border-gray-700 shadow-sm">
+                <div className="grid grid-cols-2 gap-4 mt-4">
+                     <div className="p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-100 dark:border-gray-700 shadow-sm">
                          <h3 className="text-xs font-semibold uppercase text-gray-500 tracking-wider mb-3">Customer Info</h3>
                          <div className="space-y-2">
                              <div>
@@ -160,7 +160,7 @@ export const BookingsSplitView = ({
                              </div>
                          </div>
                      </div>
-                     <div className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-100 dark:border-gray-700 shadow-sm">
+                     <div className="p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-100 dark:border-gray-700 shadow-sm">
                          <h3 className="text-xs font-semibold uppercase text-gray-500 tracking-wider mb-3">Booking Details</h3>
                          <div className="space-y-2">
                              <div>

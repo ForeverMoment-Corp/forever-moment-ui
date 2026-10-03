@@ -93,10 +93,10 @@ export const CampaignsSplitView: React.FC<CampaignsSplitViewProps> = ({
     const renderDetailsPanel = useCallback((item: any) => {
         if (!item) return null;
         return (
-            <div className="p-6 space-y-8 animate-in fade-in slide-in-from-right-4 duration-300">
+            <div className="p-4 space-y-4 animate-in fade-in slide-in-from-right-4 duration-300">
                 <div className="flex items-start justify-between">
                     <div className="flex gap-4">
-                        <div className="w-14 h-14 rounded-2xl bg-orange-50 dark:bg-orange-900/20 flex items-center justify-center text-orange-600 dark:text-orange-400 shadow-sm border border-orange-100/50 dark:border-orange-800/20">
+                        <div className="w-14 h-14 rounded-lg bg-orange-50 dark:bg-orange-900/20 flex items-center justify-center text-orange-600 dark:text-orange-400 shadow-sm border border-orange-100/50 dark:border-orange-800/20">
                             <Megaphone size={28} />
                         </div>
                         <div>
@@ -110,14 +110,14 @@ export const CampaignsSplitView: React.FC<CampaignsSplitViewProps> = ({
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-slate-50 dark:bg-gray-900/40 p-5 rounded-2xl border border-slate-100 dark:border-gray-800">
+                    <div className="bg-slate-50 dark:bg-gray-900/40 p-3 rounded-lg border border-slate-100 dark:border-gray-800">
                         <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Reach</p>
                         <div className="flex items-baseline gap-2">
                             <span className="text-2xl font-black text-slate-900 dark:text-white">45.2k</span>
                             <span className="text-[11px] text-emerald-500 font-bold">+12%</span>
                         </div>
                     </div>
-                    <div className="bg-slate-50 dark:bg-gray-900/40 p-5 rounded-2xl border border-slate-100 dark:border-gray-800">
+                    <div className="bg-slate-50 dark:bg-gray-900/40 p-3 rounded-lg border border-slate-100 dark:border-gray-800">
                         <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Conversions</p>
                         <div className="flex items-baseline gap-2">
                             <span className="text-2xl font-black text-slate-900 dark:text-white">1,284</span>
@@ -126,16 +126,16 @@ export const CampaignsSplitView: React.FC<CampaignsSplitViewProps> = ({
                     </div>
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-3">
                     <h3 className="text-[13px] font-black text-slate-900 dark:text-white uppercase tracking-wider">Campaign Settings</h3>
-                    <div className="bg-white dark:bg-[#0f1117] rounded-2xl border border-slate-200 dark:border-gray-800/60 overflow-hidden">
+                    <div className="bg-white dark:bg-[#0f1117] rounded-lg border border-slate-200 dark:border-gray-800/60 overflow-hidden">
                         {[
                             { label: 'Platform', value: item.type, icon: MessageSquare },
                             { label: 'Audience', value: item.audience, icon: Users },
                             { label: 'Budget', value: item.budget, icon: BarChart3 },
                             { label: 'Start Date', value: item.date, icon: Calendar },
                         ].map((info, i) => (
-                            <div key={i} className="px-5 py-4 flex items-center justify-between border-b last:border-0 border-slate-50 dark:border-gray-800/40">
+                            <div key={i} className="px-3 py-3 flex items-center justify-between border-b last:border-0 border-slate-50 dark:border-gray-800/40">
                                 <div className="flex items-center gap-3">
                                     <info.icon size={16} className="text-slate-400" />
                                     <span className="text-[13px] font-bold text-slate-400">{info.label}</span>
@@ -146,7 +146,7 @@ export const CampaignsSplitView: React.FC<CampaignsSplitViewProps> = ({
                     </div>
                 </div>
 
-                <button className="w-full py-4 rounded-2xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-black text-[13px] hover:opacity-90 transition-all shadow-lg flex items-center justify-center gap-2">
+                <button className="w-full py-3 rounded-lg bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-black text-[13px] hover:opacity-90 transition-all shadow-lg flex items-center justify-center gap-2">
                     <ArrowUpRight size={18} />
                     View performance report
                 </button>

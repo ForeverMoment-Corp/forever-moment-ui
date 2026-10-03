@@ -17,7 +17,7 @@ export const InclusionsTab: React.FC<InclusionsTabProps> = ({ inclusions, experi
     });
 
     return (
-        <div className="flex flex-col h-full space-y-4">
+        <div className="flex flex-col h-full space-y-3">
             <SearchBar
                 className="w-full"
                 inputClassName="bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800"
@@ -44,7 +44,7 @@ export const InclusionsTab: React.FC<InclusionsTabProps> = ({ inclusions, experi
                     );
                 })}
                 {filteredInclusions.length === 0 && (
-                    <div className="text-center py-8 text-slate-400 dark:text-gray-500">
+                    <div className="text-center py-4 text-slate-400 dark:text-gray-500">
                         <p className="text-sm">No active inclusions found.</p>
                     </div>
                 )}

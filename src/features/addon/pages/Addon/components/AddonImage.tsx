@@ -115,7 +115,7 @@ export const AddonImage = ({ addon, uploadAddonImage, removeAddonImage }: AddonI
             <SectionLabel>Image</SectionLabel>
 
             {/* ── Current image ─────────────────────────── */}
-            <div className="bg-slate-50 dark:bg-gray-800/50 border border-slate-200 dark:border-gray-700 rounded-xl p-4 mb-4">
+            <div className="bg-slate-50 dark:bg-gray-800/50 border border-slate-200 dark:border-gray-700 rounded-xl p-3 mb-4">
                 {hasImage ? (
                     <div className="flex flex-col sm:flex-row gap-4">
                         <div className="w-full sm:w-56 aspect-video shrink-0 rounded-lg overflow-hidden border border-slate-200 dark:border-gray-700 bg-white dark:bg-gray-900">
@@ -171,14 +171,14 @@ export const AddonImage = ({ addon, uploadAddonImage, removeAddonImage }: AddonI
                 onDragLeave={() => setIsDragging(false)}
                 onDrop={handleDrop}
                 className={cn(
-                    'rounded-xl border-2 border-dashed p-5 transition-colors',
+                    'rounded-xl border-2 border-dashed p-3 transition-colors',
                     isDragging
                         ? 'border-blue-500 bg-blue-50/50 dark:bg-blue-500/10'
                         : 'border-slate-300 dark:border-gray-700 bg-slate-50 dark:bg-gray-800/50 hover:border-blue-500'
                 )}
             >
                 {pendingFile && preview ? (
-                    <div className="space-y-4">
+                    <div className="space-y-3">
                         <div className="flex flex-col sm:flex-row gap-4">
                             <div className="relative w-full sm:w-56 aspect-video shrink-0 rounded-lg overflow-hidden border border-slate-200 dark:border-gray-700 bg-white dark:bg-gray-900">
                                 <img src={preview} alt="Selected preview" className="h-full w-full object-contain" />

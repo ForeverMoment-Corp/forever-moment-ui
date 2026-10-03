@@ -69,7 +69,7 @@ export const SubCategoryLocationTab: React.FC<SubCategoryLocationTabProps> = ({
     // Only block on the very first build; later rebuilds keep the list interactive.
     if (loadingLinks && (subCategoryLocationLinks || []).length === 0 && !isToggling) {
         return (
-            <div className="flex flex-col items-center justify-center py-12 text-slate-400">
+            <div className="flex flex-col items-center justify-center py-6 text-slate-400">
                 <Loader2 className="h-6 w-6 animate-spin" />
                 <p className="mt-3 text-[13px]">Loading assigned locations…</p>
             </div>

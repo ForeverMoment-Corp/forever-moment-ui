@@ -43,7 +43,7 @@ export const MediaPicker = ({ images, loading, selectedId, onSelect, className }
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                         placeholder="Search library by file name or alt text…"
-                        className="w-full text-[13px] bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-700 rounded-lg pl-8 pr-3 py-1.5 outline-none focus:ring-2 focus:ring-[var(--accent-ring)] focus:border-[var(--accent)] text-slate-900 dark:text-white"
+                        className="w-full text-[13px] bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-700 rounded-lg pl-4 pr-3 py-1.5 outline-none focus:ring-2 focus:ring-[var(--accent-ring)] focus:border-[var(--accent)] text-slate-900 dark:text-white"
                     />
                 </div>
                 <span className="text-[12px] font-medium text-slate-500 dark:text-slate-400 whitespace-nowrap">
@@ -91,7 +91,7 @@ export const MediaPicker = ({ images, loading, selectedId, onSelect, className }
                                         <div className="flex h-full w-full items-center justify-center"><ImageIcon className="h-6 w-6 text-slate-400" /></div>
                                     )}
                                     <div className={cn(
-                                        'absolute inset-x-0 bottom-0 truncate bg-gradient-to-t from-black/70 to-transparent px-2 pb-1.5 pt-5 text-[10.5px] text-white',
+                                        'absolute inset-x-0 bottom-0 truncate bg-gradient-to-t from-black/70 to-transparent px-2 pb-1.5 pt-3 text-[10.5px] text-white',
                                         'opacity-0 transition-opacity group-hover:opacity-100',
                                         isSelected && 'opacity-100'
                                     )}>

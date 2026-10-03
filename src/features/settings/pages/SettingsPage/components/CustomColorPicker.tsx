@@ -24,14 +24,14 @@ export const CustomColorPicker = () => {
     }, [showColorPicker]);
 
     return (
-        <div className="flex items-center gap-4 border-t border-gray-200 dark:border-gray-700 pt-6">
+        <div className="flex items-center gap-4 border-t border-gray-200 dark:border-gray-700 pt-4">
             <div className="w-px h-10 bg-gray-200 dark:bg-gray-700 mx-1"></div>
 
             <div className="relative" ref={popoverRef}>
                 <button 
                     onClick={() => setShowColorPicker(!showColorPicker)}
                     className={`
-                        group flex items-center gap-2.5 px-4 py-2.5 rounded-xl border-2 transition-all duration-200 cursor-pointer
+                        group flex items-center gap-2.5 px-3 py-2.5 rounded-xl border-2 transition-all duration-200 cursor-pointer
                         ${accent.name === 'Custom'
                             ? 'border-[var(--accent)] shadow-sm'
                             : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
@@ -56,7 +56,7 @@ export const CustomColorPicker = () => {
                 </button>
 
                 {showColorPicker && (
-                    <div className="absolute top-[calc(100%+0.5rem)] left-0 z-50 p-4 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 flex flex-col items-center gap-3 animate-in fade-in zoom-in-95 duration-100">
+                    <div className="absolute top-[calc(100%+0.5rem)] left-0 z-50 p-3 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 flex flex-col items-center gap-3 animate-in fade-in zoom-in-95 duration-100">
                         <HexColorPicker 
                             color={accent.name === 'Custom' ? accent.value : '#6c63ff'} 
                             onChange={(color) => setAccent(generateCustomAccent(color))} 

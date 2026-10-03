@@ -37,7 +37,7 @@ export const HelpdeskSplitView: React.FC<HelpdeskSplitViewProps> = ({
         {
             header: 'Subject',
             accessorKey: 'subject',
-            className: 'w-[35%] min-w-[220px] py-1.5 px-4 text-left',
+            className: 'w-[35%] min-w-[220px] px-3 text-left',
             render: (item: SupportQuery) => (
                 <div className="flex flex-col min-w-0">
                     <span className="text-[13.5px] font-bold text-slate-700 dark:text-slate-200 truncate max-w-[360px]" title={item.subject || item.message}>
@@ -50,7 +50,7 @@ export const HelpdeskSplitView: React.FC<HelpdeskSplitViewProps> = ({
         {
             header: 'Customer',
             accessorKey: 'name',
-            className: 'w-[25%] min-w-[180px] py-1.5 px-4 text-left',
+            className: 'w-[25%] min-w-[180px] px-3 text-left',
             render: (item: SupportQuery) => (
                 <div className="flex items-center gap-2 min-w-0">
                     <div className="w-6 h-6 rounded-full bg-slate-100 dark:bg-gray-800 flex items-center justify-center text-[10px] font-bold text-slate-500 shrink-0">
@@ -66,14 +66,14 @@ export const HelpdeskSplitView: React.FC<HelpdeskSplitViewProps> = ({
         {
             header: 'Received',
             accessorKey: 'createdOn',
-            className: 'w-[20%] min-w-[150px] py-1.5 px-4 text-left text-[12.5px] text-slate-500 dark:text-slate-400',
+            className: 'w-[20%] min-w-[150px] px-3 text-left text-[12.5px] text-slate-500 dark:text-slate-400',
             render: (item: SupportQuery) => formatDateTime(item.createdOn)
         },
         {
             header: 'Status',
             accessorKey: 'status',
             preventRowClick: true,
-            className: 'w-[20%] min-w-[150px] py-1.5 px-4 text-left',
+            className: 'w-[20%] min-w-[150px] px-3 text-left',
             render: (item: SupportQuery) => (
                 <div className="flex items-center gap-2">
                     <QueryStatusBadge status={item.status} />
@@ -123,10 +123,10 @@ export const HelpdeskSplitView: React.FC<HelpdeskSplitViewProps> = ({
         if (!item) return null;
         const replySubject = encodeURIComponent(`Re: ${item.subject || 'Your support query'} [${item.referenceId}]`);
         return (
-            <div className="space-y-6 pb-20 pt-2">
+            <div className="space-y-3 pb-20 pt-2">
                 <div className="flex items-start justify-between gap-4">
                     <div className="flex gap-4 min-w-0">
-                        <div className="w-12 h-12 rounded-2xl bg-orange-50 dark:bg-orange-900/20 flex items-center justify-center text-orange-600 dark:text-orange-400 shrink-0">
+                        <div className="w-12 h-12 rounded-lg bg-orange-50 dark:bg-orange-900/20 flex items-center justify-center text-orange-600 dark:text-orange-400 shrink-0">
                             <LifeBuoy size={24} />
                         </div>
                         <div className="min-w-0">
@@ -152,7 +152,7 @@ export const HelpdeskSplitView: React.FC<HelpdeskSplitViewProps> = ({
 
                 <div>
                     <SectionLabel>Message</SectionLabel>
-                    <p className="mt-2 text-[13.5px] text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-wrap break-words bg-slate-50 dark:bg-gray-900/40 p-4 rounded-xl border border-slate-100 dark:border-gray-800">
+                    <p className="mt-2 text-[13.5px] text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-wrap break-words bg-slate-50 dark:bg-gray-900/40 p-3 rounded-xl border border-slate-100 dark:border-gray-800">
                         {item.message}
                     </p>
                 </div>

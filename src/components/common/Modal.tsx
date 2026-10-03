@@ -74,7 +74,7 @@ export const Modal = ({
                 )}
             >
                 {/* Header Section */}
-                <div className={cn("p-8 flex flex-col items-center text-center border-b", styles.headerBg, styles.headerBorder)}>
+                <div className={cn("p-5 flex flex-col items-center text-center border-b", styles.headerBg, styles.headerBorder)}>
                     {Icon && (
                         <div className={cn(
                             "w-[52px] h-[52px] bg-gradient-to-br rounded-[14px] flex items-center justify-center mb-5",
@@ -86,7 +86,7 @@ export const Modal = ({
                     )}
 
                     <h2
-                        className="text-[24px] font-bold text-slate-900 dark:text-white leading-tight mb-2"
+                        className="text-[20px] font-bold text-slate-900 dark:text-white leading-tight mb-1"
                         style={{ fontFamily: "'Instrument Serif', serif" }}
                     >
                         {title}
@@ -110,14 +110,14 @@ export const Modal = ({
 
                 {/* Content Area */}
                 {children && (
-                    <div className="px-8 py-6">
+                    <div className="px-5 py-4">
                         {children}
                     </div>
                 )}
 
                 {/* Footer Section */}
                 {footer ? (
-                    <div className="px-8 pb-8 flex flex-col sm:flex-row gap-3">
+                    <div className="px-5 pb-5 flex flex-col sm:flex-row gap-2">
                         {footer}
                     </div>
                 ) : null}

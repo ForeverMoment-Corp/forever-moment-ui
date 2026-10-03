@@ -95,10 +95,10 @@ export const RefundsSplitView: React.FC<RefundsSplitViewProps> = ({
     const renderDetailsPanel = useCallback((item: any) => {
         if (!item) return null;
         return (
-            <div className="p-6 space-y-8 animate-in fade-in slide-in-from-right-4 duration-300">
+            <div className="p-4 space-y-4 animate-in fade-in slide-in-from-right-4 duration-300">
                 <div className="flex items-start justify-between">
                     <div className="flex gap-4">
-                        <div className="w-14 h-14 rounded-2xl bg-amber-50 dark:bg-amber-900/20 flex items-center justify-center text-amber-600 dark:text-amber-400 shadow-sm border border-amber-100/50 dark:border-amber-800/20">
+                        <div className="w-14 h-14 rounded-lg bg-amber-50 dark:bg-amber-900/20 flex items-center justify-center text-amber-600 dark:text-amber-400 shadow-sm border border-amber-100/50 dark:border-amber-800/20">
                             <RotateCcw size={28} />
                         </div>
                         <div>
@@ -112,26 +112,26 @@ export const RefundsSplitView: React.FC<RefundsSplitViewProps> = ({
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-slate-50 dark:bg-gray-900/40 p-5 rounded-2xl border border-slate-100 dark:border-gray-800 space-y-1">
+                    <div className="bg-slate-50 dark:bg-gray-900/40 p-3 rounded-lg border border-slate-100 dark:border-gray-800 space-y-1">
                         <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Refund Amount</p>
                         <p className="text-2xl font-black text-slate-900 dark:text-white">{item.amount}</p>
                     </div>
-                    <div className="bg-slate-50 dark:bg-gray-900/40 p-5 rounded-2xl border border-slate-100 dark:border-gray-800 space-y-1">
+                    <div className="bg-slate-50 dark:bg-gray-900/40 p-3 rounded-lg border border-slate-100 dark:border-gray-800 space-y-1">
                         <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Original Booking</p>
                         <p className="text-[14px] font-bold text-slate-700 dark:text-slate-200">#BK-2025-001</p>
                     </div>
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-3">
                     <h3 className="text-[13px] font-black text-slate-900 dark:text-white uppercase tracking-wider italic bg-slate-100 dark:bg-gray-800/60 inline-block px-3 py-1 rounded-lg">Reason for Refund</h3>
-                    <p className="text-[13.5px] text-slate-600 dark:text-slate-400 leading-relaxed italic bg-amber-50/50 dark:bg-amber-900/10 p-4 rounded-2xl border border-amber-100 dark:border-amber-800/20">
+                    <p className="text-[13.5px] text-slate-600 dark:text-slate-400 leading-relaxed italic bg-amber-50/50 dark:bg-amber-900/10 p-3 rounded-lg border border-amber-100 dark:border-amber-800/20">
                         {item.reason}
                     </p>
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-3">
                     <h3 className="text-[13px] font-black text-slate-900 dark:text-white uppercase tracking-wider">Refund Timeline</h3>
-                    <div className="space-y-4 relative before:absolute before:left-4 before:top-2 before:bottom-2 before:w-px before:bg-slate-200 dark:before:bg-gray-800">
+                    <div className="space-y-3 relative before:absolute before:left-4 before:top-2 before:bottom-2 before:w-px before:bg-slate-200 dark:before:bg-gray-800">
                         {[
                             { step: 'Request Initiated', date: item.date, icon: MessageSquare, current: false },
                             { step: 'Manager Approval', date: 'Processing', icon: ShieldCheck, current: true },
@@ -152,12 +152,12 @@ export const RefundsSplitView: React.FC<RefundsSplitViewProps> = ({
                     </div>
                 </div>
 
-                <div className="flex gap-3 pt-4">
-                    <button className="flex-1 py-4 rounded-2xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-black text-[13px] hover:opacity-90 transition-all shadow-lg flex items-center justify-center gap-2">
+                <div className="flex gap-3 pt-3">
+                    <button className="flex-1 py-3 rounded-lg bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-black text-[13px] hover:opacity-90 transition-all shadow-lg flex items-center justify-center gap-2">
                         <RotateCcw size={16} />
                         Approve Refund
                     </button>
-                    <button className="px-6 py-4 rounded-2xl bg-rose-50 text-rose-600 font-black text-[13px] hover:bg-rose-100 transition-all border border-rose-100">
+                    <button className="px-4 py-3 rounded-lg bg-rose-50 text-rose-600 font-black text-[13px] hover:bg-rose-100 transition-all border border-rose-100">
                         Decline
                     </button>
                 </div>

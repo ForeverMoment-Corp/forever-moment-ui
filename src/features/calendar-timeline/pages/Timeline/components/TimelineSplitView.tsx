@@ -89,10 +89,10 @@ export const TimelineSplitView: React.FC<TimelineSplitViewProps> = ({
     const renderDetailsPanel = useCallback((item: any) => {
         if (!item) return null;
         return (
-            <div className="p-6 space-y-8 animate-in fade-in slide-in-from-right-4 duration-300">
+            <div className="p-4 space-y-4 animate-in fade-in slide-in-from-right-4 duration-300">
                 <div className="flex items-start justify-between">
                     <div className="flex gap-4">
-                        <div className="w-14 h-14 rounded-2xl bg-slate-100 dark:bg-gray-800 flex items-center justify-center text-slate-900 dark:text-white shadow-xl shadow-slate-200 dark:shadow-none border border-slate-200/50 dark:border-gray-700/50">
+                        <div className="w-14 h-14 rounded-lg bg-slate-100 dark:bg-gray-800 flex items-center justify-center text-slate-900 dark:text-white shadow-xl shadow-slate-200 dark:shadow-none border border-slate-200/50 dark:border-gray-700/50">
                             <Clock size={28} />
                         </div>
                         <div>
@@ -105,8 +105,8 @@ export const TimelineSplitView: React.FC<TimelineSplitViewProps> = ({
                     </div>
                 </div>
 
-                <div className="bg-slate-50 dark:bg-gray-900/40 rounded-3xl p-6 border border-slate-100 dark:border-gray-800 space-y-4">
-                    <div className="flex items-center gap-4 border-b border-slate-100 dark:border-gray-800 pb-4">
+                <div className="bg-slate-50 dark:bg-gray-900/40 rounded-xl p-4 border border-slate-100 dark:border-gray-800 space-y-3">
+                    <div className="flex items-center gap-4 border-b border-slate-100 dark:border-gray-800 pb-3">
                         <div className="w-10 h-10 rounded-full bg-white dark:bg-gray-800 flex items-center justify-center border border-slate-200 dark:border-gray-700">
                             <Calendar size={18} className="text-slate-400" />
                         </div>
@@ -127,14 +127,14 @@ export const TimelineSplitView: React.FC<TimelineSplitViewProps> = ({
                     </div>
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-3">
                     <h3 className="text-[13px] font-black text-slate-900 dark:text-white uppercase tracking-wider">Scheduled Resources</h3>
                     <div className="grid grid-cols-2 gap-3">
                         {[
                             { name: item.resource, role: 'Technician', status: 'Online' },
                             { name: 'Backup Team A', role: 'Support', status: 'On Call' },
                         ].map((resource, i) => (
-                            <div key={i} className="p-4 bg-white dark:bg-gray-900 rounded-2xl border border-slate-200 dark:border-gray-800 shadow-sm grow">
+                            <div key={i} className="p-3 bg-white dark:bg-gray-900 rounded-lg border border-slate-200 dark:border-gray-800 shadow-sm grow">
                                 <p className="text-[13.5px] font-black text-slate-700 dark:text-slate-200">{resource.name}</p>
                                 <p className="text-[11px] text-slate-400 font-bold uppercase tracking-wider mt-1">{resource.role}</p>
                             </div>
@@ -142,11 +142,11 @@ export const TimelineSplitView: React.FC<TimelineSplitViewProps> = ({
                     </div>
                 </div>
 
-                <div className="flex gap-3 pt-4">
-                    <button className="flex-1 py-4 rounded-2xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-black text-[13px] hover:opacity-90 transition-all shadow-lg flex items-center justify-center gap-2">
+                <div className="flex gap-3 pt-3">
+                    <button className="flex-1 py-3 rounded-lg bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-black text-[13px] hover:opacity-90 transition-all shadow-lg flex items-center justify-center gap-2">
                         Modify Event
                     </button>
-                    <button className="px-6 py-4 rounded-2xl bg-rose-50 text-rose-600 font-black text-[13px] hover:bg-rose-100 transition-all border border-rose-100">
+                    <button className="px-4 py-3 rounded-lg bg-rose-50 text-rose-600 font-black text-[13px] hover:bg-rose-100 transition-all border border-rose-100">
                         Cancel
                     </button>
                 </div>

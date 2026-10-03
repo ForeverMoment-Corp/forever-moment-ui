@@ -32,7 +32,7 @@ export const UnsavedChangesModal = ({
         <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
             <DialogContent className="w-[calc(100%-2rem)] mx-auto sm:w-full sm:max-w-[540px] p-0 overflow-hidden border-none bg-[#faf9f7] shadow-[0_32px_80px_rgba(0,0,0,0.5)] rounded-[20px]">
                 {/* Header */}
-                <div className="bg-[#fff8ed] border-b border-[#f0e8d8] p-6 pb-4 flex items-start gap-4">
+                <div className="bg-[#fff8ed] border-b border-[#f0e8d8] p-4 pb-3 flex items-start gap-3">
                     <div className="w-[42px] h-[42px] bg-gradient-to-br from-[#fff3cd] to-[#ffd97d] rounded-[11px] flex items-center justify-center shrink-0 shadow-[0_2px_8px_rgba(255,180,0,0.25)]">
                         <AlertTriangle className="text-[#b45309]" size={20} />
                     </div>
@@ -54,17 +54,17 @@ export const UnsavedChangesModal = ({
                 <ChangesViewer changes={changes} maxHeight="340px" />
 
                 {/* Footer Buttons */}
-                <div className="p-4 sm:p-6 pt-4 border-t-[1.5px] border-[#ede7dd] bg-[#faf9f7] flex flex-col sm:flex-row gap-3">
+                <div className="p-3 sm:p-4 pt-3 border-t-[1.5px] border-[#ede7dd] bg-[#faf9f7] flex flex-col sm:flex-row gap-3">
                     <button
                         onClick={onClose}
-                        className="flex-1 py-3.5 px-5 rounded-xl bg-[#ede7dd] text-[14px] font-bold text-[#4a3f35] transition-all hover:bg-[#e0d8cc] active:scale-[0.98]"
+                        className="flex-1 py-2 px-4 rounded-lg bg-[#ede7dd] text-[14px] font-bold text-[#4a3f35] transition-all hover:bg-[#e0d8cc] active:scale-[0.98]"
                         style={{ fontFamily: "'DM Sans', sans-serif" }}
                     >
                         Stay & keep editing
                     </button>
                     <button
                         onClick={onConfirm}
-                        className="flex-1 py-3.5 px-5 rounded-xl bg-gradient-to-br from-[#1d4ed8] to-[#2563eb] text-[14px] font-bold text-white shadow-[0_4px_14px_rgba(37,99,235,0.3)] transition-all hover:from-[#1e40af] hover:to-[#1d4ed8] hover:-translate-y-px hover:shadow-[0_6px_20px_rgba(37,99,235,0.4)] active:translate-y-0 active:scale-[0.98]"
+                        className="flex-1 py-2 px-4 rounded-lg bg-gradient-to-br from-[#1d4ed8] to-[#2563eb] text-[14px] font-bold text-white shadow-[0_4px_14px_rgba(37,99,235,0.3)] transition-all hover:from-[#1e40af] hover:to-[#1d4ed8] hover:-translate-y-px hover:shadow-[0_6px_20px_rgba(37,99,235,0.4)] active:translate-y-0 active:scale-[0.98]"
                         style={{ fontFamily: "'DM Sans', sans-serif" }}
                     >
                         Discard & leave

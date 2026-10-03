@@ -15,13 +15,13 @@ const Dashboard = ({ data, loading, error, getDashboardData }: DashboardProps) =
     // useEffect(() => { getDashboardData(); }, [getDashboardData]);
 
     return (
-        <div className='space-y-6'>
+        <div className='space-y-3'>
             <div className='flex justify-between items-center'>
                 <h1 className='text-3xl font-bold text-gray-900 dark:text-white'>Dashboard</h1>
                 <Button size='sm'>New Report</Button>
             </div>
 
-            <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
+            <div className='grid grid-cols-1 md:grid-cols-3 gap-3'>
                 {[1, 2, 3].map((item) => (
                     <StatCard
                         key={item}
@@ -32,7 +32,7 @@ const Dashboard = ({ data, loading, error, getDashboardData }: DashboardProps) =
                 ))}
             </div>
 
-            <div className='bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border dark:border-gray-700 mt-8'>
+            <div className='bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border dark:border-gray-700 mt-4'>
                 <h3 className='text-lg font-semibold mb-4'>Recent Activity</h3>
                 <p className='text-gray-500'>No recent activity.</p>
             </div>

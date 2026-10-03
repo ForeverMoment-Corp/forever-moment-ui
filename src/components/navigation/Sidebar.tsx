@@ -75,17 +75,17 @@ const Sidebar = ({ isOpen, onToggle }: SidebarProps) => {
 
         if (hasChildren) {
             return (
-                <div key={item.name} className='mb-1'>
+                <div key={item.name} className='mb-0.5'>
                     <button
                         onClick={() => toggleMenu(item.name)}
                         className={cn(
-                            'w-full flex items-center justify-between px-3 py-2 rounded-md transition-colors duration-200 group text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800',
+                            'w-full flex items-center justify-between px-2.5 py-1.5 rounded-md transition-colors duration-200 group text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800',
                             isCollapsed && 'justify-center px-2'
                         )}
                         title={isCollapsed ? item.name : ''}
                     >
                         <div className='flex items-center gap-3'>
-                            <Icon size={20} className='shrink-0 text-gray-500 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white' />
+                            <Icon size={18} className='shrink-0 text-gray-500 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white' />
                             {!isCollapsed && (
                                 <span className='text-sm font-medium truncate'>{item.name}</span>
                             )}
@@ -100,7 +100,7 @@ const Sidebar = ({ isOpen, onToggle }: SidebarProps) => {
 
                     {/* Submenu */}
                     {isExpanded && !isCollapsed && (
-                        <div className='mt-1 space-y-0.5'>
+                        <div className='mt-0.5 space-y-0.5'>
                             {item.children?.map(child => renderItem(child, depth + 1))}
                         </div>
                     )}
@@ -119,7 +119,7 @@ const Sidebar = ({ isOpen, onToggle }: SidebarProps) => {
                     }
                 }}
                 className={cn(
-                    'flex items-center gap-3 px-3 py-2 rounded-md transition-colors duration-200 group mb-1',
+                    'flex items-center gap-2.5 px-2.5 py-1.5 rounded-md transition-colors duration-200 group mb-0.5',
                     isActive
                         ? 'bg-[var(--accent-light)] text-[var(--accent)]'
                         : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800',
@@ -128,7 +128,7 @@ const Sidebar = ({ isOpen, onToggle }: SidebarProps) => {
                 )}
                 title={isCollapsed ? item.name : ''}
             >
-                <Icon size={20} className={cn('shrink-0', isActive ? 'text-[var(--accent)]' : 'text-gray-500 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white')} />
+                <Icon size={18} className={cn('shrink-0', isActive ? 'text-[var(--accent)]' : 'text-gray-500 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white')} />
                 {!isCollapsed && (
                     <span className='text-sm font-medium truncate'>{item.name}</span>
                 )}
@@ -157,7 +157,7 @@ const Sidebar = ({ isOpen, onToggle }: SidebarProps) => {
                 )}
             >
                 {/* Header */}
-                <div className='h-16 flex items-center px-4 border-b border-gray-200 dark:border-gray-800 shrink-0'>
+                <div className='h-12 flex items-center px-3 border-b border-gray-200 dark:border-gray-800 shrink-0'>
                     <div className={cn('flex items-center gap-2 overflow-hidden', isCollapsed && 'justify-center w-full')}>
                         <div className='h-8 w-8 rounded flex items-center justify-center shrink-0' style={{ background: 'var(--accent)' }}>
                             <span className='text-white font-bold text-lg'>F</span>
@@ -185,12 +185,12 @@ const Sidebar = ({ isOpen, onToggle }: SidebarProps) => {
                 </button>
 
                 {/* Navigation */}
-                <nav className='flex-1 p-3 overflow-y-auto custom-scrollbar'>
+                <nav className='flex-1 p-2 overflow-y-auto custom-scrollbar'>
                     {sidebarItems.map(item => renderItem(item))}
                 </nav>
 
                 {/* Logout Section */}
-                <div className='p-3 border-t border-gray-200 dark:border-gray-800 shrink-0'>
+                <div className='p-2 border-t border-gray-200 dark:border-gray-800 shrink-0'>
                     <button
                         onClick={handleLogout}
                         className={cn(

@@ -28,7 +28,7 @@ export const ImageDetails = ({ image, metadata, previewUrl, onDownload }: ImageD
         : undefined;
 
     return (
-        <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-500">
+        <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-500">
             {/* Image Preview Section */}
             <div>
                 <SectionLabel>Preview</SectionLabel>

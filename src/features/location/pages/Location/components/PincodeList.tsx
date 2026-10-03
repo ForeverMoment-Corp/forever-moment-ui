@@ -11,13 +11,13 @@ interface PincodeListProps {
 
 export const PincodeList = ({ pincodes, loading, onEdit, onDelete }: PincodeListProps) => {
     if (loading) {
-        return <div className="flex items-center justify-center p-10 text-slate-400">Loading...</div>;
+        return <div className="flex items-center justify-center p-5 text-slate-400">Loading...</div>;
     }
 
     return (
-        <div className="flex flex-col gap-2.5 pb-4">
+        <div className="flex flex-col gap-2.5 pb-3">
             {pincodes.map((pin) => (
-                <div key={pin.id} className="group bg-white dark:bg-gray-800 rounded-[14px] p-4 border border-slate-100 dark:border-gray-700 shadow-[0_1px_4px_rgba(0,0,0,0.04)] hover:shadow-md hover:-translate-y-[1px] transition-all flex items-center gap-4 cursor-default">
+                <div key={pin.id} className="group bg-white dark:bg-gray-800 rounded-[14px] p-3 border border-slate-100 dark:border-gray-700 shadow-[0_1px_4px_rgba(0,0,0,0.04)] hover:shadow-md hover:-translate-y-[1px] transition-all flex items-center gap-4 cursor-default">
                     <div className={cn("w-11 h-11 rounded-xl flex items-center justify-center shrink-0", pin.isActive ? "bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400" : "bg-slate-50 text-slate-400 dark:bg-gray-800/50 dark:text-slate-500")}>
                         <MapPin size={22} />
                     </div>
@@ -28,7 +28,7 @@ export const PincodeList = ({ pincodes, loading, onEdit, onDelete }: PincodeList
 
                     <div className="w-[1px] h-9 bg-slate-100 dark:bg-gray-700 shrink-0 hidden sm:block" />
 
-                    <div className="flex-1 min-w-0 pr-4">
+                    <div className="flex-1 min-w-0 pr-3">
                         <div className="text-[15px] font-semibold text-slate-800 dark:text-slate-200 capitalize truncate">{pin.name || 'Unnamed'}</div>
                         <div className="text-xs text-slate-400 dark:text-slate-500 mt-0.5 truncate">{pin.areaName || 'No area specified'}</div>
                     </div>

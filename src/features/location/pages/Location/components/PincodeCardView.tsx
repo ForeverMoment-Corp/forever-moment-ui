@@ -10,9 +10,9 @@ interface PincodeCardProps {
 
 export const PincodeCardView = ({ pincodes, onEdit, onDelete }: PincodeCardProps) => {
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 pb-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 pb-3">
             {pincodes.map((pin) => (
-                <div key={pin.id} className="group bg-white dark:bg-gray-800 rounded-2xl p-5 border border-slate-100 dark:border-gray-700 shadow-[0_1px_4px_rgba(0,0,0,0.04)] hover:shadow-md hover:-translate-y-[2px] transition-all relative">
+                <div key={pin.id} className="group bg-white dark:bg-gray-800 rounded-lg p-3 border border-slate-100 dark:border-gray-700 shadow-[0_1px_4px_rgba(0,0,0,0.04)] hover:shadow-md hover:-translate-y-[2px] transition-all relative">
                     <div className="flex justify-between items-start mb-3.5">
                         <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center shrink-0", pin.isActive ? "bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400" : "bg-slate-50 text-slate-400 dark:bg-gray-800/50 dark:text-slate-500")}>
                             <MapPin size={20} />

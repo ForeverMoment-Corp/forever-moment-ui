@@ -192,7 +192,7 @@ export const LocationTab: React.FC<LocationTabProps> = ({
                     value={search}
                     onChange={setSearch}
                 />
-                <Button onClick={() => handleOpenAssocModal()} className="h-10 px-4 text-sm shrink-0">
+                <Button onClick={() => handleOpenAssocModal()} className="h-10 px-3 text-sm shrink-0">
                     Associate Location
                 </Button>
             </div>
@@ -215,7 +215,7 @@ export const LocationTab: React.FC<LocationTabProps> = ({
                 ))}
 
                 {filteredAssignedLocations.length === 0 && (
-                    <div className="text-center py-12 text-slate-400 dark:text-gray-500 border-2 border-dashed border-slate-200 dark:border-gray-800 rounded-xl">
+                    <div className="text-center py-6 text-slate-400 dark:text-gray-500 border-2 border-dashed border-slate-200 dark:border-gray-800 rounded-xl">
                         <MapPin className="mx-auto h-8 w-8 opacity-20 mb-3" />
                         <p className="text-sm font-medium text-slate-600 dark:text-slate-400">No locations associated.</p>
                         <p className="text-xs mt-1">Click "Associate Location" to link one.</p>

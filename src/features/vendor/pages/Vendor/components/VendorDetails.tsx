@@ -118,7 +118,7 @@ export const VendorDetails = ({ vendor, onEdit, updateVendor, onDirtyChange }: V
     };
 
     return (
-        <div className="space-y-6 pb-20">
+        <div className="space-y-3 pb-20">
             {/* Header Section */}
             <div className="flex items-start justify-between">
                 <div>
@@ -177,7 +177,7 @@ export const VendorDetails = ({ vendor, onEdit, updateVendor, onDirtyChange }: V
                 />
             </div>
 
-            <div className="border-t border-gray-200 dark:border-gray-800 pt-4">
+            <div className="border-t border-gray-200 dark:border-gray-800 pt-3">
                 <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-3">Contact Information</h3>
                 <div className="space-y-3">
                     {renderEditableText('contactPerson', localData.contactPerson, <User className="w-4 h-4" />, 'Contact Person')}
@@ -186,7 +186,7 @@ export const VendorDetails = ({ vendor, onEdit, updateVendor, onDirtyChange }: V
                 </div>
             </div>
 
-            <div className="border-t border-gray-200 dark:border-gray-800 pt-4">
+            <div className="border-t border-gray-200 dark:border-gray-800 pt-3">
                 <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-3">Performance</h3>
                 <div className="flex items-center gap-4">
                     <div className="flex items-center p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
@@ -206,7 +206,7 @@ export const VendorDetails = ({ vendor, onEdit, updateVendor, onDirtyChange }: V
                 </div>
             </div>
 
-            <div className="pt-4">
+            <div className="pt-3">
                 <Button variant="outline" className="w-full text-blue-600 border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20" onClick={onEdit}>
                     Edit in Modal
                 </Button>

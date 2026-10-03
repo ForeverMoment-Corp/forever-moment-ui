@@ -152,7 +152,7 @@ export const SlotDetails = ({ slot, updateSlot, onDirtyChange }: SlotDetailsProp
     };
 
     return (
-        <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-500 pb-20">
+        <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-500 pb-20">
             <div>
                 <SectionLabel>General Information</SectionLabel>
                 <FieldGrid>

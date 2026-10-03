@@ -99,10 +99,10 @@ export const WaitlistSplitView: React.FC<WaitlistSplitViewProps> = ({
     const renderDetailsPanel = useCallback((item: any) => {
         if (!item) return null;
         return (
-            <div className="p-6 space-y-8 animate-in fade-in slide-in-from-right-4 duration-300">
+            <div className="p-4 space-y-4 animate-in fade-in slide-in-from-right-4 duration-300">
                 <div className="flex items-start justify-between">
                     <div className="flex gap-4">
-                        <div className="w-14 h-14 rounded-2xl bg-indigo-50 dark:bg-indigo-900/20 flex items-center justify-center text-indigo-600 dark:text-indigo-400 shadow-sm border border-indigo-100/50 dark:border-indigo-800/20">
+                        <div className="w-14 h-14 rounded-lg bg-indigo-50 dark:bg-indigo-900/20 flex items-center justify-center text-indigo-600 dark:text-indigo-400 shadow-sm border border-indigo-100/50 dark:border-indigo-800/20">
                             <UserPlus size={28} />
                         </div>
                         <div>
@@ -115,22 +115,22 @@ export const WaitlistSplitView: React.FC<WaitlistSplitViewProps> = ({
                     </div>
                 </div>
 
-                <div className="bg-slate-900 dark:bg-indigo-950 p-6 rounded-3xl text-white shadow-xl shadow-slate-200/50 dark:shadow-none relative overflow-hidden group">
-                    <div className="absolute right-0 top-0 p-8 text-white/5 group-hover:text-white/10 transition-all">
+                <div className="bg-slate-900 dark:bg-indigo-950 p-4 rounded-xl text-white shadow-xl shadow-slate-200/50 dark:shadow-none relative overflow-hidden group">
+                    <div className="absolute right-0 top-0 p-4 text-white/5 group-hover:text-white/10 transition-all">
                         <CheckCircle size={120} />
                     </div>
-                    <div className="relative z-10 space-y-4">
+                    <div className="relative z-10 space-y-3">
                         <p className="text-[11px] font-black text-white/40 uppercase tracking-widest">Estimated Wait Time</p>
                         <div className="flex items-baseline gap-2">
                             <span className="text-4xl font-black italic">~12 Days</span>
                             <span className="text-[12px] text-white/60 font-bold uppercase tracking-wider">Avg.</span>
                         </div>
-                        <div className="pt-4 flex gap-4">
-                            <div className="px-4 py-2 bg-white/10 rounded-xl backdrop-blur-sm border border-white/10">
+                        <div className="pt-3 flex gap-4">
+                            <div className="px-3 py-2 bg-white/10 rounded-xl backdrop-blur-sm border border-white/10">
                                 <p className="text-[10px] text-white/40 font-black uppercase mb-1">Queue Size</p>
                                 <p className="text-lg font-black italic">424</p>
                             </div>
-                            <div className="px-4 py-2 bg-white/10 rounded-xl backdrop-blur-sm border border-white/10">
+                            <div className="px-3 py-2 bg-white/10 rounded-xl backdrop-blur-sm border border-white/10">
                                 <p className="text-[10px] text-white/40 font-black uppercase mb-1">Your Rank</p>
                                 <p className="text-lg font-black italic">#{item.position}</p>
                             </div>
@@ -138,16 +138,16 @@ export const WaitlistSplitView: React.FC<WaitlistSplitViewProps> = ({
                     </div>
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-3">
                     <h3 className="text-[13px] font-black text-slate-900 dark:text-white uppercase tracking-wider">Contact Information</h3>
-                    <div className="bg-white dark:bg-[#0f1117] rounded-2xl border border-slate-200 dark:border-gray-800/60 overflow-hidden shadow-sm">
+                    <div className="bg-white dark:bg-[#0f1117] rounded-lg border border-slate-200 dark:border-gray-800/60 overflow-hidden shadow-sm">
                         {[
                             { label: 'Email Address', value: 'ankit.shukla@example.com', icon: Mail },
                             { label: 'Phone Number', value: '+91 98765 43210', icon: Phone },
                             { label: 'Join Date', value: item.date, icon: Calendar },
                             { label: 'Waitlist Type', value: item.status, icon: Clock },
                         ].map((info, i) => (
-                            <div key={i} className="px-5 py-4 flex items-center justify-between border-b last:border-0 border-slate-50 dark:border-gray-800/40">
+                            <div key={i} className="px-3 py-3 flex items-center justify-between border-b last:border-0 border-slate-50 dark:border-gray-800/40">
                                 <div className="flex items-center gap-3">
                                     <info.icon size={16} className="text-slate-400" />
                                     <span className="text-[13px] font-bold text-slate-400">{info.label}</span>
@@ -159,10 +159,10 @@ export const WaitlistSplitView: React.FC<WaitlistSplitViewProps> = ({
                 </div>
 
                 <div className="flex gap-3 pt-2">
-                    <button className="flex-1 py-4 rounded-2xl bg-indigo-600 dark:bg-indigo-500 font-black text-[13px] text-white hover:bg-indigo-700 dark:hover:bg-indigo-600 transition-all shadow-lg flex items-center justify-center gap-2">
+                    <button className="flex-1 py-3 rounded-lg bg-indigo-600 dark:bg-indigo-500 font-black text-[13px] text-white hover:bg-indigo-700 dark:hover:bg-indigo-600 transition-all shadow-lg flex items-center justify-center gap-2">
                         Promote to Priority
                     </button>
-                    <button className="flex-1 py-4 rounded-2xl bg-slate-100 dark:bg-gray-800 text-slate-700 dark:text-slate-300 font-black text-[13px] hover:bg-slate-200 dark:hover:bg-gray-700 transition-all flex items-center justify-center gap-2">
+                    <button className="flex-1 py-3 rounded-lg bg-slate-100 dark:bg-gray-800 text-slate-700 dark:text-slate-300 font-black text-[13px] hover:bg-slate-200 dark:hover:bg-gray-700 transition-all flex items-center justify-center gap-2">
                         View History
                     </button>
                 </div>

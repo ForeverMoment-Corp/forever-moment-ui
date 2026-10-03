@@ -52,7 +52,7 @@ export const PromotionAssetImage = ({ asset, availableImages, imagesLoading, get
     return (
         <div>
             <SectionLabel>Bound image</SectionLabel>
-            <div className="bg-slate-50 dark:bg-gray-800/50 border border-slate-200 dark:border-gray-700 rounded-xl p-4 mb-4">
+            <div className="bg-slate-50 dark:bg-gray-800/50 border border-slate-200 dark:border-gray-700 rounded-xl p-3 mb-4">
                 <div className="flex flex-col sm:flex-row gap-4">
                     <div className="w-full sm:w-72 aspect-video shrink-0 rounded-lg overflow-hidden border border-slate-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex items-center justify-center">
                         {currentSrc

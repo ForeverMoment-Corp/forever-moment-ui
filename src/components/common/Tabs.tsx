@@ -16,13 +16,13 @@ export interface TabsProps {
 export const Tabs = ({ tabs, activeTab, onTabChange, variant = "vertical", className }: TabsProps) => {
     if (variant === "horizontal") {
         return (
-            <div className={cn("flex px-8 gap-6 border-b border-slate-100 dark:border-gray-800", className)}>
+            <div className={cn("flex px-4 gap-4 border-b border-slate-100 dark:border-gray-800", className)}>
                 {tabs.map((t) => (
                     <button
                         key={t.id}
                         onClick={() => onTabChange(t.id)}
                         className={cn(
-                            "bg-transparent border-none border-b-2 py-4 text-[13.5px] cursor-pointer transition-all tracking-wide -mb-[1px]",
+                            "bg-transparent border-none border-b-2 py-2 text-[13px] cursor-pointer transition-all tracking-wide -mb-[1px]",
                             activeTab === t.id
                                 ? "border-[var(--accent)] text-[var(--accent)] font-semibold"
                                 : "border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 font-medium"
@@ -36,13 +36,13 @@ export const Tabs = ({ tabs, activeTab, onTabChange, variant = "vertical", class
     }
 
     return (
-        <div className={cn("w-[160px] min-w-[160px] border-r border-slate-100 dark:border-gray-800 py-4 px-2 flex flex-col gap-0.5 bg-slate-50/50 dark:bg-gray-900/50", className)}>
+        <div className={cn("w-[140px] min-w-[140px] border-r border-slate-100 dark:border-gray-800 py-2 px-1.5 flex flex-col gap-0.5 bg-slate-50/50 dark:bg-gray-900/50", className)}>
             {tabs.map((t) => (
                 <button
                     key={t.id}
                     onClick={() => onTabChange(t.id)}
                     className={cn(
-                        "flex items-center gap-2 px-3 py-2.5 rounded-lg text-[12.5px] font-medium transition-all text-left w-full relative",
+                        "flex items-center gap-2 px-2.5 py-1.5 rounded-md text-[12.5px] font-medium transition-all text-left w-full relative",
                         activeTab === t.id
                             ? "bg-white dark:bg-gray-800 text-[var(--accent)] font-semibold shadow-sm"
                             : "text-slate-500 hover:bg-white/70 dark:hover:bg-gray-800/50 hover:text-slate-700 dark:hover:text-slate-300"

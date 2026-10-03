@@ -25,7 +25,7 @@ export const SearchBar = ({
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
                 className={cn(
-                    "w-full bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-lg py-2 pl-9 pr-3 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all placeholder:text-slate-400 shadow-sm",
+                    "w-full bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-lg py-1.5 pl-9 pr-3 text-[13px] text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all placeholder:text-slate-400 shadow-sm",
                     inputClassName
                 )}
             />

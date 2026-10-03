@@ -41,7 +41,7 @@ export const LocationSplitView = ({
         {
             header: 'Name',
             accessorKey: 'name',
-            className: 'w-[25%] min-w-[150px] py-1.5 px-4 text-left font-semibold text-slate-900 dark:text-white whitespace-nowrap',
+            className: 'w-[25%] min-w-[150px] px-3 text-left font-semibold text-slate-900 dark:text-white whitespace-nowrap',
             render: (loc: any) => (
                 <div className="flex items-center gap-3">
                     <div className={cn(
@@ -58,25 +58,25 @@ export const LocationSplitView = ({
         {
             header: 'City',
             accessorKey: 'city',
-            className: 'w-[20%] min-w-[120px] py-1.5 px-4 text-left text-slate-600 dark:text-slate-300',
+            className: 'w-[20%] min-w-[120px] px-3 text-left text-slate-600 dark:text-slate-300',
             render: (loc: any) => <span>{loc.city || '-'}</span>
         },
         {
             header: 'State',
             accessorKey: 'state',
-            className: 'w-[20%] min-w-[120px] py-1.5 px-4 text-left text-slate-600 dark:text-slate-300',
+            className: 'w-[20%] min-w-[120px] px-3 text-left text-slate-600 dark:text-slate-300',
             render: (loc: any) => <span>{loc.state || '-'}</span>
         },
         {
             header: 'Country',
             accessorKey: 'country',
-            className: 'w-[15%] min-w-[100px] py-1.5 px-4 text-left text-slate-600 dark:text-slate-300',
+            className: 'w-[15%] min-w-[100px] px-3 text-left text-slate-600 dark:text-slate-300',
             render: (loc: any) => <span>{loc.country || '-'}</span>
         },
         {
             header: 'Status',
             preventRowClick: true,
-            className: 'w-[10%] min-w-[100px] py-1.5 px-4 text-left',
+            className: 'w-[10%] min-w-[100px] px-3 text-left',
             render: (loc: any) => (
                 <EditableStatusBadge
                     status={loc.isActive ? 'Active' : 'Inactive'}
@@ -103,7 +103,7 @@ export const LocationSplitView = ({
         {
             header: 'Actions',
             preventRowClick: true,
-            className: 'w-[10%] min-w-[80px] py-1.5 px-4 text-right',
+            className: 'w-[10%] min-w-[80px] px-3 text-right',
             render: (loc: any) => (
                 <div onClick={(e) => e.stopPropagation()}>
                     <RowActions

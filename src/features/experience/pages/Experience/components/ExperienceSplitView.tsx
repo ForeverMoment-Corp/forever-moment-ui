@@ -105,7 +105,7 @@ export const ExperienceSplitView = ({
     const columns = [
         {
             accessorKey: 'name',
-            className: 'py-1.5 px-4 text-left font-semibold text-slate-900 dark:text-white',
+            className: 'px-3 text-left font-semibold text-slate-900 dark:text-white',
             render: (exp: any) => (
                 <div className="flex items-center gap-3">
                     <div className={cn(
@@ -127,7 +127,7 @@ export const ExperienceSplitView = ({
         {
             header: 'Price',
             accessorKey: 'basePrice',
-            className: 'py-1.5 px-4 text-right',
+            className: 'px-3 text-right',
             render: (exp: any) => (
                 <div className="text-right">
                     <span className="font-semibold text-[14px] text-slate-800 dark:text-slate-100">₹{(exp.basePrice || 0).toLocaleString('en-IN')}</span>
@@ -139,7 +139,7 @@ export const ExperienceSplitView = ({
             header: 'Featured',
             accessorKey: 'isFeatured',
             preventRowClick: true,
-            className: 'py-1.5 px-4 text-center',
+            className: 'px-3 text-center',
             render: (exp: any) => (
                 <EditableFeatureBadge
                     isFeatured={exp.isFeatured}
@@ -154,7 +154,7 @@ export const ExperienceSplitView = ({
         {
             header: 'Status',
             preventRowClick: true,
-            className: 'py-1.5 px-4 text-center',
+            className: 'px-3 text-center',
             render: (exp: any) => (
                 <EditableStatusBadge
                     status={exp.isActive ? 'Active' : 'Inactive'}
@@ -171,7 +171,7 @@ export const ExperienceSplitView = ({
         {
             header: 'Actions',
             preventRowClick: true,
-            className: 'py-1.5 px-4 text-right',
+            className: 'px-3 text-right',
             render: (exp: any) => (
                 <div onClick={(e) => e.stopPropagation()}>
                     <RowActions

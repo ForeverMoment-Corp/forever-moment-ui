@@ -85,7 +85,7 @@ export const FaqDetails = ({ faq, updateFaq, onDirtyChange }: FaqDetailsProps) =
     };
 
     return (
-        <div className="space-y-6 pb-20">
+        <div className="space-y-3 pb-20">
             <SectionLabel>FAQ Details</SectionLabel>
             <FieldGrid>
                 <Cell full>
