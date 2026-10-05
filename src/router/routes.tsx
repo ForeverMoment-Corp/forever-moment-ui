@@ -6,8 +6,6 @@ import { ProtectedRoute } from './Protected';
 import { adminRoutes } from '@/features/routes';
 
 // Customer routes
-import { homeRoutes } from '@/features/customer/home/pages/routes';
-
 /**
  * Main application router configuration
  * Combines public, private, and protected routes
@@ -17,7 +15,7 @@ export const router = createBrowserRouter([
     {
         element: <PublicRoute />,
         children: [
-            ...homeRoutes,
+            // Add public routes here
         ],
     },
 
