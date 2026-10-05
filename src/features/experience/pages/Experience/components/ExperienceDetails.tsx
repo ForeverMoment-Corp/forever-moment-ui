@@ -8,7 +8,7 @@ import { AddonsTab } from './AddonsTab';
 import { ExperienceImages } from './ExperienceImages';
 import { RichTextEditor } from '@/components/common/RichTextEditor';
 import { RichTextContent } from '@/components/common/RichTextContent';
-import { isHtmlEmpty, htmlToPlainText } from '@/utils/html';
+import { htmlToPlainText } from '@/utils/html';
 import { Dropdown } from '@/components/common/Dropdown';
 import { cn } from '@/utils/cn';
 import { Cell, FieldGrid, FieldLabel, SectionLabel } from '@/components/common/DetailsLayout';
@@ -114,16 +114,21 @@ const GeneralInfoTab = ({ experience, experienceDetail, updateExperience, subCat
         onDirtyChange
     });
 
-    // The unsaved-changes diff renders values as text, so show the description's
-    // prose rather than its markup.
-    const displayChanges = useMemo(
-        () => changes.map((change: any) => (
-            change.field === fieldMapping.description
+    // The unsaved-changes diff renders values as text, so show the rich-text fields'
+    // prose rather than their markup.
+    const displayChanges = useMemo(() => {
+        const richTextLabels = new Set([
+            fieldMapping.shortDescription,
+            fieldMapping.description,
+            fieldMapping.whatToBring,
+            fieldMapping.termsConditions,
+        ]);
+        return changes.map((change: any) => (
+            richTextLabels.has(change.field)
                 ? { ...change, original: htmlToPlainText(change.original), current: htmlToPlainText(change.current) }
                 : change
-        )),
-        [changes, fieldMapping.description]
-    );
+        ));
+    }, [changes, fieldMapping.shortDescription, fieldMapping.description, fieldMapping.whatToBring, fieldMapping.termsConditions]);
 
     useEffect(() => {
         if (editingField && inputRef.current) {
@@ -397,62 +402,42 @@ const GeneralInfoTab = ({ experience, experienceDetail, updateExperience, subCat
                     };
                     const val = localData[field];
                     const isEditing = editingField === field;
-                    // Only `description` is rich text; the other three stay plain textareas.
-                    const isRichText = field === 'description';
-                    const isBlank = isRichText ? isHtmlEmpty(val) : !val;
                     return (
                         <div key={field} className="group bg-slate-50 dark:bg-gray-800/50 border border-slate-200 dark:border-gray-700 rounded-xl px-3 py-3">
                             <FieldLabel>{labelMap[field]}</FieldLabel>
                             {isEditing ? (
-                                isRichText ? (
-                                    // The plain fields close on blur, but focus here moves between the
-                                    // toolbar and the editable area, so editing ends via Done or Escape.
-                                    <div className="space-y-2">
-                                        <RichTextEditor
-                                            autoFocus
-                                            value={editValue}
-                                            onChange={(html) => handleFieldUpdate(field, html)}
-                                            onKeyDown={(e) => { if (e.key === 'Escape') setEditingField(null); }}
-                                            className="min-h-[120px]"
-                                        />
-                                        <div className="flex justify-end">
-                                            <button
-                                                type="button"
-                                                onClick={() => setEditingField(null)}
-                                                className="text-[12px] font-medium text-[var(--accent)] hover:underline"
-                                            >
-                                                Done
-                                            </button>
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <textarea
-                                        ref={inputRef as React.RefObject<HTMLTextAreaElement>}
-                                        className="w-full text-[13px] text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 border border-blue-500 rounded-md px-2 py-1.5 outline-none shadow-sm focus:ring-2 focus:ring-blue-500/20 transition-all min-h-[80px] resize-none leading-relaxed"
+                                // The plain fields close on blur, but focus here moves between the
+                                // toolbar and the editable area, so editing ends via Done or Escape.
+                                <div className="space-y-2">
+                                    <RichTextEditor
+                                        autoFocus
                                         value={editValue}
-                                        onChange={(e) => handleFieldUpdate(field, e.target.value)}
-                                        onBlur={() => setEditingField(null)}
-                                        onKeyDown={(e) => handleKeyDown(e)}
+                                        onChange={(html) => handleFieldUpdate(field, html)}
+                                        onKeyDown={(e) => { if (e.key === 'Escape') setEditingField(null); }}
+                                        className="min-h-[120px]"
                                     />
-                                )
+                                    <div className="flex justify-end">
+                                        <button
+                                            type="button"
+                                            onClick={() => setEditingField(null)}
+                                            className="text-[12px] font-medium text-[var(--accent)] hover:underline"
+                                        >
+                                            Done
+                                        </button>
+                                    </div>
+                                </div>
                             ) : (
                                 <div
                                     className="flex items-start gap-2 cursor-pointer"
                                     onClick={() => handleEditClick(field, val)}
                                 >
-                                    {isRichText ? (
-                                        <div className="flex-1 min-w-0">
-                                            <RichTextContent
-                                                html={val}
-                                                className="text-[13px] leading-relaxed text-slate-600 dark:text-slate-300"
-                                                fallback={<p className="text-[13px] leading-relaxed text-slate-400 italic">Empty</p>}
-                                            />
-                                        </div>
-                                    ) : (
-                                        <p className={cn('text-[13px] leading-relaxed flex-1', isBlank ? 'text-slate-400 italic' : 'text-slate-600 dark:text-slate-300')}>
-                                            {val || 'Empty'}
-                                        </p>
-                                    )}
+                                    <div className="flex-1 min-w-0">
+                                        <RichTextContent
+                                            html={val}
+                                            className="text-[13px] leading-relaxed text-slate-600 dark:text-slate-300"
+                                            fallback={<p className="text-[13px] leading-relaxed text-slate-400 italic">Empty</p>}
+                                        />
+                                    </div>
                                     <svg className="w-3 h-3 mt-0.5 text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9" /><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" /></svg>
                                 </div>
                             )}

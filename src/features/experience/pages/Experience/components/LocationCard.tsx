@@ -2,6 +2,7 @@ import React from 'react';
 import { MapPin, Edit2, Trash2, Calendar } from 'lucide-react';
 import { format } from 'date-fns';
 import { TimeSlotItem } from './TimeSlotItem';
+import { LocationPincodes } from './LocationPincodes';
 import { EditableStatusBadge } from '@/components/common/EditableStatusBadge';
 
 interface LocationCardProps {
@@ -90,6 +91,10 @@ export const LocationCard: React.FC<LocationCardProps> = ({
                     </div>
                 </div>
             </div>
+
+            {el.mapperId != null && (
+                <LocationPincodes mapperId={el.mapperId} locationId={el.locationId} />
+            )}
 
             {/* Associated Time Slots Section */}
             {el.timeslots && el.timeslots.length > 0 && (

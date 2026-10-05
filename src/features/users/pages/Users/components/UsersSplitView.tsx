@@ -6,6 +6,13 @@ import { CrudSplitViewLayout } from '@/components/common/CrudSplitViewLayout';
 import { TABS, ITEM_ID_PREFIX } from '@/config/constants';
 import type { UserType } from './Users';
 
+// Super admin accounts are protected: no edit/delete from the users table.
+const isSuperAdmin = (user: any, roles: any[]) => {
+    const roleIds = user.roleIds && user.roleIds.length > 0 ? user.roleIds : (user.roleId != null ? [user.roleId] : []);
+    const roleNames = [user.role, ...roleIds.map((id: number) => roles?.find((r: any) => r.id === id)?.roleName)];
+    return roleNames.some((name) => typeof name === 'string' && name.toLowerCase().replace(/[\s_-]/g, '') === 'superadmin');
+};
+
 export const UsersSplitView = ({
     users,
     roles,
@@ -63,7 +70,7 @@ export const UsersSplitView = ({
             header: 'Actions',
             preventRowClick: true,
             className: 'w-[10%] min-w-[80px] px-3 text-right',
-            render: (u: any) => (
+            render: (u: any) => isSuperAdmin(u, roles) ? null : (
                 <div onClick={(e) => e.stopPropagation()}>
                     <RowActions
                         onEdit={() => handleOpenModal(u)}

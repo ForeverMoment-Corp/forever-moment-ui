@@ -63,7 +63,14 @@ export const VendorSplitView = ({
                     onChange={async (val) => {
                         if (val === v.status) return;
                         try {
-                            await updateVendor(v.id, { status: val });
+                            await updateVendor(v.id, {
+                                name: v.name,
+                                contactPerson: v.contactPerson,
+                                email: v.email,
+                                phone: v.phone,
+                                category: v.category,
+                                status: val,
+                            });
                         } catch (e) {
                             console.error(e);
                         }
@@ -156,27 +163,6 @@ export const VendorSplitView = ({
             (v.email && v.email.toLowerCase().includes(lowerSearch));
     }, []);
 
-    const renderCustomDetailsHeader = useCallback((vendor: any) => (
-        <div className="flex items-center gap-3">
-            <div className={cn(
-                "h-12 px-3 w-auto rounded-xl flex items-center gap-2 font-bold text-[14px]",
-                "bg-[#f4f6f8] text-slate-500 border border-slate-200/60 shadow-sm dark:bg-slate-800 dark:border-slate-700 dark:text-slate-400"
-            )}>
-                <span className="text-[16px] leading-none">📝</span>
-                {`${ITEM_ID_PREFIX}-${vendor.id}`}
-            </div>
-            <div>
-                <div className="font-bold text-2xl text-slate-900 dark:text-white tracking-tight leading-tight flex items-center gap-2">
-                    {vendor.name}
-                </div>
-                <div className="text-[13px] text-slate-500 font-medium mt-1 flex items-center gap-1.5">
-                    <Store className="w-3.5 h-3.5 text-slate-400" />
-                    {vendor.category} <span className="opacity-50 mx-1">•</span> ID #{vendor.id}
-                </div>
-            </div>
-        </div>
-    ), []);
-
     return (
         <CrudSplitViewLayout
             data={vendors || []}
@@ -214,7 +200,6 @@ export const VendorSplitView = ({
             customFilter={customFilter as any}
             customSearch={customSearch as any}
             onAdd={() => handleOpenModal()}
-            renderCustomDetailsHeader={renderCustomDetailsHeader}
             detailsPanelClassName="bg-slate-50/50 dark:bg-gray-900/50" // Need this to match original VendorSplitView
         />
     );

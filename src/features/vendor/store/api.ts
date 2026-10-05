@@ -1,10 +1,17 @@
-import { VENDORS_DATA } from '../../data/mockData';
+import axios from '@/utils/Http';
 
-export const fetchVendors = async (): Promise<any> => {
-    // Mock API call
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve(VENDORS_DATA);
-        }, 1000);
-    });
+export const fetchVendorsApi = async () => {
+    return await axios.get('/admin/vendors');
+};
+
+export const createVendorApi = async (data: any) => {
+    return await axios.post('/admin/vendors', data);
+};
+
+export const updateVendorApi = async (id: number, data: any) => {
+    return await axios.put(`/admin/vendors/${id}`, data);
+};
+
+export const deleteVendorApi = async (id: number) => {
+    return await axios.delete(`/admin/vendors/${id}`);
 };

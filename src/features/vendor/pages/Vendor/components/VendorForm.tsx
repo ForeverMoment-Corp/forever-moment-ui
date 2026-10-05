@@ -5,22 +5,35 @@ import { Input } from '@/components/common/Input';
 import { Loader2 } from 'lucide-react';
 import type { Vendor } from './Vendor';
 
+export interface VendorFormData {
+    name: string;
+    contactPerson: string;
+    email: string;
+    phone: string;
+    category: string;
+    status: Vendor['status'];
+    password?: string;
+}
+
 interface VendorFormProps {
     initialData?: Partial<Vendor>;
-    onSubmit: (data: Omit<Vendor, 'id' | 'rating'>) => void;
+    onSubmit: (data: VendorFormData) => void;
     onCancel: () => void;
     submitLabel: string;
     isLoading?: boolean;
 }
 
 export const VendorForm = ({ initialData, onSubmit, onCancel, submitLabel, isLoading }: VendorFormProps) => {
-    const [formData, setFormData] = useState<Omit<Vendor, 'id' | 'rating'>>({
+    const isEditing = Boolean(initialData?.id);
+
+    const [formData, setFormData] = useState<VendorFormData>({
         name: '',
         contactPerson: '',
         email: '',
         phone: '',
         category: 'Photography',
-        status: 'Active'
+        status: 'Active',
+        password: '',
     });
 
     useEffect(() => {
@@ -31,7 +44,8 @@ export const VendorForm = ({ initialData, onSubmit, onCancel, submitLabel, isLoa
                 email: initialData.email || '',
                 phone: initialData.phone || '',
                 category: initialData.category || 'Photography',
-                status: initialData.status || 'Active'
+                status: initialData.status || 'Active',
+                password: '',
             });
         }
     }, [initialData]);
@@ -121,6 +135,18 @@ export const VendorForm = ({ initialData, onSubmit, onCancel, submitLabel, isLoa
                         disabled={isLoading}
                     />
                 </div>
+                {!isEditing && (
+                    <div className="md:col-span-2">
+                        <Input
+                            label="Password"
+                            type='password'
+                            value={formData.password ?? ''}
+                            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                            required
+                            disabled={isLoading}
+                        />
+                    </div>
+                )}
             </div>
             <div className='flex justify-end gap-3 mt-3'>
                 <Button type='button' variant='secondary' onClick={onCancel} disabled={isLoading}>Cancel</Button>

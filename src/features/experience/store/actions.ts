@@ -9,7 +9,8 @@ import {
     associateAddonApi, disassociateAddonApi, fetchExperienceAddonsApi, toggleExperienceActiveApi, toggleExperienceFeaturedApi,
     bulkAttachExperienceMediaApi, disassociateExperienceMediaApi, fetchExperienceMediaApi,
     attachExperienceMediaApi, updateExperienceMediaApi, toggleExperienceMediaActiveApi, fetchExperiencePrimaryMediaApi,
-    uploadExperienceMediaApi
+    uploadExperienceMediaApi,
+    fetchExperienceLocationPincodesApi, replaceExperienceLocationPincodesApi, removeExperienceLocationPincodeApi
 } from './api';
 
 export const getExperienceData = (isBackground: boolean = false) => async (dispatch: any) => {
@@ -625,6 +626,56 @@ export const getPrimaryMedia = (experienceId: number) => async (dispatch: any) =
         dispatch({
             type: types.GET_PRIMARY_MEDIA_FAILURE,
             payload: error.response?.data?.message || 'Failed to fetch primary media',
+        });
+        throw error;
+    }
+};
+
+// Pincode whitelists are per experience-location mapping and only shown inside that
+// location's card, so the thunks hand the list back to the caller instead of storing it.
+
+export const getExperienceLocationPincodes = (mapperId: number) => async (dispatch: any) => {
+    dispatch({ type: types.GET_EXPERIENCE_LOCATION_PINCODES });
+    try {
+        const response = await fetchExperienceLocationPincodesApi(mapperId);
+        const pincodes = response.data.response || [];
+        dispatch({ type: types.GET_EXPERIENCE_LOCATION_PINCODES_SUCCESS, payload: { mapperId, pincodes } });
+        return pincodes;
+    } catch (error: any) {
+        dispatch({
+            type: types.GET_EXPERIENCE_LOCATION_PINCODES_FAILURE,
+            payload: error.response?.data?.message || 'Failed to fetch pincode restrictions',
+        });
+        throw error;
+    }
+};
+
+export const replaceExperienceLocationPincodes = (mapperId: number, pincodeIds: number[]) => async (dispatch: any) => {
+    dispatch({ type: types.REPLACE_EXPERIENCE_LOCATION_PINCODES });
+    try {
+        const response = await replaceExperienceLocationPincodesApi(mapperId, pincodeIds);
+        const pincodes = response.data.response || [];
+        dispatch({ type: types.REPLACE_EXPERIENCE_LOCATION_PINCODES_SUCCESS, payload: { mapperId, pincodes } });
+        return pincodes;
+    } catch (error: any) {
+        dispatch({
+            type: types.REPLACE_EXPERIENCE_LOCATION_PINCODES_FAILURE,
+            payload: error.response?.data?.message || 'Failed to update pincode restrictions',
+        });
+        throw error;
+    }
+};
+
+export const removeExperienceLocationPincode = (mapperId: number, pincodeId: number) => async (dispatch: any) => {
+    dispatch({ type: types.REMOVE_EXPERIENCE_LOCATION_PINCODE });
+    try {
+        const response = await removeExperienceLocationPincodeApi(mapperId, pincodeId);
+        dispatch({ type: types.REMOVE_EXPERIENCE_LOCATION_PINCODE_SUCCESS, payload: { mapperId, pincodeId } });
+        return response.data;
+    } catch (error: any) {
+        dispatch({
+            type: types.REMOVE_EXPERIENCE_LOCATION_PINCODE_FAILURE,
+            payload: error.response?.data?.message || 'Failed to remove pincode restriction',
         });
         throw error;
     }

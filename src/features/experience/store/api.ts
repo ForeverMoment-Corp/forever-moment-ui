@@ -146,3 +146,20 @@ export const uploadExperienceMediaApi = async (
 export const fetchExperiencePrimaryMediaApi = async (experienceId: number) => {
     return await axios.get(`/admin/experiences/${experienceId}/media/primary`);
 };
+
+/**
+ * Pincode whitelist on an experience-location mapping. An empty list means the mapping is
+ * unrestricted — serviceable at every pincode of its location.
+ */
+export const fetchExperienceLocationPincodesApi = async (mapperId: number) => {
+    return await axios.get(`/admin/locations/experience-mappings/${mapperId}/pincodes`);
+};
+
+/** Replaces the whole whitelist; an empty array clears every restriction. */
+export const replaceExperienceLocationPincodesApi = async (mapperId: number, pincodeIds: number[]) => {
+    return await axios.put(`/admin/locations/experience-mappings/${mapperId}/pincodes`, pincodeIds);
+};
+
+export const removeExperienceLocationPincodeApi = async (mapperId: number, pincodeId: number) => {
+    return await axios.delete(`/admin/locations/experience-mappings/${mapperId}/pincodes/${pincodeId}`);
+};

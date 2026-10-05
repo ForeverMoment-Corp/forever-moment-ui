@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Modal } from '@/components/common/Modal';
-import { VendorForm } from './VendorForm';
+import { VendorForm, type VendorFormData } from './VendorForm';
 import { DeleteModal } from '@/components/common/DeleteModal';
 import { VendorSplitView } from './VendorSplitView';
 import toast from 'react-hot-toast';
@@ -22,34 +22,24 @@ interface VendorProps {
     loading: boolean;
     error: string | null;
     getVendors: () => void;
+    createVendor: (data: any) => Promise<any>;
+    updateVendor: (id: number, data: any) => Promise<any>;
+    deleteVendor: (id: number) => Promise<any>;
 }
 
-const VendorPage = ({ data, loading, error, getVendors }: VendorProps) => {
+const VendorPage = ({ data, loading, error, getVendors, createVendor, updateVendor, deleteVendor }: VendorProps) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingId, setEditingId] = useState<number | null>(null);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [deleteId, setDeleteId] = useState<number | null>(null);
-
-    // TODO: Remove mock data once real API is integrated
-    const [vendors, setVendors] = useState<Vendor[]>([
-        { id: 1, name: 'Memorable Clicks', contactPerson: 'Rahul Gupta', email: 'rahul@memorableclicks.com', phone: '+91 9876543210', category: 'Photography', status: 'Active', rating: 4.8 },
-        { id: 2, name: 'Royal Catering Services', contactPerson: 'Amit Singh', email: 'info@royalcatering.com', phone: '+91 9988776655', category: 'Catering', status: 'Active', rating: 4.5 },
-        { id: 3, name: 'Dream Decorators', contactPerson: 'Sneha Patel', email: 'sneha@dreamdecorators.in', phone: '+91 8877665544', category: 'Decoration', status: 'Pending', rating: 0 },
-        { id: 4, name: 'City Venue Halls', contactPerson: 'Vikram Malhotra', email: 'vikram@cityvenues.com', phone: '+91 7766554433', category: 'Venue', status: 'Active', rating: 4.2 },
-        { id: 5, name: 'DJ Max Events', contactPerson: 'Max DSouza', email: 'max@djevents.com', phone: '+91 6655443322', category: 'Music', status: 'Inactive', rating: 4.9 },
-    ]);
     const [selectedVendor, setSelectedVendor] = useState<Vendor | null>(null);
     const [editingVendorData, setEditingVendorData] = useState<Partial<Vendor> | undefined>(undefined);
+
+    const vendors: Vendor[] = data ?? [];
 
     useEffect(() => {
         getVendors();
     }, [getVendors]);
-
-    useEffect(() => {
-        if (data && Array.isArray(data)) {
-            setVendors(data);
-        }
-    }, [data]);
 
     useEffect(() => {
         if (error) {
@@ -74,21 +64,42 @@ const VendorPage = ({ data, loading, error, getVendors }: VendorProps) => {
         setEditingVendorData(undefined);
     };
 
-    const handleFormSubmit = (formData: Omit<Vendor, 'id' | 'rating'>) => {
-        if (editingId) {
-            setVendors(vendors.map(v => v.id === editingId ? { ...v, ...formData } : v));
-        } else {
-            const newVendor: Vendor = {
-                id: vendors.length + 1,
-                rating: 0,
-                ...formData
-            };
-            setVendors([...vendors, newVendor]);
-        }
-        handleCloseModal();
+    /** Map UI form fields → API create body */
+    const toCreatePayload = (formData: VendorFormData) => ({
+        businessName: formData.name,
+        category: formData.category,
+        contactName: formData.contactPerson,
+        contactEmail: formData.email,
+        contactPhone: formData.phone,
+        password: formData.password,
+        status: (formData.status ?? 'Active').toUpperCase(),
+    });
 
-        if (selectedVendor && editingId === selectedVendor.id) {
-            setSelectedVendor(prev => prev ? { ...prev, ...formData } : null);
+    /** Map UI form fields → API update body (all keys, no password) */
+    const toUpdatePayload = (payload: { name: string; contactPerson: string; email: string; phone: string; category: string; status: string }) => ({
+        businessName: payload.name,
+        category: payload.category,
+        contactName: payload.contactPerson,
+        contactEmail: payload.email,
+        contactPhone: payload.phone,
+        status: (payload.status ?? 'Active').toUpperCase(),
+    });
+
+    const handleFormSubmit = async (formData: VendorFormData) => {
+        try {
+            if (editingId) {
+                await updateVendor(editingId, toUpdatePayload(formData));
+                toast.success('Vendor updated successfully');
+                if (selectedVendor?.id === editingId) {
+                    setSelectedVendor(prev => prev ? { ...prev, ...formData } : null);
+                }
+            } else {
+                await createVendor(toCreatePayload(formData));
+                toast.success('Vendor created successfully');
+            }
+            handleCloseModal();
+        } catch {
+            // error already surfaced via Redux → error prop → toast in useEffect
         }
     };
 
@@ -97,24 +108,34 @@ const VendorPage = ({ data, loading, error, getVendors }: VendorProps) => {
         setIsDeleteModalOpen(true);
     };
 
-    const handleConfirmDelete = () => {
+    const handleConfirmDelete = async () => {
         if (deleteId) {
-            setVendors(vendors.filter(v => v.id !== deleteId));
-            if (selectedVendor?.id === deleteId) {
-                setSelectedVendor(null);
+            try {
+                await deleteVendor(deleteId);
+                toast.success('Vendor deleted successfully');
+                if (selectedVendor?.id === deleteId) {
+                    setSelectedVendor(null);
+                }
+            } catch {
+                // error surfaced via Redux state
+            } finally {
+                setDeleteId(null);
+                setIsDeleteModalOpen(false);
             }
-            setDeleteId(null);
         }
     };
 
-    const handleUpdateVendor = async (id: number, payload: any) => {
-        setVendors(vendors.map(v => v.id === id ? { ...v, ...payload } : v));
-        if (selectedVendor && selectedVendor.id === id) {
-            setSelectedVendor({ ...selectedVendor, ...payload });
+    const handleUpdateVendor = async (id: number, payload: { name: string; contactPerson: string; email: string; phone: string; category: string; status: string }) => {
+        try {
+            await updateVendor(id, toUpdatePayload(payload));
+            toast.success('Vendor updated successfully');
+            if (selectedVendor?.id === id) {
+                setSelectedVendor(prev => prev ? { ...prev, ...payload } as any : null);
+            }
+        } catch {
+            // error surfaced via Redux state
         }
     };
-
-    // Filter handles in VendorSplitView
 
     return (
         <div className="vendor-page-container w-full h-full flex flex-col">

@@ -200,29 +200,14 @@ export const ExperienceForm = ({ initialData, subCategories, onSubmit, onCancel,
                 </label>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Input
-                    label="Short Description"
-                    type="text"
-                    value={formData.shortDescription}
-                    onChange={(e) => setFormData({ ...formData, shortDescription: e.target.value })}
-                    disabled={isLoading}
-                />
-                <Input
-                    label="Terms & Conditions"
-                    type="text"
-                    value={formData.termsConditions}
-                    onChange={(e) => setFormData({ ...formData, termsConditions: e.target.value })}
-                    disabled={isLoading}
-                />
-                <Input
-                    label="What to Bring"
-                    type="text"
-                    value={formData.whatToBring}
-                    onChange={(e) => setFormData({ ...formData, whatToBring: e.target.value })}
-                    disabled={isLoading}
-                />
-            </div>
+            <RichTextEditor
+                label="Short Description"
+                value={formData.shortDescription}
+                onChange={(html) => setFormData({ ...formData, shortDescription: html })}
+                disabled={isLoading}
+                placeholder="A one-line summary…"
+                className="min-h-[60px]"
+            />
 
             <RichTextEditor
                 label="Description"
@@ -231,6 +216,24 @@ export const ExperienceForm = ({ initialData, subCategories, onSubmit, onCancel,
                 disabled={isLoading}
                 placeholder="Describe the experience…"
                 className="min-h-[140px]"
+            />
+
+            <RichTextEditor
+                label="What to Bring"
+                value={formData.whatToBring}
+                onChange={(html) => setFormData({ ...formData, whatToBring: html })}
+                disabled={isLoading}
+                placeholder="Items guests should bring…"
+                className="min-h-[80px]"
+            />
+
+            <RichTextEditor
+                label="Terms & Conditions"
+                value={formData.termsConditions}
+                onChange={(html) => setFormData({ ...formData, termsConditions: html })}
+                disabled={isLoading}
+                placeholder="Terms and conditions…"
+                className="min-h-[80px]"
             />
 
             <div className='flex justify-end gap-3 mt-3'>

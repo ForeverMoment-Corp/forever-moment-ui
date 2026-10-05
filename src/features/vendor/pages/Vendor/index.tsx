@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { getVendors } from '@/features/vendor/store/actions';
+import { getVendors, createVendor, updateVendor, deleteVendor } from '@/features/vendor/store/actions';
 import VendorPage from './components/Vendor';
 import type { RootState } from '@/store/store';
 
@@ -11,6 +11,9 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = {
     getVendors,
+    createVendor,
+    updateVendor,
+    deleteVendor,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(VendorPage);
