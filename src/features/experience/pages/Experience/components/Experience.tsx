@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Modal } from '@/components/common/Modal';
+import { Button } from '@/components/common/Button';
 import { ExperienceForm, type ExperiencePayload } from './ExperienceForm';
 import { DeleteModal } from '@/components/common/DeleteModal';
 import { ExperienceSplitView } from './ExperienceSplitView';
@@ -310,6 +311,14 @@ const Experience = ({
                 onClose={handleCloseModal}
                 title={editingId ? 'Edit Experience' : 'Add Experience'}
                 className="sm:max-w-5xl w-[95vw]"
+                footer={
+                    <div className='flex justify-end gap-3 w-full'>
+                        <Button type='button' variant='secondary' onClick={handleCloseModal} disabled={loading}>Cancel</Button>
+                        <Button type='submit' form="experience-form" variant='default' disabled={loading}>
+                            {loading ? 'Saving...' : (editingId ? 'Save Changes' : 'Create Experience')}
+                        </Button>
+                    </div>
+                }
             >
                 <ExperienceForm
                     initialData={editingId && selectedExperienceDetail ? {
@@ -332,8 +341,6 @@ const Experience = ({
                         whatToBring: selectedExperienceDetail.detail?.whatToBring || '',
                     } : undefined}
                     onSubmit={handleFormSubmit}
-                    onCancel={handleCloseModal}
-                    submitLabel={editingId ? 'Save Changes' : 'Create Experience'}
                     isLoading={loading}
                     subCategories={subCategories}
                 />

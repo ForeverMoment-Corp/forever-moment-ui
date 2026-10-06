@@ -69,12 +69,12 @@ export const Modal = ({
         <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
             <DialogContent
                 className={cn(
-                    "p-0 overflow-hidden border border-slate-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-[0_32px_80px_rgba(0,0,0,0.35)] dark:shadow-black rounded-[20px] w-[calc(100%-2rem)] mx-auto sm:w-full",
+                    "p-0 gap-0 flex flex-col max-h-[90vh] overflow-hidden border border-slate-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-[0_32px_80px_rgba(0,0,0,0.35)] dark:shadow-black rounded-[20px] w-[calc(100%-2rem)] mx-auto sm:w-full",
                     className || 'sm:max-w-md'
                 )}
             >
                 {/* Header Section */}
-                <div className={cn("p-5 flex flex-col items-center text-center border-b", styles.headerBg, styles.headerBorder)}>
+                <div className={cn("p-5 flex flex-col items-center text-center border-b shrink-0", styles.headerBg, styles.headerBorder)}>
                     {Icon && (
                         <div className={cn(
                             "w-[52px] h-[52px] bg-gradient-to-br rounded-[14px] flex items-center justify-center mb-5",
@@ -110,14 +110,14 @@ export const Modal = ({
 
                 {/* Content Area */}
                 {children && (
-                    <div className="px-5 py-4">
+                    <div className="px-5 py-4 overflow-y-auto flex-1">
                         {children}
                     </div>
                 )}
 
                 {/* Footer Section */}
                 {footer ? (
-                    <div className="px-5 pb-5 flex flex-col sm:flex-row gap-2">
+                    <div className="px-5 pb-5 flex flex-col sm:flex-row gap-2 shrink-0">
                         {footer}
                     </div>
                 ) : null}

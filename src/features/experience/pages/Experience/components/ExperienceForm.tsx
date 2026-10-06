@@ -29,12 +29,10 @@ interface ExperienceFormProps {
     initialData?: ExperiencePayload;
     subCategories: any[];
     onSubmit: (data: ExperiencePayload) => void;
-    onCancel: () => void;
-    submitLabel: string;
     isLoading?: boolean;
 }
 
-export const ExperienceForm = ({ initialData, subCategories, onSubmit, onCancel, submitLabel, isLoading }: ExperienceFormProps) => {
+export const ExperienceForm = ({ initialData, subCategories, onSubmit, isLoading }: ExperienceFormProps) => {
     const [formData, setFormData] = useState<ExperiencePayload>(initialData || {
         name: '',
         slug: '',
@@ -92,7 +90,7 @@ export const ExperienceForm = ({ initialData, subCategories, onSubmit, onCancel,
     }));
 
     return (
-        <form onSubmit={handleSubmit} className='space-y-3 pt-3 relative'>
+        <form id="experience-form" onSubmit={handleSubmit} className='space-y-3 pt-3 relative'>
             {isLoading && (
                 <div className="absolute inset-0 dark:bg-gray-900/50 flex items-center justify-center z-50">
                     <Loader2 className="animate-spin h-8 w-8 text-blue-500" />
@@ -235,13 +233,6 @@ export const ExperienceForm = ({ initialData, subCategories, onSubmit, onCancel,
                 placeholder="Terms and conditions…"
                 className="min-h-[80px]"
             />
-
-            <div className='flex justify-end gap-3 mt-3'>
-                <Button type='button' variant='secondary' onClick={onCancel} disabled={isLoading}>Cancel</Button>
-                <Button type='submit' variant='default' disabled={isLoading}>
-                    {isLoading ? 'Saving...' : submitLabel}
-                </Button>
-            </div>
         </form>
     );
 };
