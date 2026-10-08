@@ -1,38 +1,46 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPromotionsData } from '../../../store/actions';
+import { getPromotionsData, createPromotionAction, updatePromotionAction, deletePromotionAction } from '../../../store/actions';
 import { PromotionsSplitView } from './PromotionsSplitView';
-
-export interface PromotionType {
-    id: string;
-    code: string;
-    type: 'Percentage' | 'Fixed Amount';
-    value: number;
-    minSpend: number;
-    status: 'Active' | 'Expired' | 'Scheduled';
-    usageCount: number;
-    expiryDate: string;
-}
+import { PromotionsModal } from './PromotionsModal';
 
 const Promotions = () => {
     const dispatch = useDispatch<any>();
     const { data: promotions, loading } = useSelector((state: any) => state.promotions);
-    const [selectedPromotion, setSelectedPromotion] = useState<PromotionType | null>(null);
+    const [selectedPromotion, setSelectedPromotion] = useState<any | null>(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [editingPromo, setEditingPromo] = useState<any | null>(null);
 
     useEffect(() => {
         dispatch(getPromotionsData());
     }, [dispatch]);
 
-    const handleOpenModal = (promo: PromotionType | null = null) => {
-        console.log("Open Modal for:", promo);
+    const handleOpenModal = (promo: any | null = null) => {
+        setEditingPromo(promo);
+        setIsModalOpen(true);
     };
 
     const handleDeleteClick = (id: string | number) => {
-        console.log("Delete clicked for:", id);
+        if (window.confirm('Are you sure you want to delete this promotion?')) {
+            dispatch(deletePromotionAction(id));
+            if (selectedPromotion?.id === id) {
+                setSelectedPromotion(null);
+            }
+        }
+    };
+
+    const handleModalSubmit = (data: any) => {
+        if (editingPromo) {
+            dispatch(updatePromotionAction(editingPromo.id, data));
+        } else {
+            dispatch(createPromotionAction(data));
+        }
+        setIsModalOpen(false);
+        setEditingPromo(null);
     };
 
     return (
-        <div className="promotions-page-container w-full h-full flex flex-col">
+        <div className="promotions-page-container w-full h-full flex flex-col relative">
             <PromotionsSplitView
                 promotions={promotions}
                 selectedPromotion={selectedPromotion}
@@ -41,6 +49,18 @@ const Promotions = () => {
                 handleDeleteClick={handleDeleteClick}
                 loading={loading}
             />
+            
+            {isModalOpen && (
+                <PromotionsModal
+                    isOpen={isModalOpen}
+                    onClose={() => {
+                        setIsModalOpen(false);
+                        setEditingPromo(null);
+                    }}
+                    promo={editingPromo}
+                    onSubmit={handleModalSubmit}
+                />
+            )}
         </div>
     );
 };

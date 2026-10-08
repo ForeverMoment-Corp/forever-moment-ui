@@ -29,23 +29,23 @@ export const PromotionsSplitView = ({
         },
         {
             header: 'Discount',
-            accessorKey: 'value',
+            accessorKey: 'discountValue',
             className: 'w-[20%] min-w-[120px] px-3 text-left font-semibold text-slate-700 dark:text-slate-200',
-            render: (promo: any) => promo.type === 'Percentage' ? `${promo.value}% Off` : `₹${promo.value} Off`
+            render: (promo: any) => promo.discountType === 'PERCENTAGE' ? `${promo.discountValue}% Off` : `₹${promo.discountValue} Off`
         },
         {
-            header: 'Usage',
-            accessorKey: 'usageCount',
+            header: 'Usage Limit',
+            accessorKey: 'usageLimit',
             className: 'w-[15%] min-w-[100px] px-3 text-left text-slate-500 dark:text-slate-400',
-            render: (promo: any) => `${promo.usageCount} times`
+            render: (promo: any) => promo.usageLimit ? `${promo.usageLimit} times` : 'Unlimited'
         },
         {
             header: 'Status',
-            accessorKey: 'status',
+            accessorKey: 'isActive',
             className: 'w-[15%] min-w-[100px] px-3 text-left',
             render: (promo: any) => (
                 <StatusBadge 
-                    status={promo.status} 
+                    status={promo.isActive ? 'Active' : 'Inactive'} 
                     activeValue="Active"
                 />
             )
@@ -83,15 +83,15 @@ export const PromotionsSplitView = ({
                 <div className="flex justify-between items-end">
                     <div>
                         <div className="text-[14px] font-bold text-slate-700 dark:text-slate-300">
-                             {promo.type === 'Percentage' ? `${promo.value}% Off` : `₹${promo.value} Off`}
+                             {promo.discountType === 'PERCENTAGE' ? `${promo.discountValue}% Off` : `₹${promo.discountValue} Off`}
                         </div>
-                        <div className="text-[10px] text-slate-400 font-medium">Expires {promo.expiryDate}</div>
+                        <div className="text-[10px] text-slate-400 font-medium">Expires {promo.validTo ? new Date(promo.validTo).toLocaleDateString() : 'N/A'}</div>
                     </div>
                     <div className={cn(
                         "text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider",
-                        promo.status === 'Active' ? "bg-emerald-100 text-emerald-700" : "bg-slate-100 text-slate-500"
+                        promo.isActive ? "bg-emerald-100 text-emerald-700" : "bg-slate-100 text-slate-500"
                     )}>
-                        {promo.status}
+                        {promo.isActive ? 'Active' : 'Inactive'}
                     </div>
                 </div>
             </div>
@@ -106,16 +106,16 @@ export const PromotionsSplitView = ({
                         <Ticket size={32} />
                     </div>
                     <div className="text-4xl font-black mb-1 font-mono tracking-tighter uppercase">{promo.code}</div>
-                    <p className="text-white/80 font-bold mb-4">{promo.type === 'Percentage' ? `${promo.value}% DISCOUNT` : `₹${promo.value} DISCOUNT`}</p>
+                    <p className="text-white/80 font-bold mb-4">{promo.discountType === 'PERCENTAGE' ? `${promo.discountValue}% DISCOUNT` : `₹${promo.discountValue} DISCOUNT`}</p>
                     <div className="w-full h-px bg-white/20 my-4" />
                     <div className="grid grid-cols-2 w-full gap-4">
                         <div className="text-center">
-                            <div className="text-[10px] font-bold text-white/60 uppercase tracking-widest">Times Used</div>
-                            <div className="text-lg font-black">{promo.usageCount}</div>
+                            <div className="text-[10px] font-bold text-white/60 uppercase tracking-widest">Usage Limit</div>
+                            <div className="text-lg font-black">{promo.usageLimit || 'Unlimited'}</div>
                         </div>
                         <div className="text-center">
                             <div className="text-[10px] font-bold text-white/60 uppercase tracking-widest">Min. Spend</div>
-                            <div className="text-lg font-black">₹{promo.minSpend}</div>
+                            <div className="text-lg font-black">₹{promo.minBookingAmount || 0}</div>
                         </div>
                     </div>
                 </div>
@@ -125,16 +125,18 @@ export const PromotionsSplitView = ({
                     <div className="space-y-3">
                         <div className="flex items-center justify-between text-sm">
                             <span className="text-slate-500 font-medium">Target Spend Level</span>
-                            <span className="font-bold text-slate-900 dark:text-white">₹{promo.minSpend.toLocaleString()}</span>
+                            <span className="font-bold text-slate-900 dark:text-white">₹{promo.minBookingAmount?.toLocaleString() || 0}</span>
                         </div>
                         <div className="flex items-center justify-between text-sm">
                             <span className="text-slate-500 font-medium">Expiry Date</span>
-                            <span className="font-bold text-slate-900 dark:text-white">{promo.expiryDate}</span>
+                            <span className="font-bold text-slate-900 dark:text-white">{promo.validTo ? new Date(promo.validTo).toLocaleDateString() : 'N/A'}</span>
                         </div>
-                        <div className="flex items-center justify-between text-sm">
-                            <span className="text-slate-500 font-medium">Current Conversion</span>
-                            <span className="font-bold text-emerald-500">{(promo.usageCount / 10).toFixed(1)}%</span>
-                        </div>
+                        {promo.maxDiscountAmount ? (
+                            <div className="flex items-center justify-between text-sm">
+                                <span className="text-slate-500 font-medium">Max Discount</span>
+                                <span className="font-bold text-emerald-500">₹{promo.maxDiscountAmount.toLocaleString()}</span>
+                            </div>
+                        ) : null}
                     </div>
                 </div>
             </div>
