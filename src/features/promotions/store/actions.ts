@@ -5,7 +5,8 @@ export const getPromotionsData = () => async (dispatch: any) => {
     dispatch({ type: types.GET_PROMOTIONS_DATA });
     try {
         const response: any = await api.fetchPromotions();
-        dispatch({ type: types.GET_PROMOTIONS_DATA_SUCCESS, payload: response.data || response });
+        const payload = response.data?.response || response.data || [];
+        dispatch({ type: types.GET_PROMOTIONS_DATA_SUCCESS, payload });
     } catch (error) {
         dispatch({ type: types.GET_PROMOTIONS_DATA_FAILURE, payload: error });
     }

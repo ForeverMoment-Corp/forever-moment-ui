@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Modal } from '@/components/common/Modal';
 import { Button } from '@/components/common/Button';
-import { TextInput } from '@/components/common/TextInput';
+import { Input as TextInput } from '@/components/common/Input';
 import { NumberInput } from '@/components/common/NumberInput';
 import { Dropdown } from '@/components/common/Dropdown';
 
