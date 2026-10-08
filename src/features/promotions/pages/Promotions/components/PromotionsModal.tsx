@@ -114,10 +114,10 @@ export const PromotionsModal: React.FC<PromotionsModalProps> = ({
                         <Dropdown
                             options={[
                                 { id: 'PERCENTAGE', value: 'PERCENTAGE', label: 'Percentage' },
-                                { id: 'FLAT', value: 'FLAT', label: 'Flat Amount' }
+                                { id: 'FIXED_AMOUNT', value: 'FIXED_AMOUNT', label: 'Flat Amount' }
                             ]}
                             value={formData.discountType}
-                            onChange={(value: string) => setFormData((prev) => ({ ...prev, discountType: value }))}
+                            onChange={(value: string) => setFormData((prev) => ({ ...prev, discountType: value || 'PERCENTAGE' }))}
                             className="w-full"
                         />
                     </div>
@@ -208,7 +208,7 @@ export const PromotionsModal: React.FC<PromotionsModalProps> = ({
                     </Button>
                     <Button
                         onClick={handleSubmit}
-                        disabled={!formData.code || !formData.validFrom || !formData.validTo}
+                        disabled={!formData.code || !formData.name || !formData.validFrom || !formData.validTo || formData.discountValue <= 0}
                     >
                         {isEditing ? 'Save Changes' : 'Create Promotion'}
                     </Button>

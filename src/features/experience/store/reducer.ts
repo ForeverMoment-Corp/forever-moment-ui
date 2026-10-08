@@ -12,6 +12,8 @@ const initialState = {
     primaryMedia: null,
     experienceAddons: [],
     addonsLoading: false,
+    experiencePromotions: [],
+    promotionsLoading: false,
 };
 
 export const experienceReducer = (state = initialState, action: any) => {
@@ -102,6 +104,20 @@ export const experienceReducer = (state = initialState, action: any) => {
             return { ...state, addonsLoading: false, experienceAddons: Array.isArray(action.payload) ? action.payload : [] };
         case types.GET_EXPERIENCE_ADDONS_FAILURE:
             return { ...state, addonsLoading: false, error: action.payload };
+
+        case types.GET_EXPERIENCE_PROMOTIONS:
+            return { ...state, promotionsLoading: true, error: null };
+        case types.GET_EXPERIENCE_PROMOTIONS_SUCCESS:
+            return { ...state, promotionsLoading: false, experiencePromotions: Array.isArray(action.payload) ? action.payload : [] };
+        case types.GET_EXPERIENCE_PROMOTIONS_FAILURE:
+            return { ...state, promotionsLoading: false, error: action.payload };
+
+        case types.TOGGLE_PROMOTION:
+            return { ...state, loading: true, error: null };
+        case types.TOGGLE_PROMOTION_SUCCESS:
+            return { ...state, loading: false };
+        case types.TOGGLE_PROMOTION_FAILURE:
+            return { ...state, loading: false, error: action.payload };
 
         case types.GET_EXPERIENCE_MEDIA: {
             const requestedFor = action.meta?.experienceId ?? state.experienceMediaFor;

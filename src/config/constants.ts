@@ -14,6 +14,7 @@ export const TABS = {
     DETAILS: { id: 'details', label: 'Details' },
     SUB_CATEGORIES: { id: 'subcategories', label: 'Sub Categories' },
     CATEGORIES: { id: 'categories', label: 'Categories' },
+    PROMOTIONS: { id: 'promotions', label: 'Promotions' },
 };
 
 export const TAB_DATA = Object.values(TABS);

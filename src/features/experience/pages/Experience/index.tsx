@@ -29,6 +29,8 @@ import {
     bulkAttachLocationTimeSlots,
     toggleLocationTimeSlot,
     toggleExperienceLocation,
+    getExperiencePromotions,
+    togglePromotion,
 } from '@/features/experience/store/actions';
 import { getImages } from '@/features/images/store/actions';
 import { getSubCategoryData } from '@/features/subCategory/store/actions';
@@ -37,6 +39,7 @@ import { getCancellationPolicyData } from '@/features/cancellationPolicy/store/a
 import { getLocationData } from '@/features/location/store/actions';
 import { getAddonData } from '@/features/addon/store/actions';
 import { getSlotData } from '@/features/slot/store/actions';
+import { getPromotionsData } from '@/features/promotions/store/actions';
 import Experience from './components/Experience';
 import type { RootState } from '@/store/store';
 
@@ -56,6 +59,9 @@ const mapStateToProps = (state: RootState) => ({
     experienceMedia: state.experience.experienceMedia || [],
     experienceAddons: state.experience.experienceAddons || [],
     addonsLoading: state.experience.addonsLoading || false,
+    promotions: state.promotions?.data || [],
+    experiencePromotions: state.experience.experiencePromotions || [],
+    promotionsLoading: state.experience.promotionsLoading || false,
 });
 
 const mapDispatchToProps = {
@@ -95,6 +101,9 @@ const mapDispatchToProps = {
     toggleMediaActive,
     uploadExperienceMedia,
     getImages,
+    getPromotionsData,
+    getExperiencePromotions,
+    togglePromotion,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Experience);

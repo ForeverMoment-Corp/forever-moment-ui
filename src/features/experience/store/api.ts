@@ -163,3 +163,16 @@ export const replaceExperienceLocationPincodesApi = async (mapperId: number, pin
 export const removeExperienceLocationPincodeApi = async (mapperId: number, pincodeId: number) => {
     return await axios.delete(`/admin/locations/experience-mappings/${mapperId}/pincodes/${pincodeId}`);
 };
+
+export const fetchExperiencePromotionsApi = async (experienceId: number) => {
+    return await axios.get(`/admin/coupons/experiences/${experienceId}`);
+};
+
+export const attachExperiencePromotionApi = async (experienceId: number, couponId: number) => {
+    return await axios.post(`/admin/coupons/experiences/${experienceId}/attach/${couponId}`);
+};
+
+export const detachExperiencePromotionApi = async (experienceId: number, couponId: number) => {
+    return await axios.delete(`/admin/coupons/experiences/${experienceId}/detach/${couponId}`);
+};
+

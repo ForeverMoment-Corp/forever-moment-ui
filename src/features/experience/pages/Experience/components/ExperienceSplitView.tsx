@@ -54,6 +54,11 @@ interface ExperienceSplitViewProps {
     toggleMediaActive: (experienceId: number, mapperId: number) => Promise<any>;
     uploadExperienceMedia?: (experienceId: number, file: File, attach?: any, metadata?: Record<string, any>, refresh?: boolean) => Promise<any>;
     showStats?: boolean;
+    promotions: any[];
+    experiencePromotions: any[];
+    promotionsLoading: boolean;
+    getExperiencePromotions: (experienceId: number) => Promise<any>;
+    togglePromotion: (experienceId: number, couponId: number, isAssociate: boolean) => Promise<any>;
 }
 
 export const ExperienceSplitView = ({
@@ -99,7 +104,12 @@ export const ExperienceSplitView = ({
     updateMediaAttachment,
     toggleMediaActive,
     uploadExperienceMedia,
-    showStats = true
+    showStats = true,
+    promotions,
+    experiencePromotions,
+    promotionsLoading,
+    getExperiencePromotions,
+    togglePromotion,
 }: ExperienceSplitViewProps) => {
 
     const columns = [
@@ -225,7 +235,8 @@ export const ExperienceSplitView = ({
         { id: TABS.LOCATIONS.id, label: TABS.LOCATIONS.label },
         { id: TABS.POLICIES.id, label: TABS.POLICIES.label },
         { id: TABS.ADDONS.id, label: TABS.ADDONS.label },
-        { id: TABS.IMAGES.id, label: TABS.IMAGES.label }
+        { id: TABS.IMAGES.id, label: TABS.IMAGES.label },
+        { id: TABS.PROMOTIONS.id, label: TABS.PROMOTIONS.label }
     ], []);
 
     const renderDetailsPanel = useCallback((_exp: any, activeTab: string, dirtyState: any) => {
@@ -295,15 +306,23 @@ export const ExperienceSplitView = ({
             images,
             getImages,
             experienceMedia,
+            promotions,
+            experiencePromotions,
+            promotionsLoading,
+            getExperiencePromotions,
+            onTogglePromotion: (couponId: number, isAssociate: boolean) => {
+                return togglePromotion(_exp.id, couponId, isAssociate);
+            },
             onDirtyChange: dirtyState.handleDirtyChange
         });
         return tabs.find(t => t.id === activeTab)?.content || null;
     }, [
         experienceDetail, inclusions, cancellationPolicies, subCategories, locations, addons, slots, images, experienceMedia,
+        promotions, experiencePromotions, promotionsLoading,
         toggleCancellationPolicy, toggleInclusion, updateExperience, onAssociateLocation, onUpdateLocation, onDisassociateLocation,
         onToggleExperienceLocation, onAssociateLocationTimeSlot, onUpdateLocationTimeSlot, onDisassociateLocationTimeSlot,
         onBulkAttachLocationTimeSlots, onToggleLocationTimeSlot, toggleAddon, experienceAddons, addonsLoading, getExperienceAddons, getExperienceMedia, bulkAttachMedia, disassociateMedia,
-        setPrimaryMedia, updateMediaAttachment, toggleMediaActive, uploadExperienceMedia, getImages
+        setPrimaryMedia, updateMediaAttachment, toggleMediaActive, uploadExperienceMedia, getImages, getExperiencePromotions, togglePromotion
     ]);
 
     const customFilter = useCallback((exp: any, activeFilters: Record<string, string[]>) => {

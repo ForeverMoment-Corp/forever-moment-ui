@@ -5,6 +5,7 @@ import { InclusionsTab } from './InclusionsTab';
 import { CancellationPolicyTab } from './CancellationPolicyTab';
 import { LocationTab } from './LocationTab';
 import { AddonsTab } from './AddonsTab';
+import { PromotionsTab } from './PromotionsTab';
 import { ExperienceImages } from './ExperienceImages';
 import { RichTextEditor } from '@/components/common/RichTextEditor';
 import { RichTextContent } from '@/components/common/RichTextContent';
@@ -55,6 +56,11 @@ interface ExperienceDetailsProps {
     toggleMediaActive: (experienceId: number, mapperId: number) => Promise<any>;
     uploadExperienceMedia?: (experienceId: number, file: File, attach?: any, metadata?: Record<string, any>, refresh?: boolean) => Promise<any>;
     onDirtyChange?: (isDirty: boolean, changes: any[]) => void;
+    promotions: any[];
+    experiencePromotions: any[];
+    promotionsLoading: boolean;
+    getExperiencePromotions: (experienceId: number) => Promise<any>;
+    onTogglePromotion: (couponId: number, isAssociate: boolean) => Promise<any>;
 }
 
 const GeneralInfoTab = ({ experience, experienceDetail, updateExperience, subCategories, onDirtyChange }: any) => {
@@ -543,6 +549,20 @@ export const getExperienceTabs = (params: ExperienceDetailsProps): SidePanelTab[
                     updateMediaAttachment={params.updateMediaAttachment}
                     toggleMediaActive={params.toggleMediaActive}
                     uploadExperienceMedia={params.uploadExperienceMedia}
+                />
+            )
+        },
+        {
+            id: TABS.PROMOTIONS.id,
+            label: TABS.PROMOTIONS.label,
+            content: (
+                <PromotionsTab
+                    experienceId={params.experienceDetail?.id}
+                    availablePromotions={params.promotions}
+                    experiencePromotions={params.experiencePromotions || []}
+                    loading={params.promotionsLoading}
+                    getExperiencePromotions={params.getExperiencePromotions}
+                    onTogglePromotion={params.onTogglePromotion}
                 />
             )
         }

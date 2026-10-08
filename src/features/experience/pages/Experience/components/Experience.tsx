@@ -68,6 +68,12 @@ interface ExperienceProps {
     updateMediaAttachment: (experienceId: number, mediaId: number, data: any) => Promise<any>;
     toggleMediaActive: (experienceId: number, mapperId: number) => Promise<any>;
     uploadExperienceMedia: (experienceId: number, file: File, attach?: any, metadata?: Record<string, any>, refresh?: boolean) => Promise<any>;
+    promotions: any[];
+    experiencePromotions: any[];
+    promotionsLoading: boolean;
+    getPromotionsData: () => void;
+    getExperiencePromotions: (experienceId: number) => Promise<any>;
+    togglePromotion: (experienceId: number, couponId: number, isAssociate: boolean) => Promise<any>;
 }
 
 const Experience = ({
@@ -122,6 +128,12 @@ const Experience = ({
     updateMediaAttachment,
     toggleMediaActive,
     uploadExperienceMedia,
+    promotions,
+    experiencePromotions,
+    promotionsLoading,
+    getPromotionsData,
+    getExperiencePromotions,
+    togglePromotion,
 }: ExperienceProps) => {
 
     const [experiences, setExperiences] = useState<ExperienceType[]>([]);
@@ -139,7 +151,8 @@ const Experience = ({
         getLocationData();
         getAddonData();
         getSlotData();
-    }, [getExperienceData, getSubCategoryData, getInclusionData, getCancellationPolicyData, getLocationData, getAddonData, getSlotData]);
+        getPromotionsData();
+    }, [getExperienceData, getSubCategoryData, getInclusionData, getCancellationPolicyData, getLocationData, getAddonData, getSlotData, getPromotionsData]);
 
     useEffect(() => {
         if (data && Array.isArray(data)) {
@@ -304,6 +317,11 @@ const Experience = ({
                 updateMediaAttachment={updateMediaAttachment}
                 toggleMediaActive={toggleMediaActive}
                 uploadExperienceMedia={uploadExperienceMedia}
+                promotions={promotions}
+                experiencePromotions={experiencePromotions}
+                promotionsLoading={promotionsLoading}
+                getExperiencePromotions={getExperiencePromotions}
+                togglePromotion={togglePromotion}
             />
 
             <Modal

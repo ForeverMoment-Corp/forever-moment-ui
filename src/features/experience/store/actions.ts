@@ -10,7 +10,8 @@ import {
     bulkAttachExperienceMediaApi, disassociateExperienceMediaApi, fetchExperienceMediaApi,
     attachExperienceMediaApi, updateExperienceMediaApi, toggleExperienceMediaActiveApi, fetchExperiencePrimaryMediaApi,
     uploadExperienceMediaApi,
-    fetchExperienceLocationPincodesApi, replaceExperienceLocationPincodesApi, removeExperienceLocationPincodeApi
+    fetchExperienceLocationPincodesApi, replaceExperienceLocationPincodesApi, removeExperienceLocationPincodeApi,
+    fetchExperiencePromotionsApi, attachExperiencePromotionApi, detachExperiencePromotionApi
 } from './api';
 
 export const getExperienceData = (isBackground: boolean = false) => async (dispatch: any) => {
@@ -676,6 +677,46 @@ export const removeExperienceLocationPincode = (mapperId: number, pincodeId: num
         dispatch({
             type: types.REMOVE_EXPERIENCE_LOCATION_PINCODE_FAILURE,
             payload: error.response?.data?.message || 'Failed to remove pincode restriction',
+        });
+        throw error;
+    }
+};
+
+export const getExperiencePromotions = (experienceId: number) => async (dispatch: any) => {
+    dispatch({ type: types.GET_EXPERIENCE_PROMOTIONS });
+    try {
+        const response = await fetchExperiencePromotionsApi(experienceId);
+        const payload = response.data?.response ?? response.data;
+        dispatch({ type: types.GET_EXPERIENCE_PROMOTIONS_SUCCESS, payload });
+        return payload;
+    } catch (error: any) {
+        dispatch({
+            type: types.GET_EXPERIENCE_PROMOTIONS_FAILURE,
+            payload: error.response?.data?.message || 'Failed to fetch experience promotions',
+        });
+        throw error;
+    }
+};
+
+export const togglePromotion = (experienceId: number, couponId: number, isAssociate: boolean) => async (dispatch: any) => {
+    dispatch({ type: types.TOGGLE_PROMOTION });
+    try {
+        let response;
+        if (isAssociate) {
+            response = await attachExperiencePromotionApi(experienceId, couponId);
+        } else {
+            response = await detachExperiencePromotionApi(experienceId, couponId);
+        }
+        dispatch({
+            type: types.TOGGLE_PROMOTION_SUCCESS,
+            payload: response.data,
+        });
+        await dispatch(getExperiencePromotions(experienceId));
+        return response.data;
+    } catch (error: any) {
+        dispatch({
+            type: types.TOGGLE_PROMOTION_FAILURE,
+            payload: error.response?.data?.message || 'Failed to toggle promotion',
         });
         throw error;
     }
