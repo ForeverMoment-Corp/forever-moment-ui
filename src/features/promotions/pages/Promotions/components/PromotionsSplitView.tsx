@@ -157,6 +157,7 @@ export const PromotionsSplitView = ({
             renderDetailsPanel={renderDetailsPanel}
             searchFields={['code']}
             emptyStateIcon="🎟️"
+            onAdd={() => handleOpenModal()}
         />
     );
 };
