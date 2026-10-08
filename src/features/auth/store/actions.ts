@@ -1,6 +1,6 @@
 import * as types from './action-types';
 import type { User } from './action-types';
-import { loginApi } from './api';
+import { loginApi, logoutApi } from './api';
 import { getUserProfile } from '@/features/profile/store/actions';
 
 export const loginStart = () => ({
@@ -17,9 +17,17 @@ export const loginFailure = (error: string) => ({
     payload: error,
 });
 
-export const logout = () => ({
-    type: types.LOGOUT,
-});
+export const logout = () => async (dispatch: any) => {
+    try {
+        await logoutApi();
+    } catch (error) {
+        console.error('Logout API failed:', error);
+    } finally {
+        dispatch({
+            type: types.LOGOUT,
+        });
+    }
+};
 
 export const login = (credentials: any) => async (dispatch: any) => {
     dispatch(loginStart());

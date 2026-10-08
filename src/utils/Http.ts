@@ -124,18 +124,54 @@ axios.interceptors.response.use(
                 }
             }
         }
-        if (error.response?.status === 401) {
+
+        // Normalize backend error structure to the frontend's expected 'message' field
+        const status = error.response?.status;
+        const data = error.response?.data;
+        
+        if (data && typeof data === 'object') {
+            // 1. Map 'msg' to 'message'
+            if (data.msg && !data.message) {
+                data.message = data.msg;
+            }
+            
+            // 2. Format 400 validation errors into the message body for UI display
+            if (status === 400 && Array.isArray(data.errors) && data.errors.length > 0) {
+                const errorList = data.errors.map((e: string) => `• ${e}`).join('\n');
+                data.message = `${data.message || 'Validation failed'}\n${errorList}`;
+            }
+            
+            // 3. Apply standard fallbacks based on HTTP status reference
+            if (!data.message) {
+                if (status === 404) data.message = "Requested resource not found";
+                else if (status === 405) data.message = "Action not supported (Method Not Allowed)";
+                else if (status === 409) data.message = "Business conflict occurred";
+                else if (status === 413) data.message = "Uploaded file is too large";
+                else if (status === 415) data.message = "Unsupported content type";
+                else if (status >= 500) data.message = "Unexpected server error. Please contact support if the problem persists.";
+            }
+        }
+
+        const finalMessage = data?.message || "An unexpected error occurred.";
+
+        // Handle global redirects for Auth failures
+        if (status === 401) {
             removeLoginSession("access_token");
             location.href = "/unauthorized?redirect=true";
         } else if (
-            error.response?.status === 412 ||
-            (error.response?.status === 403 &&
-                error.response?.data?.message !==
-                "You do not have permission. Please contact admin!")
+            status === 412 ||
+            (status === 403 && finalMessage !== "You do not have permission. Please contact admin!")
         ) {
             removeLoginSession("access_token");
             location.href = "/denied?redirect=true";
+        } else if (status === 404 || status === 405 || status === 409 || status === 413 || status === 415 || status >= 500) {
+            // Ensure a toast is always shown globally for these server/business errors
+            // Note: If components also throw a toast, it may duplicate, but this guarantees 100% coverage
+            import("react-hot-toast").then(({ default: toast }) => {
+                toast.error(finalMessage, { id: `global-error-${status}` }); // Using ID prevents duplicate toasts on the screen
+            });
         }
+        
         return Promise.reject(error);
     },
 );

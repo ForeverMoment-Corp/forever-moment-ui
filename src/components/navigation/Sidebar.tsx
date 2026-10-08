@@ -30,8 +30,8 @@ const Sidebar = ({ isOpen, onToggle }: SidebarProps) => {
         setShowLogoutModal(true);
     };
 
-    const confirmLogout = () => {
-        dispatch(logout());
+    const confirmLogout = async () => {
+        await dispatch(logout() as any);
         navigate('/login');
         setShowLogoutModal(false);
     };

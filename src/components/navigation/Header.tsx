@@ -61,7 +61,7 @@ const Header = ({ onToggleSidebar }: HeaderProps) => {
 
     const breadcrumbs = getBreadcrumbs();
     const handleLogout = () => { setShowDropdown(false); setShowLogoutModal(true); };
-    const confirmLogout = () => { dispatch(logout()); navigate('/login'); setShowLogoutModal(false); };
+    const confirmLogout = async () => { await dispatch(logout() as any); navigate('/login'); setShowLogoutModal(false); };
 
     return (
         <header className='h-12 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between px-3 md:px-4 sticky top-0 z-10 shrink-0'>

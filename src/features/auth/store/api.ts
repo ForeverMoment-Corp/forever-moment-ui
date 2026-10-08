@@ -12,3 +12,12 @@ export const loginApi = async (credentials: any) => {
         throw error;
     }
 };
+
+export const logoutApi = async () => {
+    try {
+        const response = await axios.post('auth/logout');
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
