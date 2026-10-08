@@ -14,7 +14,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://api.15.134.55.225.nip.io',
+        target: 'http://localhost:8080', // TODO: Update the port if your local API runs on a different one
         changeOrigin: true,
         secure: false,
       },
