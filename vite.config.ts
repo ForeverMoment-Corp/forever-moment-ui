@@ -14,7 +14,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:8080', // TODO: Update the port if your local API runs on a different one
+        target: 'http://localhost:8086', // TODO: Update the port if your local API runs on a different one
         changeOrigin: true,
         secure: false,
       },
