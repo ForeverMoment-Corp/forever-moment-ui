@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { CrudSplitViewLayout } from '@/components/common/CrudSplitViewLayout';
 import { StatusBadge } from '@/components/common/StatusBadge';
-import { Layout, Image, Clock, CheckCircle, Eye, Plus, FileText, Globe, MoveUpRight, Settings } from 'lucide-react';
+import { Layout, Image, Clock, CheckCircle, Eye, Plus, FileText, Globe, MoveUpRight, Settings, History } from 'lucide-react';
 import { cn } from '@/utils/cn';
 
 interface CMSSplitViewProps {
@@ -96,8 +96,8 @@ export const CMSSplitView: React.FC<CMSSplitViewProps> = ({
                         </div>
                         <div>
                             <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight leading-tight mb-1">{item.title}</h2>
-                            <div className="flex items-center gap-2">
-                                <span className="text-xs font-bold text-slate-400 bg-slate-100 dark:bg-gray-800 px-2 py-0.5 rounded-md">{item.slug}</span>
+                            <div className="flex flex-wrap items-center gap-2">
+                                <span className="text-xs font-bold text-slate-400 bg-slate-100 dark:bg-gray-800 px-2 py-0.5 rounded-md whitespace-nowrap">{item.slug}</span>
                                 <StatusBadge status={item.status} variant={item.status === 'Published' ? 'success' : 'neutral'} />
                             </div>
                         </div>

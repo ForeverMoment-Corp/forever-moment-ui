@@ -2,8 +2,25 @@ import { useCallback } from 'react';
 import { cn } from '@/utils/cn';
 import { CrudSplitViewLayout } from '@/components/common/CrudSplitViewLayout';
 import { RowActions } from '@/components/common/RowActions';
-import { StatusBadge } from '@/components/common/StatusBadge';
-import { Ticket } from 'lucide-react';
+import { EditableStatusBadge } from '@/components/common/EditableStatusBadge';
+import { TABS } from '@/config/constants';
+import { PromotionDetails } from './PromotionDetails';
+
+const formatDiscount = (promo: any) =>
+    promo.discountType === 'PERCENTAGE' ? `${promo.discountValue}% off` : `₹${Number(promo.discountValue || 0).toLocaleString()} off`;
+
+const formatDate = (value?: string) => (value ? new Date(value).toLocaleDateString() : '—');
+
+const CodeChip = ({ code, className }: { code: string; className?: string }) => (
+    <div className={cn(
+        "h-7 px-2 min-w-[40px] w-auto rounded-[6px] flex items-center gap-1.5 font-bold text-[11px] shrink-0 font-mono tracking-wide",
+        "bg-[#f4f6f8] text-slate-500 border border-slate-200/60 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-400",
+        className
+    )}>
+        <span className="text-[12px] leading-none font-sans">🎟️</span>
+        {code}
+    </div>
+);
 
 export const PromotionsSplitView = ({
     promotions,
@@ -11,141 +28,148 @@ export const PromotionsSplitView = ({
     setSelectedPromotion,
     handleOpenModal,
     handleDeleteClick,
+    updatePromotion,
     loading
 }: any) => {
 
+    // Only the status changes inline from the table; everything else is sent unchanged.
+    const toPayload = (promo: any, overrides: any) => ({
+        code: promo.code,
+        name: promo.name,
+        description: promo.description,
+        discountType: promo.discountType,
+        discountValue: promo.discountValue,
+        maxDiscountAmount: promo.maxDiscountAmount,
+        minBookingAmount: promo.minBookingAmount,
+        validFrom: promo.validFrom ? promo.validFrom.split('T')[0] : '',
+        validTo: promo.validTo ? promo.validTo.split('T')[0] : '',
+        usageLimit: promo.usageLimit,
+        isActive: promo.isActive,
+        ...overrides,
+    });
+
     const columns = [
         {
-            header: 'Coupon Code',
+            header: 'Promotion',
             accessorKey: 'code',
-            className: 'w-[25%] min-w-[150px] px-3 text-left font-bold text-slate-900 dark:text-white',
+            className: 'w-[40%] min-w-[220px] px-3 text-left font-semibold text-slate-900 dark:text-white',
             render: (promo: any) => (
-                <div className="flex items-center gap-2">
-                    <span className="bg-orange-50 text-orange-600 dark:bg-orange-900/20 dark:text-orange-400 border border-orange-100 dark:border-orange-800 px-3 py-1 rounded-lg font-mono text-[12px] font-black tracking-wider">
-                        {promo.code}
-                    </span>
+                <div className="flex items-center gap-3">
+                    <CodeChip code={promo.code} />
+                    <div className="min-w-0">
+                        <div className="font-semibold text-[13.5px] text-slate-800 dark:text-slate-100 leading-tight truncate">{promo.name || '-'}</div>
+                        {promo.description && <p className="text-xs text-slate-500 font-normal truncate mt-0.5 max-w-[250px]">{promo.description}</p>}
+                    </div>
                 </div>
             )
         },
         {
             header: 'Discount',
             accessorKey: 'discountValue',
-            className: 'w-[20%] min-w-[120px] px-3 text-left font-semibold text-slate-700 dark:text-slate-200',
-            render: (promo: any) => promo.discountType === 'PERCENTAGE' ? `${promo.discountValue}% Off` : `₹${promo.discountValue} Off`
+            className: 'w-[15%] min-w-[110px] px-3 text-left',
+            render: (promo: any) => <span className="font-medium text-slate-700 dark:text-slate-300">{formatDiscount(promo)}</span>
+        },
+        {
+            header: 'Valid Till',
+            accessorKey: 'validTo',
+            className: 'w-[15%] min-w-[110px] px-3 text-left text-slate-500 dark:text-slate-400',
+            render: (promo: any) => formatDate(promo.validTo)
         },
         {
             header: 'Usage Limit',
             accessorKey: 'usageLimit',
-            className: 'w-[15%] min-w-[100px] px-3 text-left text-slate-500 dark:text-slate-400',
-            render: (promo: any) => promo.usageLimit ? `${promo.usageLimit} times` : 'Unlimited'
+            className: 'w-[12%] min-w-[100px] px-3 text-left text-slate-500 dark:text-slate-400',
+            render: (promo: any) => promo.usageLimit ? `${promo.usageLimit} uses` : 'Unlimited'
         },
         {
             header: 'Status',
-            accessorKey: 'isActive',
-            className: 'w-[15%] min-w-[100px] px-3 text-left',
+            preventRowClick: true,
+            className: 'w-[10%] min-w-[110px] px-3 text-left',
             render: (promo: any) => (
-                <StatusBadge 
-                    status={promo.isActive ? 'Active' : 'Inactive'} 
-                    activeValue="Active"
+                <EditableStatusBadge
+                    status={promo.isActive ? 'Active' : 'Inactive'}
+                    options={['Active', 'Inactive']}
+                    onChange={(val) => updatePromotion(promo.id, toPayload(promo, { isActive: val === 'Active' }))}
                 />
             )
         },
         {
-            header: 'Actions',
+            header: '',
             preventRowClick: true,
-            className: 'w-[25%] min-w-[100px] px-3 text-right',
+            className: 'w-[8%] min-w-[80px] px-3 text-right',
             render: (promo: any) => (
-                <RowActions
-                    onEdit={() => handleOpenModal(promo)}
-                    onDelete={() => handleDeleteClick(promo.id)}
-                />
+                <div onClick={(e) => e.stopPropagation()}>
+                    <RowActions
+                        onEdit={() => handleOpenModal(promo)}
+                        onDelete={() => handleDeleteClick(promo.id)}
+                    />
+                </div>
             )
         }
     ];
 
-    const renderListItem = useCallback((promo: any, isSelected: boolean) => {
-        return (
-            <div
-                className={cn(
-                    "flex flex-col p-3 mb-2 cursor-pointer transition-all duration-200 rounded-xl relative overflow-hidden border",
-                    isSelected
-                        ? "bg-[var(--accent-light)] border-[var(--accent)] shadow-sm"
-                        : "bg-white dark:bg-gray-900 border-slate-100 dark:border-gray-800 hover:border-slate-200 dark:hover:border-gray-700"
-                )}
-            >
-                <div className="flex justify-between items-center mb-2">
-                    <span className={cn(
-                        "font-black text-[13px] font-mono tracking-tight",
-                        isSelected ? "text-[var(--accent)]" : "text-slate-900 dark:text-white"
-                    )}>{promo.code}</span>
-                    <Ticket size={14} className={isSelected ? "text-[var(--accent)]" : "text-slate-300 dark:text-gray-600"} />
+    const renderListItem = useCallback((promo: any, isSelected: boolean) => (
+        <div
+            className={cn(
+                "flex items-center gap-3 p-3 mb-1 cursor-pointer transition-all duration-200 rounded-lg group relative",
+                isSelected
+                    ? "bg-[var(--accent-light)]"
+                    : "hover:bg-slate-50 dark:hover:bg-gray-800/50 transparent"
+            )}
+        >
+            <div className={cn(
+                "absolute left-0 w-1 h-8 rounded-r-md transition-all duration-300",
+                isSelected ? "bg-[var(--accent)] opacity-100" : "opacity-0"
+            )} />
+            <CodeChip code={promo.code} className="ml-1" />
+            <div className="flex-1 min-w-0">
+                <div className={cn(
+                    "font-semibold text-[13.5px] truncate mb-0.5 transition-colors",
+                    isSelected ? "text-[var(--accent)]" : "text-slate-900 dark:text-slate-100 group-hover:text-[var(--accent)]"
+                )}>
+                    {promo.name || formatDiscount(promo)}
                 </div>
-                <div className="flex justify-between items-end">
-                    <div>
-                        <div className="text-[14px] font-bold text-slate-700 dark:text-slate-300">
-                             {promo.discountType === 'PERCENTAGE' ? `${promo.discountValue}% Off` : `₹${promo.discountValue} Off`}
-                        </div>
-                        <div className="text-[10px] text-slate-400 font-medium">Expires {promo.validTo ? new Date(promo.validTo).toLocaleDateString() : 'N/A'}</div>
-                    </div>
+                <div className="flex items-center gap-2">
+                    <p className="text-xs text-slate-400 dark:text-slate-500 truncate">
+                        {formatDiscount(promo)} · till {formatDate(promo.validTo)}
+                    </p>
                     <div className={cn(
-                        "text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider",
-                        promo.isActive ? "bg-emerald-100 text-emerald-700" : "bg-slate-100 text-slate-500"
-                    )}>
-                        {promo.isActive ? 'Active' : 'Inactive'}
-                    </div>
+                        "w-2 h-2 rounded-full shrink-0 shadow-sm",
+                        promo.isActive ? "bg-emerald-500" : "bg-slate-300 dark:bg-slate-600"
+                    )} />
                 </div>
             </div>
+        </div>
+    ), []);
+
+    const renderDetailsPanel = useCallback((promo: any, activeTab: string, dirtyState: any) => {
+        if (activeTab !== TABS.GENERAL.id) return null;
+        return (
+            <div className="pt-2">
+                <PromotionDetails
+                    promotion={promo}
+                    updatePromotion={updatePromotion}
+                    onDirtyChange={dirtyState.handleDirtyChange}
+                />
+            </div>
         );
+    }, [updatePromotion]);
+
+    const customFilter = useCallback((promo: any, activeFilters: Record<string, string[]>) => {
+        if (activeFilters.status && activeFilters.status.length > 0) {
+            return activeFilters.status.includes(promo.isActive ? 'true' : 'false');
+        }
+        return true;
     }, []);
 
-    const renderDetailsPanel = useCallback((promo: any) => {
-        return (
-            <div className="space-y-3">
-                <div className="bg-gradient-to-br from-orange-400 to-rose-500 p-4 rounded-xl text-white shadow-xl shadow-orange-500/20 flex flex-col items-center">
-                    <div className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-lg flex items-center justify-center mb-4">
-                        <Ticket size={32} />
-                    </div>
-                    <div className="text-4xl font-black mb-1 font-mono tracking-tighter uppercase">{promo.code}</div>
-                    <p className="text-white/80 font-bold mb-4">{promo.discountType === 'PERCENTAGE' ? `${promo.discountValue}% DISCOUNT` : `₹${promo.discountValue} DISCOUNT`}</p>
-                    <div className="w-full h-px bg-white/20 my-4" />
-                    <div className="grid grid-cols-2 w-full gap-4">
-                        <div className="text-center">
-                            <div className="text-[10px] font-bold text-white/60 uppercase tracking-widest">Usage Limit</div>
-                            <div className="text-lg font-black">{promo.usageLimit || 'Unlimited'}</div>
-                        </div>
-                        <div className="text-center">
-                            <div className="text-[10px] font-bold text-white/60 uppercase tracking-widest">Min. Spend</div>
-                            <div className="text-lg font-black">₹{promo.minBookingAmount || 0}</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-800 rounded-lg p-4">
-                    <h3 className="font-bold text-slate-900 dark:text-white mb-4">Campaign Statistics</h3>
-                    <div className="space-y-3">
-                        <div className="flex items-center justify-between text-sm">
-                            <span className="text-slate-500 font-medium">Target Spend Level</span>
-                            <span className="font-bold text-slate-900 dark:text-white">₹{promo.minBookingAmount?.toLocaleString() || 0}</span>
-                        </div>
-                        <div className="flex items-center justify-between text-sm">
-                            <span className="text-slate-500 font-medium">Expiry Date</span>
-                            <span className="font-bold text-slate-900 dark:text-white">{promo.validTo ? new Date(promo.validTo).toLocaleDateString() : 'N/A'}</span>
-                        </div>
-                        {promo.maxDiscountAmount ? (
-                            <div className="flex items-center justify-between text-sm">
-                                <span className="text-slate-500 font-medium">Max Discount</span>
-                                <span className="font-bold text-emerald-500">₹{promo.maxDiscountAmount.toLocaleString()}</span>
-                            </div>
-                        ) : null}
-                    </div>
-                </div>
-            </div>
-        );
+    const customSearch = useCallback((promo: any, search: string) => {
+        const s = search.toLowerCase();
+        return Boolean(promo.code?.toLowerCase().includes(s) || promo.name?.toLowerCase().includes(s));
     }, []);
 
     return (
         <CrudSplitViewLayout
-            data={promotions}
+            data={promotions || []}
             loading={loading}
             resourceName="Promotion"
             resourceNamePlural="Promotions"
@@ -154,8 +178,20 @@ export const PromotionsSplitView = ({
             columns={columns}
             keyExtractor={(promo: any) => promo.id}
             renderListItem={renderListItem}
+            tabs={[{ id: TABS.GENERAL.id, label: TABS.GENERAL.labelShort }]}
             renderDetailsPanel={renderDetailsPanel}
-            searchFields={['code']}
+            filterConfig={[
+                {
+                    id: 'status',
+                    name: 'Status',
+                    options: [
+                        { id: '1', label: 'Active', value: 'true' },
+                        { id: '2', label: 'Inactive', value: 'false' },
+                    ]
+                }
+            ]}
+            customFilter={customFilter as any}
+            customSearch={customSearch as any}
             emptyStateIcon="🎟️"
             onAdd={() => handleOpenModal()}
         />

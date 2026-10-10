@@ -32,7 +32,7 @@ export const StatusBadge = ({
 
     return (
         <span className={cn(
-            'inline-flex items-center px-2 py-0.5 text-[11px] font-black uppercase tracking-wider rounded-md transition-all duration-200',
+            'inline-flex items-center px-2 py-0.5 text-[11px] font-black uppercase tracking-wider rounded-md whitespace-nowrap transition-all duration-200',
             variantStyles[variant],
             className
         )}>

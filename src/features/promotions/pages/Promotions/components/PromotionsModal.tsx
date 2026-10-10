@@ -77,7 +77,7 @@ export const PromotionsModal: React.FC<PromotionsModalProps> = ({
             className="max-w-2xl w-[95vw]"
         >
             <div className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Coupon Code</label>
                         <TextInput
@@ -108,13 +108,13 @@ export const PromotionsModal: React.FC<PromotionsModalProps> = ({
                     />
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Discount Type</label>
                         <Dropdown
                             options={[
-                                { id: 'PERCENTAGE', value: 'PERCENTAGE', label: 'Percentage' },
-                                { id: 'FIXED_AMOUNT', value: 'FIXED_AMOUNT', label: 'Flat Amount' }
+                                { value: 'PERCENTAGE', label: 'Percentage' },
+                                { value: 'FIXED_AMOUNT', label: 'Flat Amount' }
                             ]}
                             value={formData.discountType}
                             onChange={(value: string) => setFormData((prev) => ({ ...prev, discountType: value || 'PERCENTAGE' }))}
@@ -132,7 +132,7 @@ export const PromotionsModal: React.FC<PromotionsModalProps> = ({
                     </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Max Discount Amount (₹)</label>
                         <NumberInput
@@ -153,7 +153,7 @@ export const PromotionsModal: React.FC<PromotionsModalProps> = ({
                     </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Valid From</label>
                         <input
@@ -174,7 +174,7 @@ export const PromotionsModal: React.FC<PromotionsModalProps> = ({
                     </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Usage Limit (0 for unlimited)</label>
                         <NumberInput

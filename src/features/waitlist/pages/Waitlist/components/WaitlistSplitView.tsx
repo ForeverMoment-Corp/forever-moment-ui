@@ -107,8 +107,8 @@ export const WaitlistSplitView: React.FC<WaitlistSplitViewProps> = ({
                         </div>
                         <div>
                             <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight leading-tight mb-1">{item.customer}</h2>
-                            <div className="flex items-center gap-2">
-                                <span className="text-xs font-bold text-slate-400 bg-slate-100 dark:bg-gray-800 px-2 py-0.5 rounded-md">#{item.position} in line</span>
+                            <div className="flex flex-wrap items-center gap-2">
+                                <span className="text-xs font-bold text-slate-400 bg-slate-100 dark:bg-gray-800 px-2 py-0.5 rounded-md whitespace-nowrap">#{item.position} in line</span>
                                 <StatusBadge status={item.status} variant={item.status === 'Priority' ? 'error' : 'neutral'} />
                             </div>
                         </div>

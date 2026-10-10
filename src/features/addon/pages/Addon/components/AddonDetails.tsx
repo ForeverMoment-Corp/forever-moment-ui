@@ -143,7 +143,7 @@ export const AddonDetails = ({ addon, updateAddon, onDirtyChange }: AddonDetails
             <FieldGrid>
                 {/* Name */}
                 <Cell>
-                    {renderCellField('Name', 'name', addon.name)}
+                    {renderCellField('Name', 'name', localData.name)}
                 </Cell>
 
                 {/* Status */}
@@ -159,15 +159,6 @@ export const AddonDetails = ({ addon, updateAddon, onDirtyChange }: AddonDetails
                             onChange={(val) => updateField('isActive', val === 'true')}
                         />
                     </div>
-                </Cell>
-
-                {/* Name */}
-                <Cell>
-                    {renderCellField('Name', 'name', localData.name)}
-                </Cell>
-
-                <Cell>
-                    {/* Placeholder for status already rendered above */}
                 </Cell>
 
                 {/* Price */}

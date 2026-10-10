@@ -1,10 +1,16 @@
 import { useCallback, useMemo } from 'react';
-import { CheckCircle2, DollarSign, ListOrdered } from 'lucide-react';
+import { CheckCircle2, IndianRupee, ListOrdered } from 'lucide-react';
 import { EditableStatusBadge } from '@/components/common/EditableStatusBadge';
 import { RowActions } from '@/components/common/RowActions';
 import { cn } from '@/utils/cn';
+import { TABS } from '@/config/constants';
 import { CrudSplitViewLayout } from '@/components/common/CrudSplitViewLayout';
 import { StatsRow } from '@/components/common/StatsRow';
+import { StatusBadge } from '@/components/common/StatusBadge';
+import { Cell, FieldGrid, FieldLabel, SectionLabel } from '@/components/common/DetailsLayout';
+
+const statusVariant = (status: string) =>
+    (status === 'Confirmed' ? 'success' : status === 'Pending' ? 'warning' : 'error') as 'success' | 'warning' | 'error';
 
 interface BookingsSplitViewProps {
     bookings: any[];
@@ -60,7 +66,7 @@ export const BookingsSplitView = ({
             className: 'px-3 text-right',
             render: (booking: any) => (
                 <div className="text-right">
-                    <span className="font-semibold text-[14px] text-slate-800 dark:text-slate-100">${booking.amount}</span>
+                    <span className="font-semibold text-[14px] text-slate-800 dark:text-slate-100">₹{Number(booking.amount || 0).toLocaleString()}</span>
                 </div>
             )
         },
@@ -133,47 +139,40 @@ export const BookingsSplitView = ({
     const renderDetailsPanel = useCallback((booking: any) => {
         if (!booking) return null;
         return (
-            <div className="p-4">
-                <div className="flex items-center justify-between mb-3">
-                    <div>
-                        <h2 className="text-xl font-bold text-slate-900 dark:text-white leading-tight">{booking.eventName}</h2>
-                        <span className="text-sm text-slate-500 dark:text-slate-400 mt-1 block">Booking References: {booking.id}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                         <span className={cn(
-                            "px-3 py-1 text-xs font-semibold rounded-full",
-                            booking.status === 'Confirmed' ? 'bg-green-100 text-green-700' :
-                            booking.status === 'Pending' ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700'
-                         )}>
-                             {booking.status}
-                         </span>
-                    </div>
-                </div>
+            <div className="pt-2">
+                <SectionLabel>General</SectionLabel>
+                <FieldGrid>
+                    <Cell>
+                        <FieldLabel>Booking Ref</FieldLabel>
+                        <div className="text-[13px] font-semibold text-gray-900 dark:text-gray-100">{booking.id}</div>
+                    </Cell>
+                    <Cell>
+                        <FieldLabel>Status</FieldLabel>
+                        <div className="mt-1 flex items-center">
+                            <StatusBadge status={booking.status} variant={statusVariant(booking.status)} />
+                        </div>
+                    </Cell>
+                    <Cell full>
+                        <FieldLabel>Event</FieldLabel>
+                        <div className="text-[13px] font-semibold text-gray-900 dark:text-gray-100">{booking.eventName || '-'}</div>
+                    </Cell>
+                </FieldGrid>
 
-                <div className="grid grid-cols-2 gap-4 mt-4">
-                     <div className="p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-100 dark:border-gray-700 shadow-sm">
-                         <h3 className="text-xs font-semibold uppercase text-gray-500 tracking-wider mb-3">Customer Info</h3>
-                         <div className="space-y-2">
-                             <div>
-                                 <div className="text-xs text-slate-400">Name</div>
-                                 <div className="text-sm font-medium text-slate-700 dark:text-slate-200">{booking.customerName}</div>
-                             </div>
-                         </div>
-                     </div>
-                     <div className="p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-100 dark:border-gray-700 shadow-sm">
-                         <h3 className="text-xs font-semibold uppercase text-gray-500 tracking-wider mb-3">Booking Details</h3>
-                         <div className="space-y-2">
-                             <div>
-                                 <div className="text-xs text-slate-400">Date</div>
-                                 <div className="text-sm font-medium text-slate-700 dark:text-slate-200">{booking.date}</div>
-                             </div>
-                             <div>
-                                 <div className="text-xs text-slate-400 mt-2">Total Amount</div>
-                                 <div className="text-sm font-medium text-slate-700 dark:text-slate-200">${booking.amount}</div>
-                             </div>
-                         </div>
-                     </div>
-                </div>
+                <SectionLabel>Customer &amp; Payment</SectionLabel>
+                <FieldGrid>
+                    <Cell>
+                        <FieldLabel>Customer</FieldLabel>
+                        <div className="text-[13px] font-semibold text-gray-900 dark:text-gray-100">{booking.customerName || '-'}</div>
+                    </Cell>
+                    <Cell>
+                        <FieldLabel>Event Date</FieldLabel>
+                        <div className="text-[13px] font-semibold text-gray-900 dark:text-gray-100">{booking.date || '-'}</div>
+                    </Cell>
+                    <Cell full>
+                        <FieldLabel>Total Amount</FieldLabel>
+                        <div className="text-[13px] font-semibold text-gray-900 dark:text-gray-100">₹{Number(booking.amount || 0).toLocaleString()}</div>
+                    </Cell>
+                </FieldGrid>
             </div>
         );
     }, []);
@@ -213,9 +212,9 @@ export const BookingsSplitView = ({
                 label: 'Confirmed',
             },
             {
-                icon: <DollarSign size={18} color="#f04438" />,
+                icon: <IndianRupee size={18} color="#f04438" />,
                 iconBg: '#fef3f2',
-                value: `$${totalValue.toLocaleString()}`,
+                value: `₹${totalValue.toLocaleString()}`,
                 label: 'Total Revenue',
             },
         ];
@@ -234,7 +233,7 @@ export const BookingsSplitView = ({
             columns={columns}
             keyExtractor={(item: any) => item.id}
             renderListItem={renderListItem}
-            tabs={[{ id: 'details', label: 'Overview' }]}
+            tabs={[{ id: TABS.GENERAL.id, label: TABS.GENERAL.labelShort }]}
             renderDetailsPanel={renderDetailsPanel}
             filterConfig={[
                 {

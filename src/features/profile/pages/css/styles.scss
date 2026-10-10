@@ -197,6 +197,10 @@
 
         .grid {
             grid-template-columns: 1fr;
+
+            &>.field:nth-child(3):last-child {
+                grid-column: auto;
+            }
         }
 
         .header {

@@ -55,6 +55,10 @@ const Header = ({ onToggleSidebar }: HeaderProps) => {
                 return breadcrumbs;
             }
         }
+        if (path.startsWith('/admin/profile')) {
+            breadcrumbs.push({ label: 'Profile', path: '/admin/profile' });
+            return breadcrumbs;
+        }
         breadcrumbs.push({ label: 'Dashboard', path: '/admin' });
         return breadcrumbs;
     };
@@ -66,15 +70,22 @@ const Header = ({ onToggleSidebar }: HeaderProps) => {
     return (
         <header className='h-12 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between px-3 md:px-4 sticky top-0 z-10 shrink-0'>
             {/* Breadcrumb */}
-            <div className="flex items-center gap-1">
-                <button onClick={onToggleSidebar} className="p-1.5 -ml-1.5 mr-1 text-gray-400 hover:text-gray-600 md:hidden">
+            <div className="flex items-center gap-1 min-w-0">
+                <button onClick={onToggleSidebar} aria-label="Open menu" className="p-1.5 -ml-1.5 mr-1 text-gray-400 hover:text-gray-600 md:hidden">
                     <Menu size={20} />
                 </button>
                 {breadcrumbs.map((crumb, index) => (
-                    <div key={crumb.label} className="flex items-center gap-1">
-                        {index > 0 && <ChevronRight size={12} className="text-[#9ca3af]" />}
+                    <div
+                        key={crumb.label}
+                        className={cn(
+                            'flex items-center gap-1 min-w-0',
+                            // On mobile only the current page is shown
+                            index < breadcrumbs.length - 1 && 'hidden sm:flex'
+                        )}
+                    >
+                        {index > 0 && <ChevronRight size={12} className="text-[#9ca3af] hidden sm:block" />}
                         <span className={cn(
-                            'text-[13px]',
+                            'text-[13px] whitespace-nowrap truncate',
                             index === breadcrumbs.length - 1
                                 ? 'font-semibold text-[#0f1117] dark:text-white'
                                 : 'text-[#6b7280] dark:text-gray-400'
@@ -86,7 +97,7 @@ const Header = ({ onToggleSidebar }: HeaderProps) => {
             </div>
 
             {/* Right Actions */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 shrink-0 ml-2">
                 {/* Bell */}
                 <button
                     className="relative flex items-center justify-center w-8 h-8 rounded-[8px] transition-all border border-slate-200 dark:border-gray-700 hover:bg-slate-100 dark:hover:bg-gray-800 text-slate-500 dark:text-slate-400 cursor-pointer"

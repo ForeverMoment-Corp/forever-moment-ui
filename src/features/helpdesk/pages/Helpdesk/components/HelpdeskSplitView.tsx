@@ -133,8 +133,8 @@ export const HelpdeskSplitView: React.FC<HelpdeskSplitViewProps> = ({
                             <h2 className="text-lg font-bold text-slate-900 dark:text-white leading-tight mb-1 break-words">
                                 {item.subject || 'No subject'}
                             </h2>
-                            <div className="flex items-center gap-2">
-                                <span className="text-xs font-bold text-slate-400 bg-slate-100 dark:bg-gray-800 px-2 py-0.5 rounded-md">{item.referenceId}</span>
+                            <div className="flex flex-wrap items-center gap-2">
+                                <span className="text-xs font-bold text-slate-400 bg-slate-100 dark:bg-gray-800 px-2 py-0.5 rounded-md whitespace-nowrap">{item.referenceId}</span>
                                 <QueryStatusBadge status={item.status} />
                             </div>
                         </div>

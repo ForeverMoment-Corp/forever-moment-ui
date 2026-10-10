@@ -173,10 +173,11 @@ export function CrudSplitViewLayout<T>({
                                 onChange={setSearch}
                             />
                         </div>
+                        <div className="flex items-center gap-2 w-full sm:w-auto sm:shrink-0">
                         {/* Filters button */}
                         {filterConfig.length > 0 && (
                             <button
-                                className="flex items-center gap-1.5 text-[13px] font-medium px-3 py-1.5 rounded-lg whitespace-nowrap transition-all border border-slate-200 bg-white text-slate-700 dark:border-gray-700 dark:bg-gray-900 dark:text-slate-300 hover:border-[var(--accent)] hover:text-[var(--accent)] hover:bg-[var(--accent-light)] dark:hover:border-[var(--accent)] dark:hover:text-[var(--accent)] cursor-pointer"
+                                className="flex-1 sm:flex-none justify-center flex items-center gap-1.5 text-[13px] font-medium px-3 py-1.5 rounded-lg whitespace-nowrap transition-all border border-slate-200 bg-white text-slate-700 dark:border-gray-700 dark:bg-gray-900 dark:text-slate-300 hover:border-[var(--accent)] hover:text-[var(--accent)] hover:bg-[var(--accent-light)] dark:hover:border-[var(--accent)] dark:hover:text-[var(--accent)] cursor-pointer"
                             >
                                 <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 4h18M7 8h10M11 12h2" /></svg>
                                 Filters
@@ -184,7 +185,7 @@ export function CrudSplitViewLayout<T>({
                         )}
                         {/* Sort button */}
                         <button
-                            className="shrink-0 flex items-center gap-1.5 text-[13px] font-medium px-3 py-1.5 rounded-lg whitespace-nowrap transition-all border border-slate-200 bg-white text-slate-700 dark:border-gray-700 dark:bg-gray-900 dark:text-slate-300 hover:border-[var(--accent)] hover:text-[var(--accent)] hover:bg-[var(--accent-light)] dark:hover:border-[var(--accent)] dark:hover:text-[var(--accent)] cursor-pointer"
+                            className="flex-1 sm:flex-none justify-center flex items-center gap-1.5 text-[13px] font-medium px-3 py-1.5 rounded-lg whitespace-nowrap transition-all border border-slate-200 bg-white text-slate-700 dark:border-gray-700 dark:bg-gray-900 dark:text-slate-300 hover:border-[var(--accent)] hover:text-[var(--accent)] hover:bg-[var(--accent-light)] dark:hover:border-[var(--accent)] dark:hover:text-[var(--accent)] cursor-pointer"
                         >
                             <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" /></svg>
                             Sort
@@ -194,7 +195,7 @@ export function CrudSplitViewLayout<T>({
                         {onAdd && (
                             <button
                                 onClick={() => onAdd()}
-                                className="shrink-0 flex items-center gap-2 text-white text-[13px] font-semibold px-3 py-1.5 rounded-lg transition-all h-8"
+                                className="flex-[2] min-w-0 sm:flex-none justify-center flex items-center gap-2 whitespace-nowrap text-white text-[13px] font-semibold px-3 py-1.5 rounded-lg transition-all h-8"
                                 style={{
                                     background: 'var(--accent)',
                                     boxShadow: '0 2px 6px var(--accent-ring)',
@@ -202,10 +203,11 @@ export function CrudSplitViewLayout<T>({
                                 onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--accent-hover)'; e.currentTarget.style.transform = 'translateY(-1px)'; }}
                                 onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--accent)'; e.currentTarget.style.transform = 'translateY(0)'; }}
                             >
-                                <Plus size={14} strokeWidth={2.5} />
-                                Add {resourceName}
+                                <Plus size={14} strokeWidth={2.5} className="shrink-0" />
+                                <span className="truncate">Add {resourceName}</span>
                             </button>
                         )}
+                        </div>
                     </div>
 
                     {/* Table Card */}
@@ -296,7 +298,7 @@ export function CrudSplitViewLayout<T>({
                     {/* Header */}
                     <div className="flex items-center justify-between px-3 py-2 border-b border-slate-200 dark:border-gray-800">
                         <div>
-                            <div className="font-bold text-[15px] text-slate-900 tracking-tight">{pluralName}</div>
+                            <div className="font-bold text-[15px] text-slate-900 dark:text-white tracking-tight">{pluralName}</div>
                             <div className="flex items-center gap-1.5 mt-0.5">
                                 <span
                                     className="text-[10px] font-semibold px-2 py-0.5 rounded-full"

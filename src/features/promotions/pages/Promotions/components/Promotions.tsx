@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPromotionsData, createPromotionAction, updatePromotionAction, deletePromotionAction } from '../../../store/actions';
 import { PromotionsSplitView } from './PromotionsSplitView';
@@ -14,6 +14,19 @@ const Promotions = () => {
     useEffect(() => {
         dispatch(getPromotionsData());
     }, [dispatch]);
+
+    // Re-select the open promotion after a refetch so the details panel shows saved values
+    useEffect(() => {
+        if (selectedPromotion && Array.isArray(promotions)) {
+            const updated = promotions.find((p: any) => String(p.id) === String(selectedPromotion.id));
+            if (updated && updated !== selectedPromotion) setSelectedPromotion(updated);
+        }
+    }, [promotions]); // eslint-disable-line react-hooks/exhaustive-deps
+
+    const updatePromotion = useCallback(
+        (id: number | string, data: any) => dispatch(updatePromotionAction(id, data)),
+        [dispatch]
+    );
 
     const handleOpenModal = (promo: any | null = null) => {
         setEditingPromo(promo);
@@ -47,6 +60,7 @@ const Promotions = () => {
                 setSelectedPromotion={setSelectedPromotion}
                 handleOpenModal={handleOpenModal}
                 handleDeleteClick={handleDeleteClick}
+                updatePromotion={updatePromotion}
                 loading={loading}
             />
             
